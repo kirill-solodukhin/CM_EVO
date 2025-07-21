@@ -28,7 +28,7 @@ public class MyColors
                 .replace(",", "")
                 .replace(")", ""));
 
-        String sValue = Integer.toHexString(value);
+        String sValue = Integer.toHexString(value).toUpperCase();
 
         if(sValue.length() < 2)
         {
