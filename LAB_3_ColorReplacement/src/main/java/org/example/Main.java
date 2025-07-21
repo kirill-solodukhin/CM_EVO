@@ -69,17 +69,6 @@ public class Main
         }
     }
 
-    private static void writeUsedColor()
-    {
-       readWriter.write("ColorReplacement/OutputData/used_colors.txt", "");
-
-        for(Map.Entry<String, String> el : usedColors.sequencedEntrySet())
-        {
-            Main.readWriter.writeAppend("ColorReplacement/OutputData/used_colors.txt",
-                    el.getKey() + " = " + el.getValue() + '\n');
-        }
-    }
-
     private static void getTexts()
     {
         sourceText = readWriter.read("Data/source.txt");
@@ -114,7 +103,18 @@ public class Main
 
     public static void writeOutputText(String replaceText)
     {
-        readWriter.write("ColorReplacement/OutputData/target.txt", "");
-        readWriter.writeAppend("ColorReplacement/OutputData/target.txt", replaceText);
+        readWriter.write("LAB_3_ColorReplacement/OutputData/target.txt", "");
+        readWriter.writeAppend("LAB_3_ColorReplacement/OutputData/target.txt", replaceText);
+    }
+
+    private static void writeUsedColor()
+    {
+        readWriter.write("LAB_3_ColorReplacement/OutputData/used_colors.txt", "");
+
+        for(Map.Entry<String, String> el : usedColors.sequencedEntrySet())
+        {
+            Main.readWriter.writeAppend("LAB_3_ColorReplacement/OutputData/used_colors.txt",
+                    el.getKey() + " = " + el.getValue() + '\n');
+        }
     }
 }
