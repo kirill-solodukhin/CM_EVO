@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main
 {
@@ -35,9 +36,7 @@ public class Main
         }
 
         Solver solver = new Solver(coefficients);
-        System.out.println(solver.results);
-
-        System.out.println(Arrays.deepToString(coefficients));
+        shower(solver);
     }
 
     public static String getText(String path)
@@ -74,6 +73,7 @@ public class Main
     }
 
     public static double[][] parseInput(String inputString)
+
     {
         String[] lines = inputString.split("\n");
         String[] strCoefficients;
@@ -118,5 +118,22 @@ public class Main
         }
 
         return result;
+    }
+
+    public static void shower(Solver solver)
+    {
+        List<Double> answer;
+        StringBuilder sb = new StringBuilder("Answer ");
+        int iterator = 1;
+
+        while ((answer = solver.getAnswer()) != null)
+        {
+            sb.append(iterator++);
+            sb.append(" = ");
+            sb.append(answer);
+
+            System.out.println(sb);
+            sb = new StringBuilder("Answer ");
+        }
     }
 }

@@ -1,14 +1,12 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Solver
 {
     private final double[][] coefficients;
-    public List<List<Double>> results = new ArrayList<>();
-    private boolean isNext;
+    private int indicator = 0;
+    private final List<List<Double>> results = new ArrayList<>();
 
     public Solver(double[][] coefficients)
     {
@@ -20,35 +18,49 @@ public class Solver
     {
         for (double[] el: coefficients)
         {
-            //todo solving all lines
             results.add(Solve(el));
         }
     }
 
     private List<Double> Solve(double[] cof)
     {
-        // ax^2 = 0
-        if(cof[2] == 0 && cof[1] == 0)
+        double eps = 0.000001;
+        double d = Math.pow(cof[1], 2) - 4 * cof[0] * cof[2];
+
+        if(cof[0] > -eps && cof[0] < eps) // a = 0
         {
-            return Arrays.asList(0.0, null);
+            return List.of(
+                    -cof[2] / cof[1]
+            );
         }
 
-        // bx + c = 0
-        if(cof[0] == 0 && cof[1] != 0)
+        if(d < -eps) // d < 0
         {
-            double res = (-cof[2]/cof[1]);
-            return Arrays.asList(0.0, null);
+            return Collections.emptyList();
         }
 
-        // c = 0
-        if(cof[0] == 0 && cof[1] == 0)
-        {
-            return Arrays.asList(null, null);
-        }
+       if(d < eps && d > -eps) // d = 0
+       {
+           return List.of(
+                   -cof[1] / (2 * cof[0])
+           );
+       }
 
         return Arrays.asList(
                 (-cof[1] + Math.sqrt(cof[1] - 4 * cof[0] * cof[2])) / (2 * cof[0]),
-                (-cof[1] - Math.sqrt(cof[1] - 4 * cof[0] * cof[2])) / (2 * cof[0]));
+                (-cof[1] - Math.sqrt(cof[1] - 4 * cof[0] * cof[2])) / (2 * cof[0])
+        );
     }
 
+    public List<Double> getAnswer()
+    {
+        try
+        {
+            return results.get(indicator++);
+        }
+        catch (Exception e)
+        {
+           return null;
+        }
+    }
 }
