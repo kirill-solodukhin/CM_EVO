@@ -1,12 +1,14 @@
 import Lib.ComplexNumber;
 
+import java.util.List;
+
 public class Main
 {
     public static void main(String[] args)
     {
-        ComplexNumber num_1 = new ComplexNumber(10, -11);
+        ComplexNumber num_1 = new ComplexNumber(1, -1);
         ComplexNumber num_2 = new ComplexNumber(10, 11);
-        ComplexNumber i = new ComplexNumber(0, 1);
+        ComplexNumber i = new ComplexNumber(0, 9);
 
         show(num_1, num_2, i);
     }
@@ -25,7 +27,6 @@ public class Main
 
         System.out.println("Module of num 1 = |" + num_1 + "| = " + num_1.getModule());
         System.out.println("Argument of num_1 = arg( " + num_1 + " ) = " + num_1.getArgument() + '\n');
-
 
 
         System.out.println("___________________ ADD __________________");
@@ -58,7 +59,26 @@ public class Main
         number = num_1.divide(num_2);
         System.out.println("number = num_1 / num_2 = ( " + num_1  + " ) / ( " + num_2 + " ) = " + number);
         number = num_1.divide(2);
-        System.out.println("number = num_1 / 2 = ( " + num_1  + " ) / ( " + 2 + " ) = " + number);
+        System.out.println("number = num_1 / 2 = ( " + num_1  + " ) / ( " + 2 + " ) = " + number + '\n');
+
+        System.out.println("___________________ Pow __________________");
+        number = num_1.pow(2);
+        System.out.println("number = num_1 ^ 2 = ( " + num_1  + " ) ^ 2  = " + number);
+        number = num_3.pow(2);
+        System.out.println("number = num_3 ^ 2 = ( " + num_3  + " ) ^ 2  = " + number + '\n');
+
+        System.out.println("___________________ Sqrt __________________");
+        number = num_1.sqrt(4, 1);
+        System.out.println("Get first root: ");
+        System.out.println("number = num_1 ^ (1/4) = ( " + num_1  + " ) ^ (1/4)  = " + number + '\n');
+
+        System.out.println("Get all roots: ");
+        List<ComplexNumber> roots = num_1.allSqrt(4);
+
+        for (ComplexNumber r : roots)
+        {
+            System.out.println(r);
+        }
 
     }
 }

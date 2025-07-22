@@ -1,5 +1,8 @@
 package Lib;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ComplexNumber
 {
     private final double real;
@@ -121,6 +124,32 @@ public class ComplexNumber
         return new ComplexNumber(_real, _imaginary, accuracy);
     }
 
+    public List<ComplexNumber> allSqrt(double grade)
+    {
+        if(grade < accuracy && grade > -accuracy)
+        {
+            throw new DivideByZeroException("Divide by zero {grade == 0}");
+        }
+
+        List<ComplexNumber> result = new ArrayList<>();
+
+        double argument = getArgument();
+        double radius = Math.pow(getModule(), (1 / grade));
+
+        double _real;
+        double _imaginary;
+
+        for(int rootIndex = 0; rootIndex < grade - 1; rootIndex++)
+        {
+            _real = radius * Math.cos((argument + 2 * Math.PI * rootIndex) / grade);
+            _imaginary = radius * Math.sin((argument + 2 * Math.PI * rootIndex) / grade);
+
+            result.add(new ComplexNumber(_real, _imaginary, accuracy));
+        }
+
+        return result;
+    }
+
     public ComplexNumber complexConjugate()
     {
         return new ComplexNumber(real, -imaginary, accuracy);
@@ -143,27 +172,27 @@ public class ComplexNumber
 
     public double getArgument()
     {
-        if(real > accuracy)
+        if(real > accuracy) // re > 0
         {
             return Math.atan(imaginary / real);
         }
 
-        if(real < -accuracy && imaginary >= accuracy)
+        if(real < -accuracy && imaginary >= accuracy) // re < 0 im >= 0
         {
             return Math.PI + Math.atan(imaginary / real);
         }
 
-        if(real < -accuracy && imaginary < -accuracy)
+        if(real < -accuracy && imaginary < -accuracy) // re < 0 im <= 0
         {
             return -Math.PI + Math.atan(imaginary / real);
         }
 
-        if((real < -accuracy && real > accuracy) && imaginary > accuracy)
+        if((real > -accuracy && real < accuracy) && imaginary > accuracy) // re == 0 im > 0
         {
             return Math.PI /2;
         }
 
-        if((real < -accuracy && real > accuracy) && imaginary < -accuracy)
+        if((real > -accuracy && real < accuracy) && imaginary < -accuracy) // re = 0 im <= 0
         {
             return -Math.PI /2;
         }
