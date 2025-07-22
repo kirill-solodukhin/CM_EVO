@@ -4,7 +4,7 @@ public class ComplexNumber
 {
     private final double real;
     private final double imaginary;
-    private double accuracy = 0.000001;
+    private double accuracy = 0.00000001;
 
     public ComplexNumber(double real, double imaginary)
     {
@@ -47,7 +47,7 @@ public class ComplexNumber
         return new ComplexNumber(_real, imaginary);
     }
 
-    public ComplexNumber Multiplex(ComplexNumber num)
+    public ComplexNumber multiplex(ComplexNumber num)
     {
         double _real = (real * num.getReal() - imaginary * num.getImaginary());
         double _imaginary = (real * num.getImaginary() + num.getReal() * imaginary);
@@ -55,7 +55,7 @@ public class ComplexNumber
         return new ComplexNumber(_real, _imaginary, accuracy);
     }
 
-    public ComplexNumber Multiplex(double num)
+    public ComplexNumber multiplex(double num)
     {
         double _real = real * num;
         double _imaginary = imaginary * num;
@@ -63,7 +63,7 @@ public class ComplexNumber
         return new ComplexNumber(_real, _imaginary, accuracy);
     }
 
-    public ComplexNumber Divide(ComplexNumber num)
+    public ComplexNumber divide(ComplexNumber num)
     {
         if(num.equals(0))
         {
@@ -79,7 +79,7 @@ public class ComplexNumber
         return new ComplexNumber(_real, _imaginary, accuracy);
     }
 
-    public ComplexNumber Divide(double num)
+    public ComplexNumber divide(double num)
     {
         if(num == 0)
         {
@@ -96,17 +96,22 @@ public class ComplexNumber
     
     public String toString()
     {
-        if(imaginary > -accuracy && imaginary < accuracy) // im == 0
+        if(isReal())
         {
             return real + "";
         }
 
-        if(imaginary > accuracy) // im > 0
+        if(isImaginary())
+        {
+            return imaginary + "i";
+        }
+
+        if(imaginary > accuracy && real > accuracy) // im > 0 re >< 0
         {
             return real + " + i" + imaginary;
         }
 
-        return real + " - i" + -imaginary;
+        return real + " - i" + -imaginary; // im < 0 re >< 0
     }
 
     public double getReal()
@@ -127,6 +132,16 @@ public class ComplexNumber
     public boolean equals(double num)
     {
         return num == real && 0 == imaginary;
+    }
+
+    public  boolean isImaginary()
+    {
+        return (real < accuracy && real > -accuracy);
+    }
+
+    public boolean isReal()
+    {
+        return (imaginary < accuracy && imaginary > -accuracy);
     }
 
 }
