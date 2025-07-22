@@ -89,11 +89,108 @@ public class ComplexNumber
         return new ComplexNumber(real / num, imaginary / num, accuracy);
     }
 
+    public ComplexNumber pow(int grade)
+    {
+        double argument = getArgument();
+        double radius = Math.pow(getModule(), grade);
+
+        double _real = radius * Math.cos(argument * grade);
+        double _imaginary = radius * Math.sin(argument * grade);
+
+        return new ComplexNumber(_real, _imaginary, accuracy);
+    }
+
+    public ComplexNumber sqrt(double grade, int rootIndex)
+    {
+        if(rootIndex > (grade - 1))
+        {
+            throw new RootIndexTooLargeException("The index of the root must be one less than the degree of the root.");
+        }
+
+        if(grade < accuracy && grade > -accuracy)
+        {
+            throw new DivideByZeroException("Divide by zero {grade == 0}");
+        }
+
+        double argument = getArgument();
+        double radius = Math.pow(getModule(), (1 / grade));
+
+        double _real = radius * Math.cos((argument + 2 * Math.PI * rootIndex) / grade);
+        double _imaginary = radius * Math.sin((argument + 2 * Math.PI * rootIndex) / grade);
+
+        return new ComplexNumber(_real, _imaginary, accuracy);
+    }
+
     public ComplexNumber complexConjugate()
     {
         return new ComplexNumber(real, -imaginary, accuracy);
     }
-    
+
+    public double getReal()
+    {
+        return real;
+    }
+
+    public double getImaginary()
+    {
+        return imaginary;
+    }
+
+    public double getModule()
+    {
+        return Math.sqrt(Math.pow(real, 2) + Math.pow(imaginary, 2));
+    }
+
+    public double getArgument()
+    {
+        if(real > accuracy)
+        {
+            return Math.atan(imaginary / real);
+        }
+
+        if(real < -accuracy && imaginary >= accuracy)
+        {
+            return Math.PI + Math.atan(imaginary / real);
+        }
+
+        if(real < -accuracy && imaginary < -accuracy)
+        {
+            return -Math.PI + Math.atan(imaginary / real);
+        }
+
+        if((real < -accuracy && real > accuracy) && imaginary > accuracy)
+        {
+            return Math.PI /2;
+        }
+
+        if((real < -accuracy && real > accuracy) && imaginary < -accuracy)
+        {
+            return -Math.PI /2;
+        }
+
+        return 0;
+    }
+
+    public  boolean isImaginary()
+    {
+        return (real < accuracy && real > -accuracy);
+    }
+
+    public boolean isReal()
+    {
+        return (imaginary < accuracy && imaginary > -accuracy);
+    }
+
+    public boolean equals(ComplexNumber num)
+    {
+        return num.getReal() == real && num.getImaginary() == imaginary;
+    }
+
+    public boolean equals(double num)
+    {
+        return num == real && 0 == imaginary;
+    }
+
     public String toString()
     {
         if(isReal())
@@ -113,35 +210,4 @@ public class ComplexNumber
 
         return real + " - i" + -imaginary; // im < 0 re >< 0
     }
-
-    public double getReal()
-    {
-        return real;
-    }
-
-    public double getImaginary()
-    {
-        return imaginary;
-    }
-
-    public boolean equals(ComplexNumber num)
-    {
-        return num.getReal() == real && num.getImaginary() == imaginary;
-    }
-
-    public boolean equals(double num)
-    {
-        return num == real && 0 == imaginary;
-    }
-
-    public  boolean isImaginary()
-    {
-        return (real < accuracy && real > -accuracy);
-    }
-
-    public boolean isReal()
-    {
-        return (imaginary < accuracy && imaginary > -accuracy);
-    }
-
 }

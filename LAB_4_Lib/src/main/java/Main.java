@@ -19,6 +19,14 @@ public class Main
 
         System.out.println("Third number is real: " + num_3.isReal() + '\n');
 
+        System.out.println("Get complex conjugate for num_1: " + num_1.complexConjugate());
+        System.out.println("Get complex conjugate for num_2: " + num_2.complexConjugate());
+        System.out.println("Get complex conjugate for num_3: " + num_3.complexConjugate() + '\n');
+
+        System.out.println("Module of num 1 = |" + num_1 + "| = " + num_1.getModule());
+        System.out.println("Argument of num_1 = arg( " + num_1 + " ) = " + num_1.getArgument() + '\n');
+
+
 
         System.out.println("___________________ ADD __________________");
         ComplexNumber number = num_1.add(num_2);
