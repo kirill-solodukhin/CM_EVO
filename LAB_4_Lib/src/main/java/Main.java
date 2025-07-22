@@ -15,6 +15,7 @@ public class Main
 
     public static void show(ComplexNumber num_1, ComplexNumber num_2, ComplexNumber num_3)
     {
+        System.out.println();
         System.out.println("Your first number: " + num_1);
         System.out.println("Your second number: " + num_2);
         System.out.println("Your third number: " + num_3 + '\n');
@@ -29,7 +30,7 @@ public class Main
         System.out.println("Argument of num_1 = arg( " + num_1 + " ) = " + num_1.getArgument() + '\n');
 
 
-        System.out.println("___________________ ADD __________________");
+        System.out.println("___________________ ADD ________________________");
         ComplexNumber number = num_1.add(num_2);
         System.out.println("number = num_1 + num_2 = ( " + num_1  + " ) + ( " + num_2 + " ) = " + number);
         System.out.println("number is real?: " + number.isReal());
@@ -42,7 +43,7 @@ public class Main
         number = number.add(2);
         System.out.println("Number += 2 = " + number+ '\n');
 
-        System.out.println("___________________ Subtract __________________");
+        System.out.println("___________________ Subtract ___________________");
         number = number.subtract(3);
         System.out.println("Number -= 3 = " + number);
 
@@ -55,19 +56,19 @@ public class Main
         number = num_1.multiplex(5);
         System.out.println("number = num_1 * 5 = ( " + num_1  + " ) * ( " + 5 + " ) = " + number + '\n');
 
-        System.out.println("___________________ Divide __________________");
+        System.out.println("___________________ Divide _____________________");
         number = num_1.divide(num_2);
         System.out.println("number = num_1 / num_2 = ( " + num_1  + " ) / ( " + num_2 + " ) = " + number);
         number = num_1.divide(2);
         System.out.println("number = num_1 / 2 = ( " + num_1  + " ) / ( " + 2 + " ) = " + number + '\n');
 
-        System.out.println("___________________ Pow __________________");
+        System.out.println("___________________ Pow ________________________");
         number = num_1.pow(2);
         System.out.println("number = num_1 ^ 2 = ( " + num_1  + " ) ^ 2  = " + number);
         number = num_3.pow(2);
         System.out.println("number = num_3 ^ 2 = ( " + num_3  + " ) ^ 2  = " + number + '\n');
 
-        System.out.println("___________________ Sqrt __________________");
+        System.out.println("___________________ Sqrt _______________________");
         number = num_1.sqrt(4, 1);
         System.out.println("Get first root: ");
         System.out.println("number = num_1 ^ (1/4) = ( " + num_1  + " ) ^ (1/4)  = " + number + '\n');
