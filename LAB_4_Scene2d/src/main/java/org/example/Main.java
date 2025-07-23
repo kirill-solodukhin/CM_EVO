@@ -1,10 +1,12 @@
 package org.example;
 
+import org.example.CommandBuilders.CommandProducer;
+import org.example.Commands.Command;
+import org.example.Exception.CommandCannotBeRecognized;
 import org.example.Exception.CommandFileNotFound;
 import org.example.Figure.Figure;
 import org.example.Scene.Scene;
 import org.example.Scene.SceneRectangle;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,14 +16,43 @@ import java.util.List;
 
 public class Main
 {
-    public static void main(String[] args) throws Exception
+    public static void main(String[] args)
     {
-        // DrawScene(new Scene());
+        Scene scene = new Scene();
+        List<String> commandLines = readCommandsFromFile("TestInput/simpleCommands.txt");
 
-        List<String> commands = readCommandFromFile("TestInput/Smile");
+        CommandProducer commandProducer = new CommandProducer();
+        for(String command : commandLines)
+        {
+            try
+            {
+                commandProducer.appendLine(command);
+
+                if(commandProducer.isCommandReady())
+                {
+                    Command com = commandProducer.getCommand();
+                    com.apply(scene);
+
+                    System.out.println(com.friendlyResultMessage());
+                }
+            }
+            catch (CommandCannotBeRecognized ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+        try
+        {
+            DrawScene(scene);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
-    private static List<String> readCommandFromFile(String path)
+    private static List<String> readCommandsFromFile(String path)
     {
         InputStream inputStream = Main.class
                 .getClassLoader()
@@ -40,6 +71,11 @@ public class Main
         {
             while ((line = br.readLine()) != null)
             {
+                if(line.isEmpty() || line.charAt(0) == '#')
+                {
+                    continue;
+                }
+
                 commands.add(line);
             }
         } catch (Exception e)
@@ -77,10 +113,6 @@ public class Main
         {
             f.Draw(g2d);
         }
-
-        g2d.setColor(Color.BLUE);
-        g2d.setStroke(new BasicStroke()); // Толщина линии
-        g2d.drawLine(50, 300, 450, 300);
 
         // 6. Освобождаем ресурсы
         g2d.dispose();
