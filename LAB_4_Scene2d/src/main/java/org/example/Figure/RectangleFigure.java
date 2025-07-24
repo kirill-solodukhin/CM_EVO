@@ -23,9 +23,6 @@ public class RectangleFigure implements Figure
     @Override
     public void Draw(Graphics2D g2d)
     {
-        g2d.setColor(Color.BLUE);
-        g2d.setStroke(new BasicStroke()); // Толщина линии
-
         g2d.drawLine(p1.x, p1.y, p3.x, p3.y); // top line
         g2d.drawLine(p1.x, p1.y, p4.x, p4.y); // left line
         g2d.drawLine(p4.x, p4.y, p2.x, p2.y); // bottom line

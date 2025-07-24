@@ -12,7 +12,8 @@ public class CommandProducer implements CommandBuilder
 {
     Map<Pattern, CommandBuilder> commands = new HashMap<>(Map.of(
             Pattern.compile(".*add rectangle.*"), new AddRectangleCommandBuilder(),
-            Pattern.compile(".*add circle.*"), new AddCircleCommandBuilder()
+            Pattern.compile(".*add circle.*"), new AddCircleCommandBuilder(),
+            Pattern.compile(".*add polygon.*"), new AddPolygonCommandBuilder()
     ));
 
     private CommandBuilder currentBuilder;
@@ -48,7 +49,6 @@ public class CommandProducer implements CommandBuilder
             return null;
         }
 
-        // todo
         Command command = currentBuilder.getCommand();
         currentBuilder = null;
 
@@ -78,6 +78,6 @@ public class CommandProducer implements CommandBuilder
             return;
         }
 
-        throw new CommandCannotBeRecognized(commandLine + "Command is not recognized");
+        throw new CommandCannotBeRecognized(commandLine + " command is not recognized");
     }
 }

@@ -107,8 +107,10 @@ public class Main
                 RenderingHints.VALUE_ANTIALIAS_ON
         );
 
-        // Отрисовка
+        g2d.setColor(Color.BLUE);
+        g2d.setStroke(new BasicStroke()); // Толщина линии
 
+        // Отрисовка
         for (Figure f : scene.ListDrawableFigure())
         {
             f.Draw(g2d);

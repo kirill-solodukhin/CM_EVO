@@ -1,1 +1,7 @@
-add rectangle M1 (0, 0) (100, 100)
+add circle Y1 (250, 250) radius 250
+add rectangle M1 (0, 0) (500, 500)
+add polygon R1
+ add point (250, 0)
+ add point (500, 500)
+ add point (0, 500)
+end polygon
