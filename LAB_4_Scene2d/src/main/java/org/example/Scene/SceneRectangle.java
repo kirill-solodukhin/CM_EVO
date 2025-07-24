@@ -1,4 +1,7 @@
 package org.example.Scene;
 
-public record SceneRectangle(int width, int height) {
+import java.awt.*;
+
+public record SceneRectangle(Point leftTop, Point rightBottom)
+{
 }

@@ -13,7 +13,8 @@ public class CommandProducer implements CommandBuilder
     Map<Pattern, CommandBuilder> commands = new HashMap<>(Map.of(
             Pattern.compile(".*add rectangle.*"), new AddRectangleCommandBuilder(),
             Pattern.compile(".*add circle.*"), new AddCircleCommandBuilder(),
-            Pattern.compile(".*add polygon.*"), new AddPolygonCommandBuilder()
+            Pattern.compile(".*add polygon.*"), new AddPolygonCommandBuilder(),
+            Pattern.compile(".*move.*"), new MoveCommandBuilder()
     ));
 
     private CommandBuilder currentBuilder;

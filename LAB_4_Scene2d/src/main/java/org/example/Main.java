@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.CommandBuilders.CommandProducer;
 import org.example.Commands.Command;
+import org.example.Exception.BadFormatCommandException;
 import org.example.Exception.CommandCannotBeRecognized;
 import org.example.Exception.CommandFileNotFound;
 import org.example.Figure.Figure;
@@ -36,7 +37,7 @@ public class Main
                     System.out.println(com.friendlyResultMessage());
                 }
             }
-            catch (CommandCannotBeRecognized ex)
+            catch (CommandCannotBeRecognized | BadFormatCommandException ex)
             {
                 System.out.println(ex.getMessage());
             }
@@ -90,11 +91,14 @@ public class Main
     {
         final String fileName = "LAB_4_Scene2d/shapes.png";
 
-        SceneRectangle sr = scene.CalculateSceneSize();
+        SceneRectangle sr = scene.CalculateSceneCircumscribingRectangle();
+
+        int width = (int) (sr.rightBottom().getX() - sr.leftTop().getX()) + 1;
+        int height = (int) (sr.rightBottom().getY() - sr.leftTop().getY()) + 1;
 
         // 1. Создаем изображение
         BufferedImage image = new BufferedImage(
-                sr.width(), sr.height(),
+                width, height,
                 BufferedImage.TYPE_INT_RGB
         );
 
@@ -113,7 +117,7 @@ public class Main
         // Отрисовка
         for (Figure f : scene.ListDrawableFigure())
         {
-            f.Draw(g2d);
+            f.draw(g2d);
         }
 
         // 6. Освобождаем ресурсы

@@ -3,6 +3,7 @@ package org.example.Scene;
 import org.example.Exception.FigureNameAlreadyExistsException;
 import org.example.Figure.Figure;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,13 +27,26 @@ public class Scene
         return figures.values().stream().toList();
     }
 
-    public SceneRectangle CalculateSceneSize()
+    public SceneRectangle CalculateSceneCircumscribingRectangle()
     {
-        List<SceneRectangle> allSceneRect = ListDrawableFigure().stream().map(Figure::CalculateFigureSize).toList();
+        List<SceneRectangle> allSceneRect = ListDrawableFigure().stream().map(Figure::CalculateCircumscribingRectangle).toList();
 
-        int maxWidth = allSceneRect.stream().mapToInt(SceneRectangle::width).max().orElse(0) + 1;
-        int maxHeight = allSceneRect.stream().mapToInt(SceneRectangle::height).max().orElse(0)  +1;
+        int minX = allSceneRect.stream().mapToInt(el -> (int) el.leftTop().getX()).min().orElse(0);
+        int maxX = allSceneRect.stream().mapToInt(el -> (int) el.rightBottom().getX()).max().orElse(0);
+        int minY = allSceneRect.stream().mapToInt(el -> (int) el.leftTop().getY()).min().orElse(0);
+        int maxY = allSceneRect.stream().mapToInt(el -> (int) el.rightBottom().getY()).max().orElse(0);
 
-        return new SceneRectangle(maxWidth, maxHeight);
+        Point leftTop = new Point(minX, minY);
+        Point rightTop = new Point(maxX, maxY);
+
+        return new SceneRectangle(leftTop, rightTop);
+    }
+
+    public void move(String name, Point vector)
+    {
+        if(figures.containsKey(name))
+        {
+            figures.get(name).move(vector);
+        }
     }
 }

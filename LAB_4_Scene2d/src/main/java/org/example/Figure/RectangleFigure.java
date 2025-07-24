@@ -21,7 +21,13 @@ public class RectangleFigure implements Figure
     }
 
     @Override
-    public void Draw(Graphics2D g2d)
+    public SceneRectangle CalculateCircumscribingRectangle()
+    {
+        return new SceneRectangle(p1, p2);
+    }
+
+    @Override
+    public void draw(Graphics2D g2d)
     {
         g2d.drawLine(p1.x, p1.y, p3.x, p3.y); // top line
         g2d.drawLine(p1.x, p1.y, p4.x, p4.y); // left line
@@ -30,11 +36,17 @@ public class RectangleFigure implements Figure
     }
 
     @Override
-    public SceneRectangle CalculateFigureSize()
+    public void move(Point vector)
     {
-        int width = p3.x - p1.x;
-        int height = p4.y - p1.y;
+        p1.setLocation(p1.getX() + vector.x, p1.getY() + vector.y);
+        p2.setLocation(p2.getX() + vector.x, p2.getY() + vector.y);
+        p3.setLocation(p3.getX() + vector.x, p3.getY() + vector.y);
+        p4.setLocation(p4.getX() + vector.x, p4.getY() + vector.y);
+    }
 
-        return new SceneRectangle(width, height);
+    @Override
+    public void rotate(double angle)
+    {
+
     }
 }

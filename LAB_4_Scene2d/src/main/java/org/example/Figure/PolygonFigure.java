@@ -15,7 +15,18 @@ public class PolygonFigure implements Figure
     }
 
     @Override
-    public void Draw(Graphics2D g2d)
+    public SceneRectangle CalculateCircumscribingRectangle()
+    {
+        int minX = points.stream().mapToInt(p -> (int) p.getX()).min().orElse(0);
+        int minY = points.stream().mapToInt(p -> (int) p.getY()).min().orElse(0);
+        int maxX = points.stream().mapToInt(p -> (int) p.getX()).max().orElse(0) + 1;
+        int maxY = points.stream().mapToInt(p -> (int) p.getY()).max().orElse(0) + 1;
+
+        return new SceneRectangle(new Point(minX, minY), new Point(maxX, maxY));
+    }
+
+    @Override
+    public void draw(Graphics2D g2d)
     {
         for (int i = 1; i < points.size(); i++)
         {
@@ -32,13 +43,14 @@ public class PolygonFigure implements Figure
     }
 
     @Override
-    public SceneRectangle CalculateFigureSize()
+    public void move(Point vector)
     {
-        int minX = points.stream().mapToInt(p -> (int) p.getX()).min().orElse(0);
-        int minY = points.stream().mapToInt(p -> (int) p.getY()).min().orElse(0);
-        int maxX = points.stream().mapToInt(p -> (int) p.getX()).max().orElse(0) + 1;
-        int maxY = points.stream().mapToInt(p -> (int) p.getY()).max().orElse(0) + 1;
 
-        return new SceneRectangle(maxX - minX, maxY - minY);
+    }
+
+    @Override
+    public void rotate(double angle)
+    {
+
     }
 }

@@ -16,16 +16,30 @@ public class CircleFigure implements Figure
     }
 
     @Override
-    public void Draw(Graphics2D g2d)
+    public SceneRectangle CalculateCircumscribingRectangle()
     {
-       int d = 2 * radius;
+        Point leftTop = new Point(center.x - radius, center.y - radius);
+        Point rightTop = new Point(center.x + radius, center.y + radius);
+
+        return new SceneRectangle(leftTop, rightTop);
+    }
+
+    @Override
+    public void draw(Graphics2D g2d)
+    {
+        int d = 2 * radius;
         g2d.drawArc(center.x - radius, center.y - radius, d, d, 0, 360 );
     }
 
     @Override
-    public SceneRectangle CalculateFigureSize()
+    public void move(Point vector)
     {
-        int d = 2 * radius;
-        return new SceneRectangle(d, d);
+
+    }
+
+    @Override
+    public void rotate(double angle)
+    {
+
     }
 }

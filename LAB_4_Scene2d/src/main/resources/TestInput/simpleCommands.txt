@@ -5,3 +5,4 @@ add polygon R1
  add point (500, 500)
  add point (0, 500)
 end polygon
+move M1 (50, 50)

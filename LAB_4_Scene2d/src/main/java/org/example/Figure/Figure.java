@@ -6,6 +6,8 @@ import java.awt.*;
 
 public interface Figure
 {
-    void Draw(Graphics2D g2d);
-    SceneRectangle CalculateFigureSize();
+    void draw(Graphics2D g2d);
+    void move(Point vector);
+    void rotate(double angle);
+    SceneRectangle CalculateCircumscribingRectangle();
 }
