@@ -57,6 +57,47 @@ public class PolygonFigure implements Figure
     @Override
     public void rotate(double angle)
     {
+        int newX;
+        int newY;
+
+        double centerX = (points.stream().mapToDouble(p -> p.x).max().orElseThrow() +
+                points.stream().mapToDouble(p -> p.x).min().orElseThrow()) / 2;
+
+        double centerY = (points.stream().mapToDouble(p -> p.y).max().orElseThrow() +
+                points.stream().mapToDouble(p -> p.y).min().orElseThrow()) / 2;
+
+
+        double cosAngle = Math.cos(Math.toRadians(angle));
+        double sinAngle = Math.sin(Math.toRadians(angle));
+
+        for (Point point : points)
+        {
+            newX = (int) ((point.getX() - centerX) * cosAngle
+                    - (point.getY() - centerY) * sinAngle) + (int) centerX; // Math.abs();
+
+            newY = (int) ((point.getX() - centerX) * sinAngle
+                    + (point.getY() - centerY) * cosAngle) + (int) centerY; // Math.abs();
+
+            point.setLocation(newX, newY);
+        }
+
+        checkOffset();
+    }
+
+    void checkOffset()
+    {
+        int minX = points.stream().mapToInt(p -> p.x).min().orElse(0);
+        int minY = points.stream().mapToInt(p -> p.y).min().orElse(0);
+
+        if(minX >= 0 && minY >= 0)
+        {
+            return;
+        }
+
+        for (Point point : points)
+        {
+            point.setLocation(point.x + (-minX), point.y + (-minY));
+        }
 
     }
 }

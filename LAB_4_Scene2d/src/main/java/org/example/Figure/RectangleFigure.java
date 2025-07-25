@@ -20,8 +20,13 @@ public class RectangleFigure implements Figure
     @Override
     public SceneRectangle CalculateCircumscribingRectangle()
     {
-        // todo
-        return new SceneRectangle(points[0], points[1]);
+        int minX = Arrays.stream(points).mapToInt(p -> p.x).min().orElse(0);
+        int minY = Arrays.stream(points).mapToInt(p -> p.y).min().orElse(0);
+
+        int maxX = Arrays.stream(points).mapToInt(p -> p.x).max().orElse(0);
+        int maxY = Arrays.stream(points).mapToInt(p -> p.y).max().orElse(0);
+
+        return new SceneRectangle(new Point(minX, minY), new Point(maxX, maxY));
     }
 
     @Override
@@ -54,18 +59,38 @@ public class RectangleFigure implements Figure
         double centerY = (Arrays.stream(points).mapToDouble(p -> p.y).max().orElseThrow() +
                 Arrays.stream(points).mapToDouble(p -> p.y).min().orElseThrow()) / 2;
 
-        double cosAngle = Math.cos(angle);
-        double sinAngle = Math.sin(angle);
+
+        double cosAngle = Math.cos(Math.toRadians(angle));
+        double sinAngle = Math.sin(Math.toRadians(angle));
 
         for (Point point : points)
         {
             newX = (int) ((point.getX() - centerX) * cosAngle
-                    - (point.getY() - centerY) * sinAngle); // Math.abs();
+                    - (point.getY() - centerY) * sinAngle) + (int) centerX; // Math.abs();
 
             newY = (int) ((point.getX() - centerX) * sinAngle
-                    + (point.getY() - centerY) * cosAngle); // Math.abs();
+                    + (point.getY() - centerY) * cosAngle) + (int) centerY; // Math.abs();
 
-            point.setLocation(newX + centerX, newY + centerY);
+            point.setLocation(newX, newY);
         }
+
+        checkOffset();
+    }
+
+    void checkOffset()
+    {
+        int minX = Arrays.stream(points).mapToInt(p -> p.x).min().orElse(0);
+        int minY = Arrays.stream(points).mapToInt(p -> p.y).min().orElse(0);
+
+        if(minX >= 0 && minY >= 0)
+        {
+            return;
+        }
+
+        for (Point point : points)
+        {
+            point.setLocation(point.x + (-minX), point.y + (-minY));
+        }
+
     }
 }

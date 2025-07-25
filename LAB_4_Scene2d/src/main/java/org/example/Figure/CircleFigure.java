@@ -42,6 +42,5 @@ public class CircleFigure implements Figure
     @Override
     public void rotate(double angle)
     {
-
     }
 }
