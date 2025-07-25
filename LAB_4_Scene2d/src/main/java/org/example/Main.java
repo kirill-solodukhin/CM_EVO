@@ -89,7 +89,7 @@ public class Main
 
     private static  void DrawScene(Scene scene) throws IOException
     {
-        final String fileName = "LAB_4_Scene2d/shapes.png";
+        final String fileName = "LAB_4_Scene2d/output/shapes.png";
 
         SceneRectangle sr = scene.CalculateSceneCircumscribingRectangle();
 
@@ -124,7 +124,7 @@ public class Main
         g2d.dispose();
 
         // 7. Сохраняем в PNG
-        File output = new File("LAB_4_Scene2d/shapes.png");
+        File output = new File(fileName);
         ImageIO.write(image, "PNG", output);
 
         System.out.println("Изображение сохранено: " + output.getAbsolutePath());

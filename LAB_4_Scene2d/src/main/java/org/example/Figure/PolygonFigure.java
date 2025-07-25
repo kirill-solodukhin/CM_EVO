@@ -98,6 +98,5 @@ public class PolygonFigure implements Figure
         {
             point.setLocation(point.x + (-minX), point.y + (-minY));
         }
-
     }
 }

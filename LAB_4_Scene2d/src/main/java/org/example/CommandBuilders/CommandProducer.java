@@ -19,6 +19,7 @@ public class CommandProducer implements CommandBuilder
         commands.put(Pattern.compile(".*add polygon.*"), AddPolygonCommandBuilder::new);
         commands.put(Pattern.compile(".*move.*"), MoveCommandBuilder::new);
         commands.put(Pattern.compile(".*rotate.*"), RotateCommandBuilder::new);
+        commands.put(Pattern.compile(".*reflect.*"), ReflectCommandBuilder::new);
     }
 
     private CommandBuilder currentBuilder;
