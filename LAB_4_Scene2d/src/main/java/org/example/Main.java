@@ -72,7 +72,7 @@ public class Main
         {
             while ((line = br.readLine()) != null)
             {
-                if(line.isEmpty() || line.charAt(0) == '#')
+                if(line.isEmpty() || line.trim().charAt(0) == '#')
                 {
                     continue;
                 }

@@ -49,4 +49,12 @@ public class Scene
             figures.get(name).move(vector);
         }
     }
+
+    public void rotate(String name, double angle)
+    {
+        if(figures.containsKey(name))
+        {
+            figures.get(name).rotate(angle);
+        }
+    }
 }

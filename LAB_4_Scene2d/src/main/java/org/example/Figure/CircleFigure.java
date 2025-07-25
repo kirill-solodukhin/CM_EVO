@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class CircleFigure implements Figure
 {
-    private final Point center;
+    private Point center;
     private final int radius;
 
     public CircleFigure(Point center, int radius)
@@ -34,7 +34,9 @@ public class CircleFigure implements Figure
     @Override
     public void move(Point vector)
     {
-
+        center = new Point(
+                (int) (center.getX() + vector.getX()),
+                (int) (center.getX() + vector.getY()));
     }
 
     @Override

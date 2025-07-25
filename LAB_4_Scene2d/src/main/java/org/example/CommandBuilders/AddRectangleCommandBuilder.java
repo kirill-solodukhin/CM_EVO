@@ -73,6 +73,7 @@ public class AddRectangleCommandBuilder implements CommandBuilder
         }
 
         isCommandReady = false;
-        throw new BadFormatCommandException("Command:" + commandLine + " have is bad format for " + AddRectangleCommandBuilder.class.getName());
+        throw new BadFormatCommandException("Command:" + commandLine +
+                " have is bad format for " + AddRectangleCommandBuilder.class.getName());
     }
 }

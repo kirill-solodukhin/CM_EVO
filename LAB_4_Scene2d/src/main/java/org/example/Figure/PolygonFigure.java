@@ -45,7 +45,13 @@ public class PolygonFigure implements Figure
     @Override
     public void move(Point vector)
     {
-
+        for(Point p : points)
+        {
+            p.setLocation(
+                    (int) p.getX() + vector.getX(),
+                    (int) p.getY() + vector.getY()
+            );
+        }
     }
 
     @Override

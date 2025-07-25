@@ -3,50 +3,69 @@ package org.example.Figure;
 import org.example.Scene.SceneRectangle;
 
 import java.awt.*;
+import java.util.Arrays;
 
 public class RectangleFigure implements Figure
 {
-    private final Point p1; // Left top
-    private final Point p2; // Right bottom
-    private final Point p3; // Right top
-    private final Point p4; // Left bottom
+    private final Point[] points = new Point[4];
 
     public RectangleFigure(Point p1, Point p2)
     {
-        this.p1 = p1;
-        this.p2 = p2;
-
-        p3 = new Point(p2.x, p1.y);
-        p4 = new Point(p1.x, p2.y);
+        points[0] = p1;
+        points[1] = p2;
+        points[2] = new Point(p2.x, p1.y);
+        points[3] = new Point(p1.x, p2.y);
     }
 
     @Override
     public SceneRectangle CalculateCircumscribingRectangle()
     {
-        return new SceneRectangle(p1, p2);
+        // todo
+        return new SceneRectangle(points[0], points[1]);
     }
 
     @Override
     public void draw(Graphics2D g2d)
     {
-        g2d.drawLine(p1.x, p1.y, p3.x, p3.y); // top line
-        g2d.drawLine(p1.x, p1.y, p4.x, p4.y); // left line
-        g2d.drawLine(p4.x, p4.y, p2.x, p2.y); // bottom line
-        g2d.drawLine(p3.x, p3.y, p2.x, p2.y); // right line
+        g2d.drawLine(points[0].x, points[0].y, points[2].x, points[2].y); // top line
+        g2d.drawLine(points[0].x, points[0].y, points[3].x, points[3].y); // left line
+        g2d.drawLine(points[3].x, points[3].y, points[1].x, points[1].y); // bottom line
+        g2d.drawLine(points[2].x, points[2].y, points[1].x, points[1].y); // right line
     }
 
     @Override
     public void move(Point vector)
     {
-        p1.setLocation(p1.getX() + vector.x, p1.getY() + vector.y);
-        p2.setLocation(p2.getX() + vector.x, p2.getY() + vector.y);
-        p3.setLocation(p3.getX() + vector.x, p3.getY() + vector.y);
-        p4.setLocation(p4.getX() + vector.x, p4.getY() + vector.y);
+        points[0].setLocation(points[0].getX() + vector.x, points[0].getY() + vector.y);
+        points[1].setLocation(points[1].getX() + vector.x, points[1].getY() + vector.y);
+        points[2].setLocation(points[2].getX() + vector.x, points[2].getY() + vector.y);
+        points[3].setLocation(points[3].getX() + vector.x, points[3].getY() + vector.y);
     }
 
     @Override
     public void rotate(double angle)
     {
+        int newX;
+        int newY;
 
+        double centerX = (Arrays.stream(points).mapToDouble(p -> p.x).max().orElseThrow() +
+                Arrays.stream(points).mapToDouble(p -> p.x).min().orElseThrow()) / 2;
+
+        double centerY = (Arrays.stream(points).mapToDouble(p -> p.y).max().orElseThrow() +
+                Arrays.stream(points).mapToDouble(p -> p.y).min().orElseThrow()) / 2;
+
+        double cosAngle = Math.cos(angle);
+        double sinAngle = Math.sin(angle);
+
+        for (Point point : points)
+        {
+            newX = (int) ((point.getX() - centerX) * cosAngle
+                    - (point.getY() - centerY) * sinAngle); // Math.abs();
+
+            newY = (int) ((point.getX() - centerX) * sinAngle
+                    + (point.getY() - centerY) * cosAngle); // Math.abs();
+
+            point.setLocation(newX + centerX, newY + centerY);
+        }
     }
 }

@@ -5,17 +5,21 @@ import org.example.Exception.CommandCannotBeRecognized;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CommandProducer implements CommandBuilder
 {
-    Map<Pattern, CommandBuilder> commands = new HashMap<>(Map.of(
-            Pattern.compile(".*add rectangle.*"), new AddRectangleCommandBuilder(),
-            Pattern.compile(".*add circle.*"), new AddCircleCommandBuilder(),
-            Pattern.compile(".*add polygon.*"), new AddPolygonCommandBuilder(),
-            Pattern.compile(".*move.*"), new MoveCommandBuilder()
-    ));
+    private final Map<Pattern, Supplier<CommandBuilder>> commands = new HashMap<>();
+
+    {
+        commands.put(Pattern.compile(".*add rectangle.*"), AddRectangleCommandBuilder::new);
+        commands.put(Pattern.compile(".*add circle.*"), AddCircleCommandBuilder::new);
+        commands.put(Pattern.compile(".*add polygon.*"), AddPolygonCommandBuilder::new);
+        commands.put(Pattern.compile(".*move.*"), MoveCommandBuilder::new);
+        commands.put(Pattern.compile(".*rotate.*"), RotateCommandBuilder::new);
+    }
 
     private CommandBuilder currentBuilder;
 
@@ -60,12 +64,12 @@ public class CommandProducer implements CommandBuilder
     {
         Matcher matcher;
 
-        for(Map.Entry<Pattern, CommandBuilder> el: commands.entrySet())
+        for(Map.Entry<Pattern, Supplier<CommandBuilder>> el: commands.entrySet())
         {
             matcher = el.getKey().matcher(commandLine);
             if(matcher.matches())
             {
-                currentBuilder = el.getValue();
+                currentBuilder = el.getValue().get();
                 break;
             }
         }
