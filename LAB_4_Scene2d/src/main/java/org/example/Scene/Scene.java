@@ -1,5 +1,6 @@
 package org.example.Scene;
 
+import org.example.Commands.Supportive.ReflectOrientation;
 import org.example.Exception.FigureNameAlreadyExistsException;
 import org.example.Figure.Figure;
 
@@ -55,6 +56,14 @@ public class Scene
         if(figures.containsKey(name))
         {
             figures.get(name).rotate(angle);
+        }
+    }
+
+    public void reflect(String name, ReflectOrientation orientation)
+    {
+        if(figures.containsKey(name))
+        {
+            figures.get(name).reflect(orientation);
         }
     }
 }

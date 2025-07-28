@@ -1,6 +1,7 @@
 package org.example.CommandBuilders;
 
 import org.example.Commands.Command;
+import org.example.Commands.ReflectCommand;
 import org.example.Commands.Supportive.ReflectOrientation;
 import org.example.Exception.BadFormatCommandException;
 
@@ -13,13 +14,14 @@ public class ReflectCommandBuilder implements CommandBuilder
     private final Pattern pattern =
             Pattern.compile("(?<orientation>vertically|horizontally)|(?<name>\\s\\w+\\d?\\s*$)");
 
+    private boolean isCommandReady = false;
     private ReflectOrientation orientation;
     private String name;
 
     @Override
     public boolean isCommandReady()
     {
-        return false;
+        return isCommandReady;
     }
 
     @Override
@@ -43,18 +45,21 @@ public class ReflectCommandBuilder implements CommandBuilder
                 name = findingLine.trim();
             }
         }
+
+        ThrowIFBadCommand(commandLine);
+        isCommandReady = true;
     }
 
     @Override
     public Command getCommand()
     {
-        return null;
+        return new ReflectCommand(name, orientation);
     }
 
     @Override
     public void ThrowIFBadCommand(String commandLine)
     {
-        if(orientation != null)
+        if(orientation != null && !name.isEmpty())
         {
             return;
         }

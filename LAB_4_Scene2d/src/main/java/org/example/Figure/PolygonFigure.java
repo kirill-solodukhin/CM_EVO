@@ -1,5 +1,6 @@
 package org.example.Figure;
 
+import org.example.Commands.Supportive.ReflectOrientation;
 import org.example.Scene.SceneRectangle;
 
 import java.awt.*;
@@ -60,28 +61,31 @@ public class PolygonFigure implements Figure
         int newX;
         int newY;
 
-        double centerX = (points.stream().mapToDouble(p -> p.x).max().orElseThrow() +
-                points.stream().mapToDouble(p -> p.x).min().orElseThrow()) / 2;
+        Point center = getCenter();
 
-        double centerY = (points.stream().mapToDouble(p -> p.y).max().orElseThrow() +
-                points.stream().mapToDouble(p -> p.y).min().orElseThrow()) / 2;
-
+        double centerX = center.x;
+        double centerY = center.y;
 
         double cosAngle = Math.cos(Math.toRadians(angle));
         double sinAngle = Math.sin(Math.toRadians(angle));
 
         for (Point point : points)
         {
-            newX = (int) ((point.getX() - centerX) * cosAngle
-                    - (point.getY() - centerY) * sinAngle) + (int) centerX; // Math.abs();
+            newX = (int) (((point.getX() - centerX) * cosAngle
+                    - (point.getY() - centerY) * sinAngle) + centerX);
 
-            newY = (int) ((point.getX() - centerX) * sinAngle
-                    + (point.getY() - centerY) * cosAngle) + (int) centerY; // Math.abs();
+            newY = (int) (((point.getX() - centerX) * sinAngle
+                    + (point.getY() - centerY) * cosAngle) + centerY);
 
             point.setLocation(newX, newY);
         }
 
         checkOffset();
+    }
+
+    @Override
+    public void reflect(ReflectOrientation orientation) {
+
     }
 
     void checkOffset()
@@ -98,5 +102,16 @@ public class PolygonFigure implements Figure
         {
             point.setLocation(point.x + (-minX), point.y + (-minY));
         }
+    }
+
+    Point getCenter()
+    {
+        double centerX = (points.stream().mapToDouble(p -> p.x).max().orElseThrow() +
+                points.stream().mapToDouble(p -> p.x).min().orElseThrow()) / 2;
+
+        double centerY = (points.stream().mapToDouble(p -> p.y).max().orElseThrow() +
+                points.stream().mapToDouble(p -> p.y).min().orElseThrow()) / 2;
+
+        return new Point((int)centerX, (int)centerY);
     }
 }

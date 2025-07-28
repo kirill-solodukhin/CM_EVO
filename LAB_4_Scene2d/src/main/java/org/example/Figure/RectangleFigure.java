@@ -1,5 +1,6 @@
 package org.example.Figure;
 
+import org.example.Commands.Supportive.ReflectOrientation;
 import org.example.Scene.SceneRectangle;
 
 import java.awt.*;
@@ -53,28 +54,60 @@ public class RectangleFigure implements Figure
         int newX;
         int newY;
 
-        double centerX = (Arrays.stream(points).mapToDouble(p -> p.x).max().orElseThrow() +
-                Arrays.stream(points).mapToDouble(p -> p.x).min().orElseThrow()) / 2;
+        Point center = getCenter();
 
-        double centerY = (Arrays.stream(points).mapToDouble(p -> p.y).max().orElseThrow() +
-                Arrays.stream(points).mapToDouble(p -> p.y).min().orElseThrow()) / 2;
-
+        double centerX = center.x;
+        double centerY = center.y;
 
         double cosAngle = Math.cos(Math.toRadians(angle));
         double sinAngle = Math.sin(Math.toRadians(angle));
 
         for (Point point : points)
         {
-            newX = (int) ((point.getX() - centerX) * cosAngle
-                    - (point.getY() - centerY) * sinAngle) + (int) centerX; // Math.abs();
+            newX = (int) (((point.getX() - centerX) * cosAngle
+                    - (point.getY() - centerY) * sinAngle) + centerX);
 
-            newY = (int) ((point.getX() - centerX) * sinAngle
-                    + (point.getY() - centerY) * cosAngle) + (int) centerY; // Math.abs();
+            newY = (int) (((point.getX() - centerX) * sinAngle
+                    + (point.getY() - centerY) * cosAngle) + centerY);
 
             point.setLocation(newX, newY);
         }
 
         checkOffset();
+    }
+
+    @Override
+    public void reflect(ReflectOrientation orientation)
+    {
+        Point center = getCenter();
+
+        if(orientation == ReflectOrientation.Horizontal)
+        {
+            for (Point point : points)
+            {
+                point.setLocation(
+                        (point.x > center.x ?
+                                (point.x - 2 * (point.x - center.x)) :
+                                (point.x + 2 * (center.x - point.x))
+                        ),
+                        point.y
+                );
+            }
+
+            return;
+        }
+
+        for (Point point : points)
+        {
+            point.setLocation(
+                    point.x,
+                    (point.y > center.y ?
+                            (point.y - 2 * (point.y - center.y)) :
+                            (point.y + 2 * (center.y - point.y))
+                    )
+            );
+        }
+
     }
 
     void checkOffset()
@@ -92,5 +125,16 @@ public class RectangleFigure implements Figure
             point.setLocation(point.x + (-minX), point.y + (-minY));
         }
 
+    }
+
+    Point getCenter()
+    {
+        double centerX = (Arrays.stream(points).mapToDouble(p -> p.x).max().orElseThrow() +
+                Arrays.stream(points).mapToDouble(p -> p.x).min().orElseThrow()) / 2;
+
+        double centerY = (Arrays.stream(points).mapToDouble(p -> p.y).max().orElseThrow() +
+                Arrays.stream(points).mapToDouble(p -> p.y).min().orElseThrow()) / 2;
+
+        return new Point((int)centerX, (int)centerY);
     }
 }

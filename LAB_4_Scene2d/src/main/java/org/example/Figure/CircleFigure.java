@@ -1,5 +1,6 @@
 package org.example.Figure;
 
+import org.example.Commands.Supportive.ReflectOrientation;
 import org.example.Scene.SceneRectangle;
 
 import java.awt.*;
@@ -42,5 +43,10 @@ public class CircleFigure implements Figure
     @Override
     public void rotate(double angle)
     {
+    }
+
+    @Override
+    public void reflect(ReflectOrientation orientation) {
+
     }
 }
