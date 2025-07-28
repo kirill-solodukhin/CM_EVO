@@ -38,7 +38,7 @@ public class Main
                     System.out.println(com.friendlyResultMessage());
                 }
             }
-            catch (CommandCannotBeRecognized | BadFormatCommandException |FigureOrSceneIsNotExistsException ex)
+            catch (Exception ex)
             {
                 System.out.println(ex.getMessage());
             }
@@ -73,6 +73,11 @@ public class Main
         {
             while ((line = br.readLine()) != null)
             {
+                if(line.matches("#-!.*"))
+                {
+                    break;
+                }
+
                 if(line.isEmpty() || line.trim().charAt(0) == '#')
                 {
                     continue;

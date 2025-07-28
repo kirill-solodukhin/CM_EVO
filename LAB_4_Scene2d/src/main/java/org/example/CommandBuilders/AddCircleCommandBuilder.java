@@ -15,7 +15,7 @@ public class AddCircleCommandBuilder implements CommandBuilder
     private final Pattern pattern =
             Pattern.compile("(?<name>cle\\s*\\w+\\s)|(?<center>-?\\d+\\s*,\\s*-?\\d+\\s?)|(?<radius> \\d+$)");
 
-    private boolean isCommandReady = true;
+    private boolean isCommandReady = false;
     private Figure circle;
     private String name;
     private Point center;
@@ -56,6 +56,7 @@ public class AddCircleCommandBuilder implements CommandBuilder
         }
 
         ThrowIFBadCommand(commandLine);
+        isCommandReady = true;
         circle = new CircleFigure(center, radius);
     }
 
@@ -73,7 +74,6 @@ public class AddCircleCommandBuilder implements CommandBuilder
             return;
         }
 
-        isCommandReady = false;
         throw new BadFormatCommandException("Command:" + commandLine + " have is bad format for " + AddCircleCommandBuilder.class.getName());
     }
 }

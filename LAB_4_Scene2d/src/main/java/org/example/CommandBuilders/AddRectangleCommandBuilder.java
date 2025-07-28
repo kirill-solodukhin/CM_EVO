@@ -18,7 +18,7 @@ public class AddRectangleCommandBuilder implements CommandBuilder
             Pattern.compile("(?<name>gle\\s*\\w+\\s)|(?<value>-?\\d+\\s*,\\s*-?\\d+\\s?)");
 
     private final List<Point> points = new ArrayList<>();
-    private boolean isCommandReady = true;
+    private boolean isCommandReady = false;
     private Figure rectangle;
     private String name;
 
@@ -55,6 +55,7 @@ public class AddRectangleCommandBuilder implements CommandBuilder
         }
 
         ThrowIFBadCommand(commandLine);
+        isCommandReady = true;
         rectangle = new RectangleFigure(points.get(0), points.get(1));
     }
 
@@ -72,7 +73,6 @@ public class AddRectangleCommandBuilder implements CommandBuilder
             return;
         }
 
-        isCommandReady = false;
         throw new BadFormatCommandException("Command:" + commandLine +
                 " have is bad format for " + AddRectangleCommandBuilder.class.getName());
     }

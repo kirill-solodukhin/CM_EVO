@@ -9,6 +9,7 @@ import java.util.Arrays;
 public class RectangleFigure implements Figure
 {
     private final Point[] points = new Point[4];
+    private Color color;
 
     public RectangleFigure(Point p1, Point p2)
     {
@@ -16,6 +17,16 @@ public class RectangleFigure implements Figure
         points[1] = p2;
         points[2] = new Point(p2.x, p1.y);
         points[3] = new Point(p1.x, p2.y);
+    }
+
+    private RectangleFigure(Point p1, Point p2, Color color)
+    {
+        points[0] = p1;
+        points[1] = p2;
+        points[2] = new Point(p2.x, p1.y);
+        points[3] = new Point(p1.x, p2.y);
+
+        this.color = color;
     }
 
     @Override
@@ -33,6 +44,8 @@ public class RectangleFigure implements Figure
     @Override
     public void draw(Graphics2D g2d)
     {
+        g2d.setColor(color == null ? Color.BLUE : color);
+
         g2d.drawLine(points[0].x, points[0].y, points[2].x, points[2].y); // top line
         g2d.drawLine(points[0].x, points[0].y, points[3].x, points[3].y); // left line
         g2d.drawLine(points[3].x, points[3].y, points[1].x, points[1].y); // bottom line
@@ -107,6 +120,21 @@ public class RectangleFigure implements Figure
                     )
             );
         }
+    }
+
+    @Override
+    public Figure copy()
+    {
+        return new RectangleFigure(
+                new Point(points[0].x, points[0].y),
+                new Point(points[1].x, points[1].y),
+                (color == null ? null :  new Color(color.getRGB())));
+    }
+
+    @Override
+    public void setColor(Color color)
+    {
+        this.color = color;
     }
 
     void checkOffset()

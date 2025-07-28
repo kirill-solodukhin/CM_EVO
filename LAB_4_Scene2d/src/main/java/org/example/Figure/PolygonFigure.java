@@ -4,15 +4,23 @@ import org.example.Commands.Supportive.ReflectOrientation;
 import org.example.Scene.SceneRectangle;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PolygonFigure implements Figure
 {
     private final List<Point> points;
+    private Color color;
 
     public PolygonFigure(List<Point> points)
     {
         this.points = points;
+    }
+
+    private PolygonFigure(List<Point> points, Color color)
+    {
+        this.points = points;
+        this.color = color;
     }
 
     @Override
@@ -29,6 +37,8 @@ public class PolygonFigure implements Figure
     @Override
     public void draw(Graphics2D g2d)
     {
+        g2d.setColor(color == null ? Color.BLUE : color);
+
         for (int i = 1; i < points.size(); i++)
         {
             Point previousPoint = points.get(i - 1);
@@ -115,6 +125,28 @@ public class PolygonFigure implements Figure
             );
         }
     }
+
+    @Override
+    public Figure copy()
+    {
+        List<Point> newPoints = new ArrayList<>();
+
+        for(Point point : points)
+        {
+            newPoints.add(new Point(point.x, point.y));
+        }
+
+        return new PolygonFigure(
+                newPoints,
+                color == null ? null : new Color(color.getRGB()));
+    }
+
+    @Override
+    public void setColor(Color color)
+    {
+        this.color = color;
+    }
+
 
     void checkOffset()
     {

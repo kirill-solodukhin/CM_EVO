@@ -14,13 +14,15 @@ public class CommandProducer implements CommandBuilder
     private final Map<Pattern, Supplier<CommandBuilder>> commands = new HashMap<>();
 
     {
-        commands.put(Pattern.compile(".*add rectangle.*"), AddRectangleCommandBuilder::new);
-        commands.put(Pattern.compile(".*add circle.*"), AddCircleCommandBuilder::new);
-        commands.put(Pattern.compile(".*add polygon.*"), AddPolygonCommandBuilder::new);
-        commands.put(Pattern.compile(".*move.*"), MoveCommandBuilder::new);
-        commands.put(Pattern.compile(".*rotate.*"), RotateCommandBuilder::new);
-        commands.put(Pattern.compile(".*reflect.*"), ReflectCommandBuilder::new);
+        commands.put(Pattern.compile("^add rectangle.*"), AddRectangleCommandBuilder::new);
+        commands.put(Pattern.compile("^add circle.*"), AddCircleCommandBuilder::new);
+        commands.put(Pattern.compile("^add polygon.*"), AddPolygonCommandBuilder::new);
+        commands.put(Pattern.compile("^move.*"), MoveCommandBuilder::new);
+        commands.put(Pattern.compile("^rotate.*"), RotateCommandBuilder::new);
+        commands.put(Pattern.compile("^reflect.*"), ReflectCommandBuilder::new);
         commands.put(Pattern.compile("^delete.*") , DeleteCommandBuilder::new);
+        commands.put(Pattern.compile("^copy.*"), CopyCommandBuilder::new);
+        commands.put(Pattern.compile("^set.*"), SetColorCommandBuilder::new);
     }
 
     private CommandBuilder currentBuilder;

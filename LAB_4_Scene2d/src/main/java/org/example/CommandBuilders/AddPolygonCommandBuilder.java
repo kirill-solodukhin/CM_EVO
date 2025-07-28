@@ -84,7 +84,6 @@ public class AddPolygonCommandBuilder implements CommandBuilder
             return;
         }
 
-        isCommandReady = false;
         throw new BadFormatCommandException("Command:" + command + " have is bad format for " + AddPolygonCommandBuilder.class.getName());
     }
 }

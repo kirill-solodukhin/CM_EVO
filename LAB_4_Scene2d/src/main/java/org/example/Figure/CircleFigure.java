@@ -9,11 +9,19 @@ public class CircleFigure implements Figure
 {
     private Point center;
     private final int radius;
+    private Color color;
 
     public CircleFigure(Point center, int radius)
     {
         this.center = center;
         this.radius = radius;
+    }
+
+    private CircleFigure(Point center, int radius, Color color)
+    {
+        this.center = center;
+        this.radius = radius;
+        this.color = color;
     }
 
     @Override
@@ -28,6 +36,8 @@ public class CircleFigure implements Figure
     @Override
     public void draw(Graphics2D g2d)
     {
+        g2d.setColor(color == null ? Color.BLUE : color);
+
         int d = 2 * radius;
         g2d.drawArc(center.x - radius, center.y - radius, d, d, 0, 360 );
     }
@@ -48,5 +58,19 @@ public class CircleFigure implements Figure
     @Override
     public void reflect(ReflectOrientation orientation)
     {
+    }
+
+    @Override
+    public Figure copy()
+    {
+        return new CircleFigure(
+                new Point(center.x, center.y), radius,
+                (color == null ? null :  new Color(color.getRGB())));
+    }
+
+    @Override
+    public void setColor(Color color)
+    {
+        this.color = color;
     }
 }

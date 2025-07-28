@@ -4,6 +4,7 @@ import org.example.Commands.Supportive.ReflectOrientation;
 import org.example.Exception.FigureNameAlreadyExistsException;
 import org.example.Exception.FigureOrSceneIsNotExistsException;
 import org.example.Figure.Figure;
+import org.example.Figure.RectangleFigure;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -82,6 +83,28 @@ public class Scene
         if(figures.containsKey(name))
         {
             figures.remove(name);
+            return;
+        }
+
+        throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
+    }
+
+    public void copy(String copyFigureName, String name)
+    {
+        if(figures.containsKey(copyFigureName))
+        {
+            addFigure(name, figures.get(copyFigureName).copy());
+            return;
+        }
+
+        throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
+    }
+
+    public void setColor(String name, Color color)
+    {
+        if(figures.containsKey(name))
+        {
+            figures.get(name).setColor(color);
             return;
         }
 
