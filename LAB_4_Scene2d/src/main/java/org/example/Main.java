@@ -21,7 +21,7 @@ public class Main
     public static void main(String[] args)
     {
         Scene scene = new Scene();
-        List<String> commandLines = readCommandsFromFile("TestInput/simpleCommands.txt");
+        List<String> commandLines = readCommandsFromFile("TestInput/hardInput.txt");
 
         CommandProducer commandProducer = new CommandProducer();
         for(String command : commandLines)
@@ -99,8 +99,8 @@ public class Main
 
         SceneRectangle sr = scene.CalculateSceneCircumscribingRectangle();
 
-        int width = (int) (sr.rightBottom().getX() - sr.leftTop().getX()) + 1;
-        int height = (int) (sr.rightBottom().getY() - sr.leftTop().getY()) + 1;
+        int width = (int) (sr.rightBottom().getX())  + 1;
+        int height = (int) (sr.rightBottom().getY()) + 1;
 
         // 1. Создаем изображение
         BufferedImage image = new BufferedImage(
