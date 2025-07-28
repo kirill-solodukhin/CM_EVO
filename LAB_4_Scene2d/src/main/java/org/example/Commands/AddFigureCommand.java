@@ -3,12 +3,12 @@ package org.example.Commands;
 import org.example.Figure.Figure;
 import org.example.Scene.Scene;
 
-public class addFigureCommand implements Command
+public class AddFigureCommand implements Command
 {
     private final String name;
     private final Figure figure;
 
-    public addFigureCommand(String name, Figure figure)
+    public AddFigureCommand(String name, Figure figure)
     {
         this.name = name;
         this.figure = figure;

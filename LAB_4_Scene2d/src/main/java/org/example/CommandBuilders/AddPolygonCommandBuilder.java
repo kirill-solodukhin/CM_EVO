@@ -1,9 +1,8 @@
 package org.example.CommandBuilders;
 
 import org.example.Commands.Command;
-import org.example.Commands.addFigureCommand;
+import org.example.Commands.AddFigureCommand;
 import org.example.Exception.BadFormatCommandException;
-import org.example.Exception.CommandCannotBeRecognized;
 import org.example.Figure.Figure;
 import org.example.Figure.PolygonFigure;
 
@@ -74,7 +73,7 @@ public class AddPolygonCommandBuilder implements CommandBuilder
     @Override
     public Command getCommand()
     {
-        return new addFigureCommand(name, polygon);
+        return new AddFigureCommand(name, polygon);
     }
 
     @Override

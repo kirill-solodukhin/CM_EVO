@@ -20,6 +20,7 @@ public class CommandProducer implements CommandBuilder
         commands.put(Pattern.compile(".*move.*"), MoveCommandBuilder::new);
         commands.put(Pattern.compile(".*rotate.*"), RotateCommandBuilder::new);
         commands.put(Pattern.compile(".*reflect.*"), ReflectCommandBuilder::new);
+        commands.put(Pattern.compile("^delete.*") , DeleteCommandBuilder::new);
     }
 
     private CommandBuilder currentBuilder;

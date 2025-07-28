@@ -1,6 +1,6 @@
 package org.example.CommandBuilders;
 
-import org.example.Commands.addFigureCommand;
+import org.example.Commands.AddFigureCommand;
 import org.example.Commands.Command;
 import org.example.Exception.BadFormatCommandException;
 import org.example.Figure.Figure;
@@ -61,7 +61,7 @@ public class AddRectangleCommandBuilder implements CommandBuilder
     @Override
     public Command getCommand()
     {
-        return new addFigureCommand(name, rectangle);
+        return new AddFigureCommand(name, rectangle);
     }
 
     @Override

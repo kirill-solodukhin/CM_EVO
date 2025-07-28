@@ -76,4 +76,15 @@ public class Scene
 
         throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
     }
+
+    public void delete(String name)
+    {
+        if(figures.containsKey(name))
+        {
+            figures.remove(name);
+            return;
+        }
+
+        throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
+    }
 }

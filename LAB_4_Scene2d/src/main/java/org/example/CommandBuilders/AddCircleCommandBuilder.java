@@ -1,7 +1,7 @@
 package org.example.CommandBuilders;
 
 import org.example.Commands.Command;
-import org.example.Commands.addFigureCommand;
+import org.example.Commands.AddFigureCommand;
 import org.example.Exception.BadFormatCommandException;
 import org.example.Figure.CircleFigure;
 import org.example.Figure.Figure;
@@ -62,7 +62,7 @@ public class AddCircleCommandBuilder implements CommandBuilder
     @Override
     public Command getCommand()
     {
-        return new addFigureCommand(name, circle);
+        return new AddFigureCommand(name, circle);
     }
 
     @Override
