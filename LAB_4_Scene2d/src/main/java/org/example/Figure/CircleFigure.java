@@ -46,7 +46,7 @@ public class CircleFigure implements Figure
     }
 
     @Override
-    public void reflect(ReflectOrientation orientation) {
-
+    public void reflect(ReflectOrientation orientation)
+    {
     }
 }

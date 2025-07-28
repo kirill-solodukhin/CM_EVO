@@ -2,6 +2,7 @@ package org.example.Scene;
 
 import org.example.Commands.Supportive.ReflectOrientation;
 import org.example.Exception.FigureNameAlreadyExistsException;
+import org.example.Exception.FigureOrSceneIsNotExistsException;
 import org.example.Figure.Figure;
 
 import java.awt.*;
@@ -48,7 +49,10 @@ public class Scene
         if(figures.containsKey(name))
         {
             figures.get(name).move(vector);
+            return;
         }
+
+        throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
     }
 
     public void rotate(String name, double angle)
@@ -56,7 +60,10 @@ public class Scene
         if(figures.containsKey(name))
         {
             figures.get(name).rotate(angle);
+            return;
         }
+
+        throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
     }
 
     public void reflect(String name, ReflectOrientation orientation)
@@ -64,6 +71,9 @@ public class Scene
         if(figures.containsKey(name))
         {
             figures.get(name).reflect(orientation);
+            return;
         }
+
+        throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
     }
 }

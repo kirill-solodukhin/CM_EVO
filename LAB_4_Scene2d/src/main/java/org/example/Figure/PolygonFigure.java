@@ -84,8 +84,36 @@ public class PolygonFigure implements Figure
     }
 
     @Override
-    public void reflect(ReflectOrientation orientation) {
+    public void reflect(ReflectOrientation orientation)
+    {
+        Point center = getCenter();
 
+        if(orientation == ReflectOrientation.Horizontal)
+        {
+            for(Point point : points)
+            {
+                point.setLocation(
+                        (point.x > center.x ?
+                                (point.x - 2 * (point.x - center.x)) :
+                                (point.x + 2 * (center.x - point.x))
+                        ),
+                        (point.y)
+                );
+            }
+
+            return;
+        }
+
+        for(Point point : points)
+        {
+            point.setLocation(
+                    (point.x),
+                    (point.y > center.y ?
+                            (point.y - 2 * (point.y - center.y)) :
+                            (point.y + 2 * (center.y - point.y))
+                    )
+            );
+        }
     }
 
     void checkOffset()

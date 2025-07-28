@@ -107,7 +107,6 @@ public class RectangleFigure implements Figure
                     )
             );
         }
-
     }
 
     void checkOffset()

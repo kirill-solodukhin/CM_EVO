@@ -5,6 +5,7 @@ import org.example.Commands.Command;
 import org.example.Exception.BadFormatCommandException;
 import org.example.Exception.CommandCannotBeRecognized;
 import org.example.Exception.CommandFileNotFound;
+import org.example.Exception.FigureOrSceneIsNotExistsException;
 import org.example.Figure.Figure;
 import org.example.Scene.Scene;
 import org.example.Scene.SceneRectangle;
@@ -37,7 +38,7 @@ public class Main
                     System.out.println(com.friendlyResultMessage());
                 }
             }
-            catch (CommandCannotBeRecognized | BadFormatCommandException ex)
+            catch (CommandCannotBeRecognized | BadFormatCommandException |FigureOrSceneIsNotExistsException ex)
             {
                 System.out.println(ex.getMessage());
             }
