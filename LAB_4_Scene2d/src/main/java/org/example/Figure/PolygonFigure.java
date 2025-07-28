@@ -147,7 +147,6 @@ public class PolygonFigure implements Figure
         this.color = color;
     }
 
-
     void checkOffset()
     {
         int minX = points.stream().mapToInt(p -> p.x).min().orElse(0);

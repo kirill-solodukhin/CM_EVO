@@ -6,15 +6,13 @@ import org.example.Exception.FigureOrSceneIsNotExistsException;
 import org.example.Figure.Figure;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class Scene
 {
     private final Map<String, Figure> figures = new HashMap<>();
-    private  final Map<String, List<Figure>> groups = new HashMap<>();
+    private  final Map<String, Set<Figure>> groups = new HashMap<>();
 
     public void addFigure(String name, Figure figure)
     {
@@ -26,9 +24,16 @@ public class Scene
         figures.put(name, figure);
     }
 
-    public List<Figure> ListDrawableFigure()
+    public Set<Figure> ListDrawableFigure()
     {
-        return figures.values().stream().toList();
+        Set<Figure> figureList = new HashSet<>(figures.values().stream().toList());
+
+        for(Set<Figure> el : groups.values())
+        {
+            figureList.addAll(el.stream().toList());
+        }
+
+        return figureList;
     }
 
     public SceneRectangle CalculateSceneCircumscribingRectangle()
@@ -64,6 +69,18 @@ public class Scene
             return;
         }
 
+        if(name.equals("scene"))
+        {
+            Set<Figure> figureList = ListDrawableFigure();
+
+            for (Figure figure: figureList)
+            {
+                figure.move(vector);
+            }
+
+            return;
+        }
+
         throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
     }
 
@@ -78,6 +95,18 @@ public class Scene
         if(groups.containsKey(name))
         {
             for (Figure figure: groups.get(name))
+            {
+                figure.rotate(angle);
+            }
+
+            return;
+        }
+
+        if(name.equals("scene"))
+        {
+            Set<Figure> figureList = ListDrawableFigure();
+
+            for (Figure figure: figureList)
             {
                 figure.rotate(angle);
             }
@@ -106,6 +135,18 @@ public class Scene
             return;
         }
 
+        if(name.equals("scene"))
+        {
+            Set<Figure> figureList = ListDrawableFigure();
+
+            for (Figure figure: figureList)
+            {
+                figure.reflect(orientation);
+            }
+
+            return;
+        }
+
         throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
     }
 
@@ -126,11 +167,38 @@ public class Scene
         throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
     }
 
-    public void copy(String copyFigureName, String name)
+    public void copy(String copyFromName, String name)
     {
-        if(figures.containsKey(copyFigureName))
+        if(figures.containsKey(copyFromName))
         {
-            addFigure(name, figures.get(copyFigureName).copy());
+            addFigure(name, figures.get(copyFromName).copy());
+            return;
+        }
+
+        if (groups.containsKey(copyFromName))
+        {
+            Set<Figure> figureList = new HashSet<>();
+
+            for (Figure figure : groups.get(copyFromName))
+            {
+                figureList.add(figure.copy());
+            }
+
+            groups.put(name, figureList);
+            return;
+        }
+
+        if(copyFromName.equals("scene"))
+        {
+            Set<Figure> figureList = ListDrawableFigure();
+            Set<Figure> newListFigure = new HashSet<>();
+
+            for (Figure figure: figureList)
+            {
+                newListFigure.add(figure.copy());
+            }
+
+            groups.put(name ,newListFigure);
             return;
         }
 
@@ -150,7 +218,7 @@ public class Scene
 
     public void group(List<String> figuresName, String groupName)
     {
-        List<Figure> figuresGroup = new ArrayList<>();
+        Set<Figure> figuresGroup = new HashSet<>();
 
         for(String fName : figuresName)
         {
