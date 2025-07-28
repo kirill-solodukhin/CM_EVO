@@ -4,9 +4,9 @@ import org.example.Commands.Supportive.ReflectOrientation;
 import org.example.Exception.FigureNameAlreadyExistsException;
 import org.example.Exception.FigureOrSceneIsNotExistsException;
 import org.example.Figure.Figure;
-import org.example.Figure.RectangleFigure;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +14,7 @@ import java.util.Map;
 public class Scene
 {
     private final Map<String, Figure> figures = new HashMap<>();
+    private  final Map<String, List<Figure>> groups = new HashMap<>();
 
     public void addFigure(String name, Figure figure)
     {
@@ -53,6 +54,16 @@ public class Scene
             return;
         }
 
+        if(groups.containsKey(name))
+        {
+            for (Figure figure: groups.get(name))
+            {
+                figure.move(vector);
+            }
+
+            return;
+        }
+
         throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
     }
 
@@ -61,6 +72,16 @@ public class Scene
         if(figures.containsKey(name))
         {
             figures.get(name).rotate(angle);
+            return;
+        }
+
+        if(groups.containsKey(name))
+        {
+            for (Figure figure: groups.get(name))
+            {
+                figure.rotate(angle);
+            }
+
             return;
         }
 
@@ -75,6 +96,16 @@ public class Scene
             return;
         }
 
+        if(groups.containsKey(name))
+        {
+            for (Figure figure: groups.get(name))
+            {
+                figure.reflect(orientation);
+            }
+
+            return;
+        }
+
         throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
     }
 
@@ -83,6 +114,12 @@ public class Scene
         if(figures.containsKey(name))
         {
             figures.remove(name);
+            return;
+        }
+
+        if(groups.containsKey(name))
+        {
+            groups.remove(name);
             return;
         }
 
@@ -109,5 +146,23 @@ public class Scene
         }
 
         throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
+    }
+
+    public void group(List<String> figuresName, String groupName)
+    {
+        List<Figure> figuresGroup = new ArrayList<>();
+
+        for(String fName : figuresName)
+        {
+            if(!figures.containsKey(fName))
+            {
+                groups.remove(groupName);
+                throw new FigureOrSceneIsNotExistsException("Object with name: " + fName + " is not exists");
+            }
+
+            figuresGroup.add(figures.get(fName));
+        }
+
+        groups.put(groupName, figuresGroup);
     }
 }

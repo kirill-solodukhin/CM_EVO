@@ -136,5 +136,4 @@ public class Main
         System.out.println("Изображение сохранено: " + output.getAbsolutePath());
 
     }
-
 }

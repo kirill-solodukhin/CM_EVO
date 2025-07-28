@@ -23,6 +23,7 @@ public class CommandProducer implements CommandBuilder
         commands.put(Pattern.compile("^delete.*") , DeleteCommandBuilder::new);
         commands.put(Pattern.compile("^copy.*"), CopyCommandBuilder::new);
         commands.put(Pattern.compile("^set.*"), SetColorCommandBuilder::new);
+        commands.put(Pattern.compile("^group.*"), GroupCommandBuilder::new);
     }
 
     private CommandBuilder currentBuilder;
