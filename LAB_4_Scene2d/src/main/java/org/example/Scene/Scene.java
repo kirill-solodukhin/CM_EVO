@@ -213,6 +213,28 @@ public class Scene
             return;
         }
 
+        if(groups.containsKey(name))
+        {
+            for (Figure figure : groups.get(name))
+            {
+                figure.setColor(color);
+            }
+
+            return;
+        }
+
+        if(name.equals("scene"))
+        {
+            Set<Figure> figureSet = ListDrawableFigure();
+
+            for (Figure figure : figureSet)
+            {
+                figure.setColor(color);
+            }
+
+            return;
+        }
+
         throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
     }
 
