@@ -65,6 +65,17 @@ public class CommandProducer implements CommandBuilder
         return command;
     }
 
+    @Override
+    public void ThrowIFBadCommand(String commandLine)
+    {
+        if(currentBuilder != null)
+        {
+            return;
+        }
+
+        throw new CommandCannotBeRecognized(commandLine + " command is not recognized");
+    }
+
     private void findBuilder(String commandLine)
     {
         Matcher matcher;
@@ -78,16 +89,5 @@ public class CommandProducer implements CommandBuilder
                 break;
             }
         }
-    }
-
-    @Override
-    public void ThrowIFBadCommand(String commandLine)
-    {
-        if(currentBuilder != null)
-        {
-            return;
-        }
-
-        throw new CommandCannotBeRecognized(commandLine + " command is not recognized");
     }
 }
