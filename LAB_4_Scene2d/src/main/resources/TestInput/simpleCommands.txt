@@ -1,13 +1,11 @@
-add polygon R1
- add point (25, 0)
- add point (50, 50)
- add point (0, 50)
-end polygon
-
-copy R1 to R2
-move R1 (60, 0)
-set color (20,100,100) to R1
-
+add rectangle M1 (0, 0) (500, 500)
+add rectangle M2 (140, 250) (240, 350)
+add rectangle M3 (250, 250) (350, 350)
+add rectangle M4 (360, 250) (460, 350)
+copy M4 to M5
+group M2, M3, M4 as MMM1
+move MMM1 (-110, 0)
+rotate scene 45
 
 
 #-!
@@ -23,4 +21,16 @@ move M2 (50, 50)
 reflect horizontally R1
 delete Y1
 delete M2
+delete R1
+
+
+add polygon R1
+ add point (25, 0)
+ add point (50, 50)
+ add point (0, 50)
+end polygon
+
+copy R1 to R2
+move R1 (60, 0)
+set color (20,100,100) to R2
 delete R1

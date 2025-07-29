@@ -12,7 +12,8 @@ move scene2 (300, 0)
 copy scene to scene3
 move scene3 (500, 0)
 rotate scene3 45
-
+set color (155, 155, 155) to scene3
+delete scene2
 #-!
 copy scene to scene2
 move scene2 (500, 0)
@@ -21,3 +22,5 @@ move scene3 (0, 700)
 delete R3
 rotate scene 90
 reflect horizontally scene
+
+set color (20,100,100) to R2

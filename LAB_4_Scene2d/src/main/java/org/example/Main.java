@@ -2,10 +2,7 @@ package org.example;
 
 import org.example.CommandBuilders.CommandProducer;
 import org.example.Commands.Command;
-import org.example.Exception.BadFormatCommandException;
-import org.example.Exception.CommandCannotBeRecognized;
 import org.example.Exception.CommandFileNotFound;
-import org.example.Exception.FigureOrSceneIsNotExistsException;
 import org.example.Figure.Figure;
 import org.example.Scene.Scene;
 import org.example.Scene.SceneRectangle;
