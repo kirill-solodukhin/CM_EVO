@@ -9,8 +9,7 @@ import java.util.regex.Pattern;
 
 public class CopyCommandBuilder implements CommandBuilder
 {
-    //copy {имя}|scene to {имя_копии}
-    Pattern pattern = Pattern.compile("(?<oldName>copy\\s+\\w+\\d*\\s+)|(?<newName>to.*$)");
+    Pattern pattern = Pattern.compile("copy\\s*\\w*\\d*\\s*to\\s*\\w*\\d*\\s*$");
     private boolean isCommandReady = false;
     private String oldName;
     private String newName;
@@ -25,20 +24,14 @@ public class CopyCommandBuilder implements CommandBuilder
     public void appendLine(String commandLine)
     {
         Matcher matcher = pattern.matcher(commandLine);
+        String[] findingLines;
 
-        String findingLine;
-        while (matcher.find())
+        if(matcher.matches())
         {
-            if((findingLine = matcher.group("oldName")) != null)
-            {
-                oldName = findingLine.substring(4).trim();
-                continue;
-            }
+            findingLines = matcher.group().split("to");
 
-            if((findingLine = matcher.group("newName")) != null)
-            {
-                newName = findingLine.substring(2).trim();
-            }
+            oldName = findingLines.length > 0 ? findingLines[0].trim().substring(4).trim() : null;
+            newName = findingLines.length > 1 ? findingLines[1].trim() : null;
         }
 
         ThrowIFBadCommand(commandLine);
@@ -54,12 +47,16 @@ public class CopyCommandBuilder implements CommandBuilder
     @Override
     public void ThrowIFBadCommand(String commandLine)
     {
-        if(!oldName.isEmpty() && !newName.isEmpty())
+        if(oldName == null || oldName.isEmpty())
         {
-            return;
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + CopyCommandBuilder.class.getName() +
+                    " { Problem in: name of the copied figure is missing }");
         }
 
-        throw new BadFormatCommandException("Command:" + commandLine +
-                " have is bad format for " + CopyCommandBuilder.class.getName());
+        if(newName == null || newName.isEmpty())
+        {
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + CopyCommandBuilder.class.getName() +
+                    " { Problem in: name of the new figure is missing }");
+        }
     }
 }
