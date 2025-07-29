@@ -96,6 +96,5 @@ public class AddRectangleCommandBuilder implements CommandBuilder
             throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + AddRectangleCommandBuilder.class.getName() +
                     " { Problem in: point : [" + p.x + " , " + p.y + "] x or y must be more null }");
         }
-
     }
 }
