@@ -9,8 +9,7 @@ import java.util.regex.Pattern;
 
 public class DeleteCommandBuilder implements CommandBuilder
 {
-    // delete {имя}
-    private final Pattern pattern = Pattern.compile("\\s.*$");
+    private final Pattern pattern = Pattern.compile("delete\\s+\\w+\\d*$");
     private boolean isCommandReady = false;
     private String name;
 
@@ -44,7 +43,7 @@ public class DeleteCommandBuilder implements CommandBuilder
     @Override
     public void ThrowIFBadCommand(String commandLine)
     {
-        throw new BadFormatCommandException("Command:" + commandLine +
-                " have is bad format for " +  DeleteCommandBuilder.class.getName());
+        throw new BadFormatCommandException("Command: { " + commandLine + " } have is bad format for " + DeleteCommandBuilder.class.getName() +
+            " { Problem in: input string is not look like pattern command }");
     }
 }
