@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class AddCircleCommandBuilder implements CommandBuilder
 {
     private final Pattern pattern =
-            Pattern.compile("(?<name>cle\\s*\\w+\\s)|(?<center>-?\\d+\\s*,\\s*-?\\d+\\s?)|(?<radius> \\d+$)");
+            Pattern.compile("(?<name>cle\\s*\\w+\\s)|(?<center>-?\\d+\\s*,\\s*-?\\d+\\s?)|(?<radius> -?\\d+$)");
 
     private boolean isCommandReady = false;
     private Figure circle;
@@ -38,6 +38,7 @@ public class AddCircleCommandBuilder implements CommandBuilder
             if((findingLine = matcher.group("name")) != null)
             {
                 name = findingLine.substring(3, findingLine.length() - 1).trim();
+                continue;
             }
 
             if((findingLine = matcher.group("center")) != null)
@@ -47,6 +48,8 @@ public class AddCircleCommandBuilder implements CommandBuilder
                 center = new Point(
                         Integer.parseInt(value[0].trim()),
                         Integer.parseInt(value[1].trim()));
+
+                continue;
             }
 
             if((findingLine = matcher.group("radius")) != null)
@@ -69,11 +72,28 @@ public class AddCircleCommandBuilder implements CommandBuilder
     @Override
     public void ThrowIFBadCommand(String commandLine)
     {
-        if(!name.isEmpty() && center != null && radius > 0)
+        if(name == null)
         {
-            return;
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + AddCircleCommandBuilder.class.getName() +
+                    " { Problem in: name is empty }");
         }
 
-        throw new BadFormatCommandException("Command:" + commandLine + " have is bad format for " + AddCircleCommandBuilder.class.getName());
+        if(center == null)
+        {
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + AddCircleCommandBuilder.class.getName() +
+                    " { Problem in: center point does not exist }");
+        }
+
+        if(center.x <= radius || center.y <= radius)
+        {
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + AddCircleCommandBuilder.class.getName() +
+                    " { Problem in: center point cannot be closer to zero than the radius }");
+        }
+
+        if(radius <= 0)
+        {
+            throw new BadFormatCommandException("Command: { " + commandLine + " } have is bad format for " + AddCircleCommandBuilder.class.getName() +
+                    " { Problem in: radius must be more than null }");
+        }
     }
 }
