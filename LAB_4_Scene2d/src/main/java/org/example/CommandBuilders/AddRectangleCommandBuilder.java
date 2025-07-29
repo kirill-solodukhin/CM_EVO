@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class AddRectangleCommandBuilder implements CommandBuilder
 {
     private final Pattern pattern =
-            Pattern.compile("(?<name>gle\\s*\\w+\\s)|(?<value>-?\\d+\\s*,\\s*-?\\d+\\s?)");
+            Pattern.compile("(?<name>gle\\s*\\w+\\d*\\s*)|(?<value>-?\\d+\\s*,\\s*-?\\d+\\s?)");
 
     private final List<Point> points = new ArrayList<>();
     private boolean isCommandReady = false;
@@ -49,7 +49,7 @@ public class AddRectangleCommandBuilder implements CommandBuilder
 
             if((findingLine = matcher.group("name")) != null)
             {
-                findingLine = findingLine.substring(3, findingLine.length() - 1).trim();
+                findingLine = findingLine.substring(3).trim();
                 name = findingLine;
             }
         }
@@ -68,12 +68,34 @@ public class AddRectangleCommandBuilder implements CommandBuilder
     @Override
     public void ThrowIFBadCommand(String commandLine)
     {
-        if(!name.isEmpty() && !points.isEmpty())
+        if(name == null)
         {
-            return;
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + AddRectangleCommandBuilder.class.getName() +
+                    " { Problem in: name is empty }");
         }
 
-        throw new BadFormatCommandException("Command:" + commandLine +
-                " have is bad format for " + AddRectangleCommandBuilder.class.getName());
+        if(points.isEmpty())
+        {
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + AddRectangleCommandBuilder.class.getName() +
+                    " { Problem in: points is empty }");
+        }
+
+        if(points.size() < 2)
+        {
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + AddRectangleCommandBuilder.class.getName() +
+                    " { Problem in: missing right bottom point }");
+        }
+
+        for(Point p : points)
+        {
+            if(p.x >= 0 && p.y >= 0)
+            {
+                continue;
+            }
+
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + AddRectangleCommandBuilder.class.getName() +
+                    " { Problem in: point : [" + p.x + " , " + p.y + "] x or y must be more null }");
+        }
+
     }
 }
