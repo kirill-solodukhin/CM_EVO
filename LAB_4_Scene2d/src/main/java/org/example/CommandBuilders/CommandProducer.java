@@ -1,6 +1,7 @@
 package org.example.CommandBuilders;
 
 import org.example.Commands.Command;
+import org.example.Exception.BadFormatCommandException;
 import org.example.Exception.CommandCannotBeRecognized;
 
 import java.util.HashMap;
@@ -48,7 +49,15 @@ public class CommandProducer implements CommandBuilder
            ThrowIFBadCommand(commandLine);
         }
 
-        currentBuilder.appendLine(commandLine);
+        try
+        {
+            currentBuilder.appendLine(commandLine);
+        }
+        catch (BadFormatCommandException ex)
+        {
+            currentBuilder = null;
+            throw ex;
+        }
     }
 
     @Override

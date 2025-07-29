@@ -57,7 +57,6 @@ public class AddRectangleCommandBuilderTest
                 " { Problem in: point : [" + -110 + " , " + 250 + "] x or y must be more null }");
     }
 
-
     @Test
     public void isCommandReady_calledBeforeAppendLine_shouldReturnFalse()
     {

@@ -17,11 +17,11 @@ public class AddPolygonCommandBuilder implements CommandBuilder
     private final Pattern pattern =
             Pattern.compile("(?<name>polygon\\s+.*$)|(?<value>-?\\d+\\s*,\\s*-?\\d+\\s?)|(?<end>end polygon)");
 
-    StringBuilder allCommand = new StringBuilder();
+    private final StringBuilder allCommand = new StringBuilder();
+    private final List<Point> points = new ArrayList<>();
     private boolean isCommandReady = false;
-    List<Point> points = new ArrayList<>();
-    Figure polygon;
-    String name;
+    private Figure polygon;
+    private String name;
 
     @Override
     public boolean isCommandReady()
@@ -37,13 +37,14 @@ public class AddPolygonCommandBuilder implements CommandBuilder
 
         if(!matcher.find())
         {
-            throw new BadFormatCommandException("Command:" + commandLine + " have is bad format for " + AddPolygonCommandBuilder.class.getName());
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + AddPolygonCommandBuilder.class.getName() +
+                    " { an unknown error }");
         }
 
         if((findingLine = matcher.group("name")) != null)
         {
             name = findingLine.substring(7).trim();
-            allCommand.append(findingLine);
+            allCommand.append(commandLine).append('\n');
             return;
         }
 
@@ -56,14 +57,14 @@ public class AddPolygonCommandBuilder implements CommandBuilder
                     Integer.parseInt(value[1].trim())
             ));
 
-            allCommand.append(findingLine);
+            allCommand.append(commandLine).append('\n');
             return;
         }
 
         if((findingLine = matcher.group("end")) != null)
         {
             isCommandReady = true;
-            allCommand.append(findingLine);
+            allCommand.append(commandLine);
         }
 
         ThrowIFBadCommand(allCommand.toString());
@@ -79,11 +80,21 @@ public class AddPolygonCommandBuilder implements CommandBuilder
     @Override
     public void ThrowIFBadCommand(String command)
     {
-        if(!name.isEmpty() && !points.isEmpty())
+        if(points.size() <= 2)
         {
-            return;
+            throw new BadFormatCommandException("Command: { " + command + " } has the wrong format in the " + AddPolygonCommandBuilder.class.getName() +
+                    " { Problem in: points array size should be more 2 }");
         }
 
-        throw new BadFormatCommandException("Command:" + command + " have is bad format for " + AddPolygonCommandBuilder.class.getName());
+        for(Point p : points)
+        {
+            if(p.x >= 0 && p.y >= 0)
+            {
+                continue;
+            }
+
+            throw new BadFormatCommandException("Command: { " + command + " } has the wrong format in the " + AddPolygonCommandBuilder.class.getName() +
+                    " { Problem in: point : [" + p.x + " , " + p.y + "] x or y must be more null }");
+        }
     }
 }
