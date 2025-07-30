@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class ReflectCommandBuilder implements CommandBuilder
 {
     private final Pattern pattern =
-            Pattern.compile("(?<orientation>vertically|horizontally)|(?<name>\\s\\w+\\d?\\s*$)");
+            Pattern.compile("(?<orientation>reflect\\s+(vertically|horizontally))|(?<name>\\s\\w+\\d?\\s*$)");
 
     private boolean isCommandReady = false;
     private ReflectOrientation orientation;
@@ -34,7 +34,7 @@ public class ReflectCommandBuilder implements CommandBuilder
         {
             if((findingLine = matcher.group("orientation")) != null)
             {
-                orientation = Objects.equals(findingLine, "vertically") ?
+                orientation = Objects.equals(findingLine.substring(7).trim(), "vertically") ?
                         ReflectOrientation.Vertical : ReflectOrientation.Horizontal;
 
                 continue;
@@ -59,12 +59,16 @@ public class ReflectCommandBuilder implements CommandBuilder
     @Override
     public void ThrowIFBadCommand(String commandLine)
     {
-        if(orientation != null && !name.isEmpty())
+        if(orientation == null)
         {
-            return;
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + ReflectCommandBuilder.class.getName() +
+                    " { Problem in: Orientation for reflect not be found }");
         }
 
-        throw new BadFormatCommandException("Command:" + commandLine +
-                " have is bad format for " +  ReflectCommandBuilder.class.getName());
+        if(name == null || name.isEmpty())
+        {
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + ReflectCommandBuilder.class.getName() +
+                    " { Problem in: figure name is empty }");
+        }
     }
 }
