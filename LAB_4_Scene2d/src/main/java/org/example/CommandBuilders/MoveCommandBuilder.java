@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class MoveCommandBuilder implements CommandBuilder
 {
     private final Pattern pattern =
-            Pattern.compile("(?<name>move\\s\\w+\\d?\\s+)|(?<value>-?\\d+\\s*,\\s*-?\\d+\\s?)");
+            Pattern.compile("(?<name>move\\s\\w+\\d*\\s*)|(?<value>-?\\d+\\s*,\\s*-?\\d+\\s?)");
 
     private boolean isCommandReady = false;
     private String name;
@@ -48,6 +48,7 @@ public class MoveCommandBuilder implements CommandBuilder
         }
 
         ThrowIFBadCommand(commandLine);
+        isCommandReady = true;
     }
 
     @Override
@@ -59,14 +60,16 @@ public class MoveCommandBuilder implements CommandBuilder
     @Override
     public void ThrowIFBadCommand(String commandLine)
     {
-        if(!name.isEmpty() && vector != null)
+        if(name == null || name.isEmpty())
         {
-            isCommandReady = true;
-            return;
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + MoveCommandBuilder.class.getName() +
+                    " { Problem in: figure name is empty }");
         }
 
-        isCommandReady = false;
-        throw new BadFormatCommandException("Command:" + commandLine +
-                " have is bad format for " +  MoveCommandBuilder.class.getName());
+        if(vector == null)
+        {
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + MoveCommandBuilder.class.getName() +
+                    " { Problem in: moving vector is empty }");
+        }
     }
 }
