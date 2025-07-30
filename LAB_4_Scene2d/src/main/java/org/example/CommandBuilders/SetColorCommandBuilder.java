@@ -2,6 +2,7 @@ package org.example.CommandBuilders;
 
 import org.example.Commands.Command;
 import org.example.Commands.SetColorCommand;
+import org.example.Exception.BadColorException;
 import org.example.Exception.BadFormatCommandException;
 
 import java.awt.*;
@@ -10,10 +11,9 @@ import java.util.regex.Pattern;
 
 public class SetColorCommandBuilder implements CommandBuilder
 {
-    // set color {(red, green, blue) | color name} to {имя фигуры}|scene
     private final Pattern pattern = Pattern.compile(
             "(?<color>\\(\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*\\d+\\s*\\))" +
-                    "|(?<name>to\\s+\\w+\\d*$)");
+                    "|(?<name>to\\s+\\w+$)");
 
     private boolean isCommandReady = false;
     private String name;
@@ -35,13 +35,7 @@ public class SetColorCommandBuilder implements CommandBuilder
         {
             if((findingLine = matcher.group("color")) != null)
             {
-                String[] values = findingLine.split(",");
-
-                color = new Color(
-                        Integer.parseInt(values[0].substring(1).trim()),
-                        Integer.parseInt(values[1].trim()),
-                        Integer.parseInt(values[2].substring(0, values[2].length() - 1) .trim())
-                );
+                color = parseColor(findingLine);
                 continue;
             }
 
@@ -64,12 +58,44 @@ public class SetColorCommandBuilder implements CommandBuilder
     @Override
     public void ThrowIFBadCommand(String commandLine)
     {
-        if(color != null && !name.isEmpty())
+        if(color == null)
         {
-            return;
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " +SetColorCommandBuilder.class.getName() +
+                    " { Problem in: New figure color is empty }");
         }
 
-        throw new BadFormatCommandException("Command:" + commandLine +
-                " have is bad format for " + SetColorCommandBuilder.class.getName());
+        if(name == null || name.isEmpty())
+        {
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " +SetColorCommandBuilder.class.getName() +
+                " { Problem in: Figure name is empty }");
+        }
+    }
+
+    private Color parseColor(String findingLine)
+    {
+        String[] values = findingLine.split(",");
+
+        int red = Integer.parseInt(values[0].substring(1).trim());
+        if(red > 255)
+        {
+            throw new BadColorException("Error in " + SetColorCommandBuilder.class.getName() +
+                    " { Problem with color: colors value can not has value more 255, but your red color have: " + red + " }");
+        }
+
+        int green = Integer.parseInt(values[1].trim());
+        if(green > 255)
+        {
+            throw new BadColorException("Error in " + SetColorCommandBuilder.class.getName() +
+                    " { Problem with color: colors value can not has value more 255, but your green color have: " + green + " }");
+        }
+
+        int blue = Integer.parseInt(values[2].substring(0, values[2].length() - 1) .trim());
+        if(blue > 255)
+        {
+            throw new BadColorException("Error in " + SetColorCommandBuilder.class.getName() +
+                    " { Problem with color: colors value can not has value more 255, but your blue color have: " + blue + " }");
+        }
+
+        return new Color(red, green, blue);
     }
 }
