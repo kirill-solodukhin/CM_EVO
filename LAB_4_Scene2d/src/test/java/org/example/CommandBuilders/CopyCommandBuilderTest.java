@@ -19,11 +19,12 @@ public class CopyCommandBuilderTest
         CopyCommandBuilder builder = new CopyCommandBuilder();
 
         String commandLine = "copy  to scene2";
-        Exception ex = Assertions.assertThrows(BadFormatCommandException.class,
+        Exception exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(ex.getMessage(), "Command: { " + commandLine + " } has the wrong format in the " + CopyCommandBuilder.class.getName() +
-                " { Problem in: name of the copied figure is missing }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + CopyCommandBuilder.class.getName() +
+                " { Problem in: name of the copied figure is missing }",
+                exception.getMessage());
     }
 
     @Test
@@ -32,11 +33,12 @@ public class CopyCommandBuilderTest
         CopyCommandBuilder builder = new CopyCommandBuilder();
 
         String commandLine = "copy scene to";
-        Exception ex = Assertions.assertThrows(BadFormatCommandException.class,
+        Exception exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(ex.getMessage(), "Command: { " + commandLine + " } has the wrong format in the " + CopyCommandBuilder.class.getName() +
-                " { Problem in: name of the new figure is missing }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + CopyCommandBuilder.class.getName() +
+                " { Problem in: name of the new figure is missing }",
+                exception.getMessage());
     }
 
     @Test

@@ -42,8 +42,9 @@ public class AddPolygonCommandBuilderTest
         BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(exception.getMessage(),"Command: { " + commandLine + " } has the wrong format in the " + AddPolygonCommandBuilder.class.getName() +
-                " { an unknown error }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + AddPolygonCommandBuilder.class.getName() +
+                " { an unknown error }",
+                exception.getMessage());
     }
 
     @Test
@@ -55,8 +56,9 @@ public class AddPolygonCommandBuilderTest
         BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(exception.getMessage(),"Command: { " + commandLine + " } has the wrong format in the " + AddPolygonCommandBuilder.class.getName() +
-                " { an unknown error }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + AddPolygonCommandBuilder.class.getName() +
+                " { an unknown error }",
+                exception.getMessage());
     }
 
     @Test
@@ -72,8 +74,9 @@ public class AddPolygonCommandBuilderTest
         BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine("end polygon"));
 
-        Assertions.assertEquals(exception.getMessage(),"Command: { " + commandLine + " } has the wrong format in the " + AddPolygonCommandBuilder.class.getName() +
-                " { Problem in: points array size should be more 2 }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + AddPolygonCommandBuilder.class.getName() +
+                " { Problem in: points array size should be more 2 }",
+                exception.getMessage());
     }
 
     @Test

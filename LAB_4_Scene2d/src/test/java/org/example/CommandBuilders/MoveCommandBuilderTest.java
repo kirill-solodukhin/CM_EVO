@@ -21,11 +21,12 @@ public class MoveCommandBuilderTest
         MoveCommandBuilder builder = new MoveCommandBuilder();
         String commandLine = "move  (50, 50)";
 
-        BadFormatCommandException ex = Assertions.assertThrows(BadFormatCommandException.class,
+        BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 ()-> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(ex.getMessage(), "Command: { " + commandLine + " } has the wrong format in the " + MoveCommandBuilder.class.getName() +
-                " { Problem in: figure name is empty }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + MoveCommandBuilder.class.getName() +
+                " { Problem in: figure name is empty }",
+                exception.getMessage());
     }
 
     @Test
@@ -34,11 +35,12 @@ public class MoveCommandBuilderTest
         MoveCommandBuilder builder = new MoveCommandBuilder();
         String commandLine = "move A1";
 
-        BadFormatCommandException ex = Assertions.assertThrows(BadFormatCommandException.class,
+        BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 ()-> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(ex.getMessage(), "Command: { " + commandLine + " } has the wrong format in the " + MoveCommandBuilder.class.getName() +
-                " { Problem in: moving vector is empty }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + MoveCommandBuilder.class.getName() +
+                " { Problem in: moving vector is empty }",
+                exception.getMessage());
     }
 
     @Test

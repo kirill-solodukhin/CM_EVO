@@ -27,8 +27,9 @@ public class AddCircleCommandBuilderTest
         BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(exception.getMessage(),"Command: { " + commandLine + " } has the wrong format in the " + AddCircleCommandBuilder.class.getName() +
-                " { Problem in: name is empty }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + AddCircleCommandBuilder.class.getName() +
+                " { Problem in: name is empty }",
+                exception.getMessage());
     }
 
     @Test
@@ -40,8 +41,9 @@ public class AddCircleCommandBuilderTest
         BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(exception.getMessage(),"Command: { " + commandLine + " } has the wrong format in the " + AddCircleCommandBuilder.class.getName() +
-                " { Problem in: center point does not exist }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + AddCircleCommandBuilder.class.getName() +
+                " { Problem in: center point does not exist }",
+                exception.getMessage());
     }
 
     @Test
@@ -53,8 +55,9 @@ public class AddCircleCommandBuilderTest
         BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(exception.getMessage(), "Command: { " + commandLine + " } has the wrong format in the " + AddCircleCommandBuilder.class.getName() +
-                " { Problem in: center point cannot be closer to zero than the radius }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + AddCircleCommandBuilder.class.getName() +
+                " { Problem in: center point cannot be closer to zero than the radius }",
+                exception.getMessage());
     }
 
     @Test
@@ -66,8 +69,9 @@ public class AddCircleCommandBuilderTest
         BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(exception.getMessage(), "Command: { " + commandLine + " } has the wrong format in the " + AddCircleCommandBuilder.class.getName() +
-                " { Problem in: center point cannot be closer to zero than the radius }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + AddCircleCommandBuilder.class.getName() +
+                " { Problem in: center point cannot be closer to zero than the radius }",
+                exception.getMessage());
     }
 
     @Test
@@ -79,8 +83,9 @@ public class AddCircleCommandBuilderTest
         BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(exception.getMessage(),  "Command: { " + commandLine + " } have is bad format for " + AddCircleCommandBuilder.class.getName() +
-                " { Problem in: radius must be more than null }");
+        Assertions.assertEquals("Command: { " + commandLine + " } have is bad format for " + AddCircleCommandBuilder.class.getName() +
+                " { Problem in: radius must be more than null }",
+                exception.getMessage());
     }
 
     @Test

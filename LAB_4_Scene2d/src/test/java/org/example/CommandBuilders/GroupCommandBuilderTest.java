@@ -21,11 +21,12 @@ public class GroupCommandBuilderTest
             GroupCommandBuilder builder = new GroupCommandBuilder();
             String commandLine = "group as AAA";
 
-            BadFormatCommandException ex = Assertions.assertThrows(BadFormatCommandException.class,
+            BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                     ()-> builder.appendLine(commandLine));
 
-            Assertions.assertEquals(ex.getMessage(), "Command: { " + commandLine + " } has the wrong format in the " + GroupCommandBuilder.class.getName() +
-                    " { Problem in: figures count should be more 1 }");
+            Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + GroupCommandBuilder.class.getName() +
+                    " { Problem in: figures count should be more 1 }",
+                    exception.getMessage());
         }
 
         @Test
@@ -34,11 +35,12 @@ public class GroupCommandBuilderTest
             GroupCommandBuilder builder = new GroupCommandBuilder();
             String commandLine = "group A, A1, A2 as";
 
-            BadFormatCommandException ex = Assertions.assertThrows(BadFormatCommandException.class,
+            BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                     ()-> builder.appendLine(commandLine));
 
-            Assertions.assertEquals(ex.getMessage(), "Command: { " + commandLine + " } has the wrong format in the " + GroupCommandBuilder.class.getName() +
-                    " { Problem in: group name not be found }");
+            Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + GroupCommandBuilder.class.getName() +
+                    " { Problem in: group name not be found }",
+                    exception.getMessage());
         }
 
 

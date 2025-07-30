@@ -27,8 +27,9 @@ public class AddRectangleCommandBuilderTest
         BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(exception.getMessage(),"Command: { " + commandLine + " } has the wrong format in the " + AddRectangleCommandBuilder.class.getName() +
-                " { Problem in: name is empty }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + AddRectangleCommandBuilder.class.getName() +
+                " { Problem in: name is empty }",
+                exception.getMessage());
     }
 
     @Test
@@ -40,8 +41,9 @@ public class AddRectangleCommandBuilderTest
         BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(exception.getMessage(),"Command: { " + commandLine + " } has the wrong format in the " + AddRectangleCommandBuilder.class.getName() +
-                " { Problem in: points is empty }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + AddRectangleCommandBuilder.class.getName() +
+                " { Problem in: points is empty }",
+                exception.getMessage());
     }
 
     @Test
@@ -53,8 +55,9 @@ public class AddRectangleCommandBuilderTest
         BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 () -> builder.appendLine(commandLine));
 
-        Assertions.assertEquals(exception.getMessage(), "Command: { " + commandLine + " } has the wrong format in the " + AddRectangleCommandBuilder.class.getName() +
-                " { Problem in: point : [" + -110 + " , " + 250 + "] x or y must be more null }");
+        Assertions.assertEquals("Command: { " + commandLine + " } has the wrong format in the " + AddRectangleCommandBuilder.class.getName() +
+                " { Problem in: point : [" + -110 + " , " + 250 + "] x or y must be more null }",
+                exception.getMessage());
     }
 
     @Test

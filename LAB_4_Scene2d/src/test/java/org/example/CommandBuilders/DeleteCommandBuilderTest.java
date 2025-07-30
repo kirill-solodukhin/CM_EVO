@@ -17,11 +17,12 @@ public class DeleteCommandBuilderTest
     public void appendLine_inputInCorrectLine_shouldThrowException()
     {
         DeleteCommandBuilder builder = new DeleteCommandBuilder();
-        BadFormatCommandException ex = Assertions.assertThrows(BadFormatCommandException.class,
+        BadFormatCommandException exception = Assertions.assertThrows(BadFormatCommandException.class,
                 ()-> builder.appendLine("bad line"));
         
-        Assertions.assertEquals(ex.getMessage(), "Command: { bad line } have is bad format for " + DeleteCommandBuilder.class.getName() +
-                " { Problem in: input string is not look like pattern command }");
+        Assertions.assertEquals("Command: { bad line } have is bad format for " + DeleteCommandBuilder.class.getName() +
+                " { Problem in: input string is not look like pattern command }",
+                exception.getMessage());
     }
 
     @Test
