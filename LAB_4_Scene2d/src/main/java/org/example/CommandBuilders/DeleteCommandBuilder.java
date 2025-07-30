@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class DeleteCommandBuilder implements CommandBuilder
 {
-    private final Pattern pattern = Pattern.compile("delete\\s+\\w+$");
+    private final Pattern pattern = Pattern.compile("\\s+\\w+$");
     private boolean isCommandReady = false;
     private String name;
 
