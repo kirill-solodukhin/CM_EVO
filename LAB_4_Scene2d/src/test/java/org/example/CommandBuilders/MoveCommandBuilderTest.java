@@ -41,7 +41,6 @@ public class MoveCommandBuilderTest
                 " { Problem in: moving vector is empty }");
     }
 
-
     @Test
     public void isCommandReady_calledBeforeAppendLine_shouldReturnFalse()
     {
