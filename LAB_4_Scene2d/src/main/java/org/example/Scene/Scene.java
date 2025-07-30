@@ -18,13 +18,13 @@ public class Scene
     {
         if(figures.containsKey(name))
         {
-            throw new FigureNameAlreadyExistsException("A figure with that name has already been added to the scene.");
+            throw new FigureNameAlreadyExistsException("A figure with name: " + name + " has already been added to the scene");
         }
 
         figures.put(name, figure);
     }
 
-    public Set<Figure> ListDrawableFigure()
+    public Set<Figure> listDrawableFigure()
     {
         Set<Figure> figureList = new HashSet<>(figures.values().stream().toList());
 
@@ -36,9 +36,9 @@ public class Scene
         return figureList;
     }
 
-    public SceneRectangle CalculateSceneCircumscribingRectangle()
+    public SceneRectangle calculateSceneCircumscribingRectangle()
     {
-        List<SceneRectangle> allSceneRect = ListDrawableFigure().stream().map(Figure::CalculateCircumscribingRectangle).toList();
+        List<SceneRectangle> allSceneRect = listDrawableFigure().stream().map(Figure::CalculateCircumscribingRectangle).toList();
 
         int minX = allSceneRect.stream().mapToInt(el -> (int) el.leftTop().getX()).min().orElse(0);
         int maxX = allSceneRect.stream().mapToInt(el -> (int) el.rightBottom().getX()).max().orElse(0);
@@ -71,7 +71,7 @@ public class Scene
 
         if(name.equals("scene"))
         {
-            Set<Figure> figureList = ListDrawableFigure();
+            Set<Figure> figureList = listDrawableFigure();
 
             for (Figure figure: figureList)
             {
@@ -104,7 +104,7 @@ public class Scene
 
         if(name.equals("scene"))
         {
-            Set<Figure> figureList = ListDrawableFigure();
+            Set<Figure> figureList = listDrawableFigure();
 
             for (Figure figure: figureList)
             {
@@ -137,7 +137,7 @@ public class Scene
 
         if(name.equals("scene"))
         {
-            Set<Figure> figureList = ListDrawableFigure();
+            Set<Figure> figureList = listDrawableFigure();
 
             for (Figure figure: figureList)
             {
@@ -190,7 +190,7 @@ public class Scene
 
         if(copyFromName.equals("scene"))
         {
-            Set<Figure> figureList = ListDrawableFigure();
+            Set<Figure> figureList = listDrawableFigure();
             Set<Figure> newListFigure = new HashSet<>();
 
             for (Figure figure: figureList)
@@ -202,7 +202,7 @@ public class Scene
             return;
         }
 
-        throw new FigureOrSceneIsNotExistsException("Object with name: " + name + " is not exists");
+        throw new FigureOrSceneIsNotExistsException("Object with name: " + copyFromName + " is not exists");
     }
 
     public void setColor(String name, Color color)
@@ -225,7 +225,7 @@ public class Scene
 
         if(name.equals("scene"))
         {
-            Set<Figure> figureSet = ListDrawableFigure();
+            Set<Figure> figureSet = listDrawableFigure();
 
             for (Figure figure : figureSet)
             {
