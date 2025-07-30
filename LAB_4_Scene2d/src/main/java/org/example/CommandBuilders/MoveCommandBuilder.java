@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class MoveCommandBuilder implements CommandBuilder
 {
     private final Pattern pattern =
-            Pattern.compile("(?<name>move\\s\\w+\\d*\\s*)|(?<value>-?\\d+\\s*,\\s*-?\\d+\\s?)");
+            Pattern.compile("(?<name>move\\s\\w+\\s*)|(?<value>-?\\d+\\s*,\\s*-?\\d+\\s?)");
 
     private boolean isCommandReady = false;
     private String name;

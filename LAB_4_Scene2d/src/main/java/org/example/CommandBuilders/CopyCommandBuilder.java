@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class CopyCommandBuilder implements CommandBuilder
 {
-    Pattern pattern = Pattern.compile("copy\\s*\\w*\\d*\\s*to\\s*\\w*\\d*\\s*$");
+    Pattern pattern = Pattern.compile("copy\\s*\\w*\\s*to\\s*\\w*\\s*$");
     private boolean isCommandReady = false;
     private String oldName;
     private String newName;

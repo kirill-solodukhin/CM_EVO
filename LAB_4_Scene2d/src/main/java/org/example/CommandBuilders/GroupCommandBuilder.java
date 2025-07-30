@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class GroupCommandBuilder implements CommandBuilder
 {
     //group {имя1}, … {имяN} as {имя группы}
-    private final Pattern pattern = Pattern.compile("(?<name>group.*\\s+as)|(?<groupName>\\s+\\w+\\d*$)");
+    private final Pattern pattern = Pattern.compile("(?<name>group.*\\s+as)|(?<groupName>\\s+\\w+$)");
     private final List<String> figuresNames = new ArrayList<>();
     private String groupName;
     private boolean isCommandReady = false;

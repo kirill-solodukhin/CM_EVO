@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class ReflectCommandBuilder implements CommandBuilder
 {
     private final Pattern pattern =
-            Pattern.compile("(?<orientation>reflect\\s+(vertically|horizontally))|(?<name>\\s\\w+\\d?\\s*$)");
+            Pattern.compile("(?<orientation>reflect\\s+(vertically|horizontally))|(?<name>\\s\\w+\\s*$)");
 
     private boolean isCommandReady = false;
     private ReflectOrientation orientation;

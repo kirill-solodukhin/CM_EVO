@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class AddRectangleCommandBuilder implements CommandBuilder
 {
     private final Pattern pattern =
-            Pattern.compile("(?<name>gle\\s*\\w+\\d*\\s*)|(?<value>-?\\d+\\s*,\\s*-?\\d+\\s?)");
+            Pattern.compile("(?<name>gle\\s*\\w+\\s*)|(?<value>-?\\d+\\s*,\\s*-?\\d+\\s?)");
 
     private final List<Point> points = new ArrayList<>();
     private boolean isCommandReady = false;
