@@ -10,11 +10,11 @@ import java.util.regex.Pattern;
 public class RotateCommandBuilder implements CommandBuilder
 {
     private final Pattern pattern =
-            Pattern.compile("(?<name>rotate\\s\\w+\\d?\\s+)|(?<value>-?\\d+$)");
+            Pattern.compile("(?<name>rotate\\s+[a-zA-Z]+\\d*\\s*)|(?<value>-?\\d+$)");
 
     private boolean isCommandReady = false;
     private String name;
-    private int angle;
+    private Integer angle;
 
     @Override
     public boolean isCommandReady()
@@ -54,12 +54,17 @@ public class RotateCommandBuilder implements CommandBuilder
     @Override
     public void ThrowIFBadCommand(String commandLine)
     {
-        if(!name.isEmpty())
+        if(name == null || name.isEmpty())
         {
-            return;
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + RotateCommandBuilder.class.getName() +
+                    " { Problem in: Figure name is empty }");
         }
 
-        throw new BadFormatCommandException("Command:" + commandLine +
-                " have is bad format for " +  RotateCommandBuilder.class.getName());
+        if(angle == null)
+        {
+
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + RotateCommandBuilder.class.getName() +
+                    " { Problem in: Rotation angle is empty }");
+        }
     }
 }
