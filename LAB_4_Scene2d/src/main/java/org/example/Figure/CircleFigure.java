@@ -47,7 +47,7 @@ public class CircleFigure implements Figure
     {
         center = new Point(
                 (int) (center.getX() + vector.getX()),
-                (int) (center.getX() + vector.getY()));
+                (int) (center.getY() + vector.getY()));
     }
 
     @Override
