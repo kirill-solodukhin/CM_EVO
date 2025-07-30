@@ -64,12 +64,17 @@ public class GroupCommandBuilder implements CommandBuilder
     @Override
     public void ThrowIFBadCommand(String commandLine)
     {
-        if(figuresNames.size() > 1 && !groupName.isEmpty())
+        if(groupName == null || groupName.isEmpty())
         {
-            return;
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + GroupCommandBuilder.class.getName() +
+                    " { Problem in: group name not be found }");
         }
 
-        throw new BadFormatCommandException("Command:" + commandLine +
-                " have is bad format for " + GroupCommandBuilder.class.getName());
+        if(figuresNames.size() < 2)
+        {
+            throw new BadFormatCommandException("Command: { " + commandLine + " } has the wrong format in the " + GroupCommandBuilder.class.getName() +
+                    " { Problem in: figures count should be more 1 }");
+        }
+
     }
 }
