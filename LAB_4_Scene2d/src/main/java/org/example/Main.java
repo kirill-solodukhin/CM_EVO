@@ -94,7 +94,7 @@ public class Main
     {
         final String fileName = "LAB_4_Scene2d/output/shapes.png";
 
-        SceneRectangle sr = scene.CalculateSceneCircumscribingRectangle();
+        SceneRectangle sr = scene.calculateSceneCircumscribingRectangle();
 
         int width = (int) (sr.rightBottom().getX())  + 1;
         int height = (int) (sr.rightBottom().getY()) + 1;
@@ -118,7 +118,7 @@ public class Main
         g2d.setStroke(new BasicStroke()); // Толщина линии
 
         // Отрисовка
-        for (Figure f : scene.ListDrawableFigure())
+        for (Figure f : scene.listDrawableFigure())
         {
             f.draw(g2d);
         }

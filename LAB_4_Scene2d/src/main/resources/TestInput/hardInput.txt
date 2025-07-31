@@ -1,3 +1,31 @@
+add circle BASE (200,200) radius 199
+add circle Y1 (130,150) radius 20
+add circle Y2 (270,150) radius 20
+add rectangle M1 (110, 250) (290, 280)
+add polygon HY1
+ add point (200, 190)
+ add point (190, 210)
+ add point (210, 210)
+end polygon
+
+copy scene to face
+move face (420, 0)
+
+copy scene to scene2
+move scene2 (0, 420)
+
+delete face
+
+group BASE, Y1, Y2, M1, HY1 as firstFace
+rotate firstFace 45
+
+reflect horizontally firstFace
+
+set color (255, 0, 0) to firstFace
+
+
+#-!
+
 add polygon R1
  add point (0, 500)
  add point (100, 100)
@@ -14,7 +42,10 @@ move scene3 (500, 0)
 rotate scene3 45
 set color (155, 155, 155) to scene3
 delete scene2
-#-!
+add circle Y1 (130,150) radius 20
+
+
+
 copy scene to scene2
 move scene2 (500, 0)
 copy scene to scene3
