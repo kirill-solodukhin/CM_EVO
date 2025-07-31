@@ -1,7 +1,7 @@
 package org.example.CommandBuilders;
 
 import org.example.Commands.AddFigureCommand;
-import org.example.Exception.CommandCannotBeRecognized;
+import org.example.Exceptions.CommandCannotBeRecognized;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,7 @@
 package org.example.CommandBuilders;
 
-import org.example.Exception.BadColorException;
-import org.example.Exception.BadFormatCommandException;
+import org.example.Exceptions.BadColorException;
+import org.example.Exceptions.BadFormatCommandException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

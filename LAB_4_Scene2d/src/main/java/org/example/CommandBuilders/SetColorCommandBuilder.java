@@ -2,8 +2,8 @@ package org.example.CommandBuilders;
 
 import org.example.Commands.Command;
 import org.example.Commands.SetColorCommand;
-import org.example.Exception.BadColorException;
-import org.example.Exception.BadFormatCommandException;
+import org.example.Exceptions.BadColorException;
+import org.example.Exceptions.BadFormatCommandException;
 
 import java.awt.*;
 import java.util.regex.Matcher;

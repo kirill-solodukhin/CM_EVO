@@ -1,4 +1,4 @@
-package org.example.Exception;
+package org.example.Exceptions;
 
 public class FigureNameAlreadyExistsException extends RuntimeException {
     public FigureNameAlreadyExistsException(String message) {

@@ -1,4 +1,4 @@
-package org.example.Exception;
+package org.example.Exceptions;
 
 public class LargeCoefficientsException extends RuntimeException
 {

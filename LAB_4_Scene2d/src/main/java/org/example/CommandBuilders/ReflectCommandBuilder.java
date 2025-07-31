@@ -3,7 +3,7 @@ package org.example.CommandBuilders;
 import org.example.Commands.Command;
 import org.example.Commands.ReflectCommand;
 import org.example.Commands.Supportive.ReflectOrientation;
-import org.example.Exception.BadFormatCommandException;
+import org.example.Exceptions.BadFormatCommandException;
 
 import java.util.Objects;
 import java.util.regex.Matcher;

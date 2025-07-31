@@ -1,4 +1,4 @@
-package org.example.Exception;
+package org.example.Exceptions;
 
 public class BadArgumentException extends RuntimeException {
   public BadArgumentException(String message) {

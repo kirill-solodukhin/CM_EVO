@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.Exception.ReadException;
+import org.example.Exceptions.ReadException;
 
 import java.io.*;
 

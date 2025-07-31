@@ -1,7 +1,7 @@
 package org.example.Interpoletions;
 
-import org.example.Exception.ArraysCountException;
-import org.example.Exception.BadArgumentException;
+import org.example.Exceptions.ArraysCountException;
+import org.example.Exceptions.BadArgumentException;
 
 public abstract class Interpolator
 {

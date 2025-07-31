@@ -1,8 +1,8 @@
 package org.example.Scene;
 
 import org.example.Commands.Supportive.ReflectOrientation;
-import org.example.Exception.FigureNameAlreadyExistsException;
-import org.example.Exception.FigureOrSceneIsNotExistsException;
+import org.example.Exceptions.FigureNameAlreadyExistsException;
+import org.example.Exceptions.FigureOrSceneIsNotExistsException;
 import org.example.Figure.CircleFigure;
 import org.example.Figure.Figure;
 import org.example.Figure.RectangleFigure;

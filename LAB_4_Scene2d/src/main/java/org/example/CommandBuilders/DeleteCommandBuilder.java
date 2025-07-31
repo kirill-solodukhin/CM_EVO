@@ -2,7 +2,7 @@ package org.example.CommandBuilders;
 
 import org.example.Commands.Command;
 import org.example.Commands.DeleteCommand;
-import org.example.Exception.BadFormatCommandException;
+import org.example.Exceptions.BadFormatCommandException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

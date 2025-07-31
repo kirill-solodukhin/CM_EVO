@@ -1,8 +1,8 @@
 package org.example;
 
 
-import org.example.Exception.LargeCoefficientsException;
-import org.example.Exception.ParseStrCoeffException;
+import org.example.Exceptions.LargeCoefficientsException;
+import org.example.Exceptions.ParseStrCoeffException;
 
 import java.io.BufferedReader;
 import java.io.IOException;

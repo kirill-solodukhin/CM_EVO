@@ -40,7 +40,7 @@ public class Cashpoint
         {
             if(granted[i] > 0)
             {
-                granted[i + value]++;
+                granted[i + value] += granted[i];
             }
         }
     }
@@ -62,14 +62,14 @@ public class Cashpoint
 
         for(int i = 0; i < total; i++)
         {
-            if(granted[i] == 0)
+            if(granted[i] <= 0)
             {
                 continue;
             }
 
             if(granted[i + value] > 0)
             {
-                granted[i + value]--;
+                granted[i + value] -= granted[i];
             }
         }
 

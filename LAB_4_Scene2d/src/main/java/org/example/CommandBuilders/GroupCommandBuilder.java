@@ -2,7 +2,7 @@ package org.example.CommandBuilders;
 
 import org.example.Commands.Command;
 import org.example.Commands.GroupCommand;
-import org.example.Exception.BadFormatCommandException;
+import org.example.Exceptions.BadFormatCommandException;
 
 import java.util.ArrayList;
 import java.util.List;

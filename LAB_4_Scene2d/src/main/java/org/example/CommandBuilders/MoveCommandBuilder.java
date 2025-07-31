@@ -2,7 +2,7 @@ package org.example.CommandBuilders;
 
 import org.example.Commands.Command;
 import org.example.Commands.MoveCommand;
-import org.example.Exception.BadFormatCommandException;
+import org.example.Exceptions.BadFormatCommandException;
 
 import java.awt.*;
 import java.util.regex.Matcher;

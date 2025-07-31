@@ -1,8 +1,8 @@
 package org.example.CommandBuilders;
 
 import org.example.Commands.Command;
-import org.example.Exception.BadFormatCommandException;
-import org.example.Exception.CommandCannotBeRecognized;
+import org.example.Exceptions.BadFormatCommandException;
+import org.example.Exceptions.CommandCannotBeRecognized;
 
 import java.util.HashMap;
 import java.util.Map;

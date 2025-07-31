@@ -2,8 +2,6 @@ import org.example.Cashpoint;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -140,6 +138,24 @@ public class CashpointTest
     }
 
     @Test
+    public void Regression1()
+    {
+        var cashpoint = new Cashpoint();
+
+        cashpoint.addBanknote(100);
+
+        cashpoint.addBanknote(5, 3);
+        cashpoint.removeBanknote(5, 2);
+
+        Assertions.assertTrue(cashpoint.canGranted(5));
+
+        cashpoint.removeBanknote(5);
+
+        Assertions.assertFalse(cashpoint.canGranted(5));
+    }
+
+
+    @Test
     public void Regression6()
     {
         var cashpoint = new Cashpoint();
@@ -157,9 +173,8 @@ public class CashpointTest
         AssertCanGrantOnly(cashpoint, List.of(2));
     }
 
-
     @Test
-    public void CanGranted_Regression7()
+    public void Regression7()
      {
         Cashpoint cashpoint = new Cashpoint();
 

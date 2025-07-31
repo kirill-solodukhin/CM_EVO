@@ -2,7 +2,7 @@ package org.example.CommandBuilders;
 
 import org.example.Commands.Command;
 import org.example.Commands.AddFigureCommand;
-import org.example.Exception.BadFormatCommandException;
+import org.example.Exceptions.BadFormatCommandException;
 import org.example.Figure.CircleFigure;
 import org.example.Figure.Figure;
 
