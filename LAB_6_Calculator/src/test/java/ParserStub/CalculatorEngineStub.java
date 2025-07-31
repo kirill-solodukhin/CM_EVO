@@ -1,7 +1,9 @@
 package ParserStub;
 
 import org.example.Calculator.ICalculatorEngine;
+import org.example.Calculator.OneParamFunc;
 import org.example.Calculator.ThreeParamFunc;
+import org.example.Calculator.TwoParamFunc;
 import org.example.Operation;
 
 import java.util.Map;
@@ -35,13 +37,13 @@ public class CalculatorEngineStub implements ICalculatorEngine
     }
 
     @Override
-    public void defineOperation(String sign, BiFunction<Double, Double, Double> func)
+    public void defineOperation(String sign, TwoParamFunc func)
     {
         throw new RuntimeException("Calculator Engine Stub does not support operations definitions");
     }
 
     @Override
-    public void defineOperation(String sign, Function<Double, Double> func)
+    public void defineOperation(String sign, OneParamFunc func)
     {
         throw new RuntimeException("Calculator Engine Stub does not support operations definitions");
     }

@@ -1,15 +1,14 @@
 package ParserStub;
 
 import org.example.Calculator.CalculatorEngine;
+import org.example.Calculator.TwoParamFunc;
 import org.example.Exceptions.AlreadyExistsOperationException;
-import org.example.Exceptions.IncorrectParametersException;
 import org.example.Exceptions.NotFoundOperationException;
 import org.example.Exceptions.ParametersCountMismatchException;
 import org.example.Operation;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.function.Function;
 
 public class CalculatorTests
 {
@@ -102,7 +101,6 @@ public class CalculatorTests
                 () -> calculator.performOperation(new Operation("&&", new double[0])));
     }
 
-
     @Test
     public void Calculate_UnaryParametersMismatch_ShouldThrow()
     {
@@ -116,7 +114,6 @@ public class CalculatorTests
         Assertions.assertThrows(ParametersCountMismatchException.class,
                 () -> calculator.performOperation(new Operation("++", new double[] { 1, 2, 3 } )));
     }
-
 
     @Test
     public void Calculate_BinaryParametersMismatch_ShouldThrow()

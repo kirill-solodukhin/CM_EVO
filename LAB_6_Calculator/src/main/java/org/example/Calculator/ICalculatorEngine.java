@@ -9,6 +9,6 @@ public interface ICalculatorEngine
 {
     double performOperation(Operation operation);
     void defineOperation(String sign, ThreeParamFunc func);
-    void defineOperation(String sign, BiFunction<Double, Double, Double> func);
-    void defineOperation(String sign, Function<Double, Double> func);
+    void defineOperation(String sign, TwoParamFunc func);
+    void defineOperation(String sign, OneParamFunc func);
 }

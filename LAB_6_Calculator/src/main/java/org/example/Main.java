@@ -22,7 +22,7 @@ public class Main
             // пример определяемых операций
             // (сейчас их добавление в калькулятор не реализовано - это ваша задача)
             Function<Double, Double> sqrt  = Math::sqrt;
-            calculator.defineOperation("sqrt", sqrt);
+            // calculator.defineOperation("sqrt", sqrt);
 
             // можно использовать одинаковое имя для операций с разным количеством аргументов
             calculator.defineOperation("-", a -> -a);
