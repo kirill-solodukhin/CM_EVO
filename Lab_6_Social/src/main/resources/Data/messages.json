@@ -1,0 +1,18 @@
+[
+  {
+    "authorId": 1,
+    "likes": [2,3],
+    "messageId": 1,
+    "sendDate": "2019-02-27T00:00:00",
+    "text": "ERROR: NOT RELEVANT"
+  },
+  {
+    "authorId": 2,
+    "likes": [3,4,5],
+    "messageId": 2,
+    "sendDate": "2019-02-27T00:00:00",
+    "text": "ERROR: OUTDATED"
+  },
+  {"authorId": 3,"likes": [1,2,3],"messageId": 3,"sendDate": "2020-02-21T12:00:00","text": "Success"},
+  {"authorId": 9,"likes": [1,2,3],"messageId": 4,"sendDate": "2019-02-21T12:00:00","text": "ERROR: NOT RELEVANT"}
+]

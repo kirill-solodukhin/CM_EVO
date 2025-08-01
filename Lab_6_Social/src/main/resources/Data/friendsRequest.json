@@ -1,0 +1,37 @@
+[
+  {
+    "fromUserId": 1,
+    "sendDate": "2019-09-27T19:54:53.7421954+03:00",
+    "status": 2,
+    "toUserId": 2
+  },
+  {
+    "fromUserId": 3,
+    "sendDate": "2019-09-27T19:54:53.7421954+03:00",
+    "status": 2,
+    "toUserId": 1
+  },
+  {
+    "fromUserId": 1,
+    "sendDate": "2019-09-27T19:54:53.7421954+03:00",
+    "status": 0,
+    "toUserId": 4
+  },
+  {
+    "fromUserId": 4,
+    "sendDate": "2019-09-27T19:54:53.7421954+03:00",
+    "status": 0,
+    "toUserId": 1
+  },
+  {
+    "fromUserId": 1,
+    "sendDate": "2019-09-27T19:54:53.7421954+03:00",
+    "status": 1,
+    "toUserId": 5
+  },
+  {"fromUserId": 5,"sendDate": "2019-09-27T19:54:53.7421954+03:00","status": 1,"toUserId": 1},
+  {"fromUserId": 1,"sendDate": "2019-09-27T19:54:53.7421954+03:00","status": 3,"toUserId": 6},
+  {"fromUserId": 6,"sendDate": "2019-09-27T19:54:53.7421954+03:00","status": 3,"toUserId": 1},
+  {"fromUserId": 7,"sendDate": "2019-09-27T19:54:53.7421954+03:00","status": 0,"toUserId": 1},
+  {"fromUserId": 8,"sendDate": "2020-02-22T19:54:53.7421954+03:00","status": 0,"toUserId": 1}
+]
