@@ -7,8 +7,6 @@ import org.example.Calculator.TwoParamFunc;
 import org.example.Operation;
 
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class CalculatorEngineStub implements ICalculatorEngine
 {

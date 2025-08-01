@@ -2,13 +2,16 @@ package org.example;
 
 import org.example.Calculator.CalculatorEngine;
 import org.example.Calculator.ICalculatorEngine;
+import org.example.Calculator.OneParamFunc;
 import org.example.Exceptions.AlreadyExistsOperationException;
+import org.example.Exceptions.IncorrectParametersException;
 import org.example.Exceptions.NotFoundOperationException;
+import org.example.Exceptions.ParametersCountMismatchException;
 import org.example.Parser.IParser;
 import org.example.Parser.Parser;
 
 import java.util.Scanner;
-import java.util.function.Function;
+
 
 public class Main
 {
@@ -19,18 +22,28 @@ public class Main
 
         try
         {
-            // пример определяемых операций
-            // (сейчас их добавление в калькулятор не реализовано - это ваша задача)
-            Function<Double, Double> sqrt  = Math::sqrt;
-            // calculator.defineOperation("sqrt", sqrt);
+            OneParamFunc sqrt = Math::sqrt;
+            calculator.defineOperation("sqrt", sqrt);
 
-            // можно использовать одинаковое имя для операций с разным количеством аргументов
+
             calculator.defineOperation("-", a -> -a);
             calculator.defineOperation("-", (a, b) -> a - b);
+            calculator.defineOperation("-", (a, b, c) -> a - b - c);
 
-            // обратите внимание: подставляется напрямую метод класса Math
-            // это эквивалентно calculator.DefineOperation("^", (x, y) -> Math.Pow(x, y)), но лаконичнее
+            calculator.defineOperation("+", a -> a);
+            calculator.defineOperation("+", Double::sum);
+            calculator.defineOperation("+", (a, b, c) -> a + b + c);
+
+            calculator.defineOperation("*", (a, b) -> a * b);
+            calculator.defineOperation("*", (a, b, c) -> a * b * c);
+
+            calculator.defineOperation("/", (a, b) -> a / b);
+            calculator.defineOperation("/", (a, b, c) -> a / b / c);
+
             calculator.defineOperation("^", Math::pow);
+            calculator.defineOperation("abs", Math::abs);
+
+
 
             // ... определите остальные операции здесь ...
         }
@@ -55,17 +68,12 @@ public class Main
 
             try
             {
-
+                System.out.println(evaluator.calculate(line));
             }
-            catch (NotFoundOperationException _)
+            catch (NotFoundOperationException | IncorrectParametersException | ParametersCountMismatchException exception)
             {
-                // todo сообщение об ошибке
+                System.out.println(exception.getMessage());
             }
-
-            // todo: кажется здесь мы "отловили" только одно
-            // исключение NotFoundOperationException,
-            // не забудьте отловить оставшиеся
-
         }
     }
 }

@@ -20,7 +20,7 @@ public class EvaluatorTests
 
         var evaluator = new Evaluator(calculator, parser);
 
-        Assertions.assertEquals("42", evaluator.calculate("any"));
+        Assertions.assertEquals("42.0", evaluator.calculate("any"));
     }
 
 }

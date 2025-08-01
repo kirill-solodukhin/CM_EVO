@@ -1,7 +1,6 @@
 package ParserStub;
 
 import org.example.Calculator.CalculatorEngine;
-import org.example.Calculator.TwoParamFunc;
 import org.example.Exceptions.AlreadyExistsOperationException;
 import org.example.Exceptions.NotFoundOperationException;
 import org.example.Exceptions.ParametersCountMismatchException;

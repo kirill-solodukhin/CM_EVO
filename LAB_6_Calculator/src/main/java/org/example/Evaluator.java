@@ -16,13 +16,7 @@ public class Evaluator
 
     public String calculate(String inputString)
     {
-        // todo: реализуйте метод Calculate().
-        // Здесь вам нужно получить значение для выражения из inputString,
-        // используя экземпляры классов Calculator и Parser
-        // соответственно для распарсивания строки и вычисления выражения
-        //
-        // Обратите внимание на юнит-тесты для этого класса
-
-        return null;
+        Operation operation = parser.parse(inputString);
+        return String.valueOf(calculatorEngine.performOperation(operation) );
     }
 }

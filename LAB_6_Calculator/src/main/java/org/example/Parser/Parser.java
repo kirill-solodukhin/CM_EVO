@@ -1,26 +1,56 @@
 package org.example.Parser;
 
+import org.example.Exceptions.IncorrectParametersException;
+import org.example.Exceptions.NotFoundOperationException;
 import org.example.Operation;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Parser implements IParser
 {
+    private final Pattern pattern = Pattern.compile("(?<name>^\\s?[^ ]*\\s*)|(?<param>[+-]?[0-9]+\\.?[0-9]*\\s?)");
+    private List<Double> param;
+    private String name;
 
     @Override
-    public Operation Parse(String inputString)
+    public Operation parse(String inputString)
     {
-        // todo: реализуйте метод Parse().
-        // этод метод "парсит" строку inputString и возвращает объект Operation
-        // Формат строки: {имя_операции} {параметр1} ... {параметрN}
-        // Обратите внимание:
-        // предварительно повторяющиеся пробелы и пробелы в начале и в конце нужно игнорировать
-        //
-        // Если что-то пойдет не так (например, из строки нельзя выделить
-        // знак операции и как минимум один параметр), не забудьте сгенерировать
-        // соответствующее исключение из папки Exceptions
-        //
-        // Обратите внимание на юнит-тесты для этого класса
+        param = new ArrayList<>();
+        Matcher matcher = pattern.matcher(inputString);
 
+        String findingLine;
+        while (matcher.find())
+        {
+            if((findingLine = matcher.group("name")) != null)
+            {
+                name = findingLine.trim();
+                continue;
+            }
 
-        return null;
+            if((findingLine = matcher.group("param")) != null)
+            {
+                param.add(Double.parseDouble(findingLine.trim()));
+            }
+        }
+
+        throwIfBadCommand();
+
+        return new Operation(name, param.stream().mapToDouble(el -> el).toArray());
+    }
+
+    private void throwIfBadCommand()
+    {
+        if(name == null || name.isEmpty())
+        {
+            throw new NotFoundOperationException(" ");
+        }
+
+        if(param.isEmpty())
+        {
+            throw new IncorrectParametersException(" ");
+        }
     }
 }

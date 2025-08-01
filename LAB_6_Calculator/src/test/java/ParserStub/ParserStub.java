@@ -13,7 +13,7 @@ public class ParserStub implements IParser
     }
 
     @Override
-    public Operation Parse(String inputString)
+    public Operation parse(String inputString)
     {
         return operation;
     }

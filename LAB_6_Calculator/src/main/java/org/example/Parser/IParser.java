@@ -4,5 +4,5 @@ import org.example.Operation;
 
 public interface IParser
 {
-    Operation Parse(String inputString);
+    Operation parse(String inputString);
 }
