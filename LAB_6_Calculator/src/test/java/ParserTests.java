@@ -11,7 +11,7 @@ public class ParserTests
     {
         Parser parser = new Parser();
         Operation expected = new Operation("++", new double[] {3});
-        var actual = parser.Parse(" ++ 3");
+        var actual = parser.parse(" ++ 3");
 
         Assertions.assertEquals(expected.sign(), actual.sign(), "Sign incorrectly defined");
         Assertions.assertEquals(1, actual.params().length, "Parameters count mismatch");
@@ -24,7 +24,7 @@ public class ParserTests
         var expected = new Operation("-", new double[] { 5.0, 3.0 });
 
         var parser = new Parser();
-        var actual = parser.Parse("- 5   3 ");
+        var actual = parser.parse("- 5   3 ");
 
         Assertions.assertEquals(expected.sign(), actual.sign(), "Sign incorrectly defined");
         Assertions.assertEquals(2, actual.params().length, "Parameters count mismatch");
@@ -38,7 +38,7 @@ public class ParserTests
         var expected = new Operation("T5", new double[] { 5.0, 3.0, 4.0 });
 
         var parser = new Parser();
-        var actual = parser.Parse(" T5 5 3   4 ");
+        var actual = parser.parse(" T5 5 3   4 ");
 
         Assertions.assertEquals(expected.sign(), actual.sign(), "Sign incorrectly defined");
         Assertions.assertEquals(3, actual.params().length, "Parameters count mismatch");
@@ -52,6 +52,6 @@ public class ParserTests
     {
         var parser = new Parser();
 
-        Assertions.assertThrows(IncorrectParametersException.class,() -> parser.Parse(" +"));
+        Assertions.assertThrows(IncorrectParametersException.class,() -> parser.parse(" +"));
     }
 }
