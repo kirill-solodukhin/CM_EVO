@@ -14,6 +14,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -195,7 +198,8 @@ public class SocialDataSource
 
         if(inputStream == null)
         {
-            throw new FileNotFoundException("File with path: " + path + " could not find");
+            inputStream = getStream(path);
+            // throw new FileNotFoundException("File with path: " + path + " could not find");
         }
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -211,5 +215,19 @@ public class SocialDataSource
         }
 
         return stringBuilder.toString();
+    }
+
+    private InputStream getStream(String uri)
+    {
+        Path path = Paths.get(uri);
+
+        try
+        {
+            return Files.newInputStream(path);
+        }
+        catch (IOException e)
+        {
+            throw new FileNotFoundException("File with path: " + path + " could not find");
+        }
     }
 }
