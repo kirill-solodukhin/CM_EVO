@@ -8,10 +8,7 @@ import org.example.Exceptions.FileNotFoundException;
 import org.example.Exceptions.ParsingException;
 import org.example.Exceptions.UserNotFindException;
 import org.example.Mappers.MessageMapper;
-import org.example.Models.FriendsRequest;
-import org.example.Models.Message;
-import org.example.Models.User;
-import org.example.Models.UserInformation;
+import org.example.Models.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,7 +25,7 @@ public class SocialDataSource
     private List<Message> messages;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public SocialDataSource(String pathUsers, String pathFriends, String pathMessages)
+    public SocialDataSource(String pathUsers, String pathFriends, String pathMessages) throws IOException
     {
         objectMapper.registerModule(new JavaTimeModule());
 
@@ -48,39 +45,48 @@ public class SocialDataSource
         userContext.setOnlineFriends(getOnlineFriends(userContext));
         userContext.setSubscribers(getSubscribers(userContext));
         userContext.setFriendshipOffers(getFriendshipOffers(userContext));
+        userContext.setNews(getNews(userContext));
 
-        return null;
+        return userContext;
+    }
+
+    private List<News> getNews(UserContext userContext)
+    {
+        return  messages.stream()
+                .filter(                                                                                 // Только сообщения друзей
+                        ms -> userContext.getFriends().stream()
+                                .map(UserInformation::userId).toList().contains(ms.authorId()))
+                .filter(ms -> ms.sendDate().isAfter(userContext.getUser().lastVisit().toLocalDateTime())) // После последнего входа в сеть
+                .map(ms ->
+                        new News(
+                                ms.authorId(),
+                                userContext.getFriends().stream().filter(el -> el.userId() == ms.authorId()).findFirst().get().name(),
+                                ms.likes(),
+                                ms.text()
+                ))
+                .toList();
     }
 
     private List<UserInformation> getFriendshipOffers(UserContext userContext)
     {
         List<Integer> ids = friendsRequests.stream()
                 .filter(el -> el.toUserId() == userContext.getUser().userId()) // Заявка направлена нам
-                .filter(el -> el.status() == 0)                                // Нужный статус
+                .filter(el -> el.status() <= 0)                                // Нужный статус
                 .filter(el -> el.sendDate().isAfter(userContext.getUser().lastVisit())) // Нужное время
                 .map(FriendsRequest::fromUserId)
                 .toList();
 
-        return users.stream()
-                .filter(el -> friendsRequests.contains(el.userId()))
-                .filter(
-                        userEl ->
-                                userContext.getFriends().stream()
-                                        .map(UserInformation::userId)
-                                        .toList().contains(userEl.userId()))
-                .map(el -> new UserInformation(el.name(), el.online(), el.userId()))
-                .toList();
+        return users.stream().filter(el -> ids.contains(el.userId()))
+                .map(el -> new UserInformation(el.name(), el.online(), el.userId())).toList();
     }
 
     private List<UserInformation> getSubscribers(UserContext userContext)
     {
         List<Integer> ids = friendsRequests.stream()
                 .filter(el -> el.toUserId() == userContext.getUser().userId()) // Заявка пришла нам
-                .filter(el -> el.status() == 1)                                 // Нужный статус
-                .map(FriendsRequest::fromUserId).filter(
-                        o -> !userContext.getFriends().stream()
-                                .map(UserInformation::userId).toList().contains(o)           // Среди друзей нет этого ID
-                ).toList();
+                .filter(el -> el.status() <= 1)                                 // Нужный статус
+                .filter(el -> !userContext.getFriends().stream().map(UserInformation::userId).toList().contains(el))
+                .map(FriendsRequest::fromUserId).toList();
 
         return users.stream().filter(el -> ids.contains(el.userId()))
                 .map(el -> new UserInformation(el.name(), el.online(), el.userId())).toList();
@@ -143,7 +149,7 @@ public class SocialDataSource
         throw new UserNotFindException("User with name: { " + name + " } is not found");
     }
 
-    private void getMessages(String path)
+    private void getMessages(String path) throws IOException, ParsingException
     {
         String messagesText = readFile(path);
         MessageMapper mapper = new MessageMapper(messagesText);
@@ -158,7 +164,7 @@ public class SocialDataSource
         }
     }
 
-    private void getFriendsRequests(String path)
+    private void getFriendsRequests(String path) throws IOException, JsonProcessingException
     {
         String friendsRequestText = readFile(path);
 
@@ -173,22 +179,14 @@ public class SocialDataSource
         }
     }
 
-    private void getUsers(String path)
+    private void getUsers(String path) throws IOException
     {
         String usersText = readFile(path);
-
-        try
-        {
-            users = objectMapper.readValue(
-                    usersText, new TypeReference<List<User>>(){});
-        }
-        catch (JsonProcessingException exception)
-        {
-            throw new ParsingException("Error parsing in getUsers methode");
-        }
+        users = objectMapper
+                .readValue( usersText, new TypeReference<List<User>>(){});
     }
 
-    private String readFile(String path)
+    private String readFile(String path) throws IOException, FileNotFoundException
     {
         InputStream inputStream =
                 SocialDataSource.class
@@ -210,10 +208,6 @@ public class SocialDataSource
             {
                 stringBuilder.append(line);
             }
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
         }
 
         return stringBuilder.toString();
