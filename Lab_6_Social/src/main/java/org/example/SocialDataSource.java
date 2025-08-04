@@ -6,16 +6,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.example.Exceptions.FileNotFoundException;
 import org.example.Exceptions.ParsingException;
+import org.example.Exceptions.UserNotFindException;
 import org.example.Mappers.MessageMapper;
 import org.example.Models.FriendsRequest;
 import org.example.Models.Message;
 import org.example.Models.User;
+import org.example.Models.UserInformation;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class SocialDataSource
 {
@@ -35,7 +39,108 @@ public class SocialDataSource
 
     public UserContext getUserContext(String userName)
     {
+        UserContext userContext = new UserContext();
+
+        User user = getUser(userName);
+
+        userContext.setUser(user);
+        userContext.setFriends(getFriends(user));
+        userContext.setOnlineFriends(getOnlineFriends(userContext));
+        userContext.setSubscribers(getSubscribers(userContext));
+        userContext.setFriendshipOffers(getFriendshipOffers(userContext));
+
         return null;
+    }
+
+    private List<UserInformation> getFriendshipOffers(UserContext userContext)
+    {
+        List<Integer> ids = friendsRequests.stream()
+                .filter(el -> el.toUserId() == userContext.getUser().userId()) // Заявка направлена нам
+                .filter(el -> el.status() == 0)                                // Нужный статус
+                .filter(el -> el.sendDate().isAfter(userContext.getUser().lastVisit())) // Нужное время
+                .map(FriendsRequest::fromUserId)
+                .toList();
+
+        return users.stream()
+                .filter(el -> friendsRequests.contains(el.userId()))
+                .filter(
+                        userEl ->
+                                userContext.getFriends().stream()
+                                        .map(UserInformation::userId)
+                                        .toList().contains(userEl.userId()))
+                .map(el -> new UserInformation(el.name(), el.online(), el.userId()))
+                .toList();
+    }
+
+    private List<UserInformation> getSubscribers(UserContext userContext)
+    {
+        List<Integer> ids = friendsRequests.stream()
+                .filter(el -> el.toUserId() == userContext.getUser().userId()) // Заявка пришла нам
+                .filter(el -> el.status() == 1)                                 // Нужный статус
+                .map(FriendsRequest::fromUserId).filter(
+                        o -> !userContext.getFriends().stream()
+                                .map(UserInformation::userId).toList().contains(o)           // Среди друзей нет этого ID
+                ).toList();
+
+        return users.stream().filter(el -> ids.contains(el.userId()))
+                .map(el -> new UserInformation(el.name(), el.online(), el.userId())).toList();
+    }
+
+    private List<UserInformation> getOnlineFriends(UserContext userContext)
+    {
+        return userContext.getFriends().stream().filter(UserInformation::online).toList();
+    }
+
+    private List<UserInformation> getFriends(User user)
+    {
+        //  Тот кто отправил запрос на дружбу выбранному пользователю
+        List<FriendsRequest> acceptedRequests = friendsRequests.stream()
+                .filter(el -> el.status() != 3)
+                .filter(el -> el.toUserId() == user.userId()).toList();
+
+        // В чей адрес был отправлен запрос от выбранного пользователя
+        List<FriendsRequest> sentRequests = friendsRequests.stream()
+                .filter(el -> el.status() != 3)
+                .filter(el -> el.fromUserId() == user.userId()).toList();
+
+        // Симметричный запрос
+        List<Integer> crossRequestId = new ArrayList<>();
+
+        for(FriendsRequest ac : acceptedRequests)
+        {
+            for(FriendsRequest sr : sentRequests)
+            {
+                if(ac.fromUserId() == sr.toUserId())
+                {
+                    crossRequestId.add(ac.fromUserId());
+                }
+            }
+        }
+
+        List<Integer> ids = Stream.concat(
+                Stream.concat(
+                        acceptedRequests.stream().filter(el -> el.status() == 2).map(FriendsRequest::fromUserId),
+                        sentRequests.stream().filter(el -> el.status() == 2).map(FriendsRequest::toUserId)),
+                crossRequestId.stream()).distinct().toList();
+
+
+        return users.stream().filter(el -> ids.contains(el.userId()))
+                .map(el -> new UserInformation(el.name(), el.online(), el.userId())).toList();
+    }
+
+    private User getUser(String name)
+    {
+        for(User user : users)
+        {
+            if(!name.equals(user.name()))
+            {
+                continue;
+            }
+
+            return user;
+        }
+
+        throw new UserNotFindException("User with name: { " + name + " } is not found");
     }
 
     private void getMessages(String path)
