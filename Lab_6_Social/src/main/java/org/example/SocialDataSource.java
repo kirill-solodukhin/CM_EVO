@@ -163,7 +163,7 @@ public class SocialDataSource
         }
         catch (RuntimeException ex)
         {
-            throw new ParsingException("Error parsing in  getMessages methode : { " + ex.getMessage() + " }");
+            throw new ParsingException("Error parsing in getMessages methode : { " + ex.getMessage() + " }");
         }
     }
 

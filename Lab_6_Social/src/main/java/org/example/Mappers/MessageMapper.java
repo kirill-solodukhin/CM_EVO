@@ -80,6 +80,11 @@ public class MessageMapper
 
                for(String val : values)
                {
+                   if(val.trim().isEmpty())
+                   {
+                       continue;
+                   }
+
                    likes.add(Integer.parseInt(val.trim()));
                }
 
@@ -122,10 +127,10 @@ public class MessageMapper
             throw new ParsingException("authorId is not found");
         }
 
-        if(likes.isEmpty())
-        {
-            throw new ParsingException("likes is Empty");
-        }
+//        if(likes.isEmpty())
+//        {
+//            throw new ParsingException("likes is Empty");
+//        }
 
         if(messageId < 0)
         {
