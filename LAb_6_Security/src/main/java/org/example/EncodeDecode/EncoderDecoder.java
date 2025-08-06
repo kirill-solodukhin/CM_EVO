@@ -73,14 +73,21 @@ public class EncoderDecoder
             return;
         }
 
-        try (FileInputStream fis = new FileInputStream("keystore.p12")) {
+        try (FileInputStream fis = new FileInputStream("keystore.p12"))
+        {
             keyStore.load(fis, KEY_OF_KEY_STORE);
             KEY = keyStore.getKey(KEY_ALIAS, KEY_PASSWORD);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             generateKey();
-        } catch (CertificateException | NoSuchAlgorithmException ignored) {
-        } catch (UnrecoverableKeyException | KeyStoreException e) {
+        }
+        catch (CertificateException | NoSuchAlgorithmException e)
+        {
+            throw new RuntimeException(e + "Странная проблема");
+        }
+        catch (UnrecoverableKeyException | KeyStoreException e)
+        {
             throw new RuntimeException(e + "Ошибка извлечения ключа");
         }
     }
