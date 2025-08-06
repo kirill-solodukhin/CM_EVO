@@ -214,6 +214,8 @@ public class SocialDataSource
             }
         }
 
+        inputStream.close();
+
         return stringBuilder.toString();
     }
 

@@ -1,0 +1,2 @@
+// добавить зависимости, и в run -> edit configuration -> modify options -> add VM options ->
+строка: --enable-preview --enable-native-access=ALL-UNNAMED
