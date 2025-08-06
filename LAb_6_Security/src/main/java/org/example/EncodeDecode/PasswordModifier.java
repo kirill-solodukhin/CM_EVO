@@ -3,7 +3,7 @@ package org.example.EncodeDecode;
 import com.github.javakeyring.PasswordAccessException;
 import org.example.AuthorizationInfo;
 
-import java.nio.charset.StandardCharsets;
+import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class PasswordModifier
 {
     private byte[] salt = new byte[16];
-    private DataStorage dataStorage;
+    private final DataStorage dataStorage;
 
     public PasswordModifier(DataStorage dataStorage)
     {
@@ -31,7 +31,7 @@ public class PasswordModifier
         // old salt
         try
         {
-            getSalt();
+            salt = getSalt();
 
             String savingHash = dataStorage.getStringData(TYPE.PASSWORD);
             Password = hashingPassword(Password);
@@ -49,13 +49,13 @@ public class PasswordModifier
         try
         {
             MessageDigest digester = MessageDigest.getInstance("SHA-512");
+            digester.update(salt);      // Добавляем соль
 
             byte[] bytePassword = password.getBytes();     // Пароль, который хэшируем
             byte[] digest = digester.digest(bytePassword); // хэш
 
-            digester.update(salt);
 
-            return Arrays.toString(digest);
+            return DatatypeConverter.printHexBinary(digest);
         }
         catch (NoSuchAlgorithmException e)
         {
@@ -63,26 +63,23 @@ public class PasswordModifier
         }
     }
 
-    private void getSalt() throws PasswordAccessException
+    private byte[] getSalt() throws PasswordAccessException
     {
-        if(!Arrays.equals(salt, new byte[16]))
+        if(!Arrays.equals(salt, new byte[16])) // Если соль уже есть т.е. не равна [0, 0, ...., 0]
         {
-            return;
+            return salt;
         }
 
-        AuthorizationInfo authorizationInfo = new AuthorizationInfo(dataStorage);
-        boolean authorizedFlag = authorizationInfo.isAuthorized();
-
-        String saltArr = dataStorage.getStringData(TYPE.SALT);
-        String[] strings = saltArr.substring(1, saltArr.length() - 1).split(",");
-        byte[] bytes = new byte[16];
+        String saltStr = dataStorage.getStringData(TYPE.SALT);
+        String[] strings = saltStr.substring(1, saltStr.length() - 1).split(",");
+        byte[] savingSalt = new byte[16];
 
         for(int i = 0; i < 16; i++)
         {
-            bytes[i] = Byte.parseByte(strings[i].trim());
+            savingSalt[i] = Byte.parseByte(strings[i].trim());
         }
 
-        salt = bytes;
+        return savingSalt;
     }
 
     private void generateSalt()
