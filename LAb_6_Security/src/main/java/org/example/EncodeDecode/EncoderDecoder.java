@@ -171,7 +171,4 @@ public class EncoderDecoder
             throw new RuntimeException(e);
         }
     }
-
 }
-
-// IllegalArgumentException - ошибка если данные для парсинга изменены

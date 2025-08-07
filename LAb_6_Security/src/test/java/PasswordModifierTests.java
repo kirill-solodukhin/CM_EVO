@@ -22,7 +22,7 @@ public class PasswordModifierTests
 
     @Test
     @ExtendWith(MockitoExtension.class)
-    public void checkPassword_SamePassword_ShouldReturnTrue() throws PasswordAccessException
+    public void checkPassword_truePasswordTrueSalt_shouldReturnTrue() throws PasswordAccessException
     {
         PasswordModifier pm = new PasswordModifier(dataStorage);
 
@@ -37,7 +37,7 @@ public class PasswordModifierTests
 
     @Test
     @ExtendWith(MockitoExtension.class)
-    public void checkPassword_TruePasswordWithBadSalt_ShouldReturnFalse() throws PasswordAccessException
+    public void checkPassword_truePasswordBadSalt_shouldReturnFalse() throws PasswordAccessException
     {
         PasswordModifier pm = new PasswordModifier(dataStorage);
         Mockito.when(dataStorage.getStringData(TYPE.SALT)).thenReturn(Arrays.toString(new byte[] {
@@ -53,7 +53,7 @@ public class PasswordModifierTests
 
     @Test
     @ExtendWith(MockitoExtension.class)
-    public void checkPassword_BadPasswordWithTrueSalt_ShouldReturnFalse() throws PasswordAccessException
+    public void checkPassword_badPasswordTrueSalt_shouldReturnFalse() throws PasswordAccessException
     {
         PasswordModifier pm = new PasswordModifier(dataStorage);
 
@@ -61,5 +61,19 @@ public class PasswordModifierTests
         Mockito.when(dataStorage.getStringData(TYPE.SALT)).thenReturn(Arrays.toString(new byte[16]));
 
         Assertions.assertFalse(pm.checkPassword("bad password"));
+    }
+
+    @Test
+    @ExtendWith(MockitoExtension.class)
+    public void checkPassword_badPasswordBadSalt_shouldReturnFalse() throws PasswordAccessException
+    {
+        PasswordModifier pm = new PasswordModifier(dataStorage);
+
+        Mockito.when(dataStorage.getStringData(TYPE.PASSWORD)).thenReturn("password");
+        Mockito.when(dataStorage.getStringData(TYPE.SALT)).thenReturn(Arrays.toString(new byte[] {
+                1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        }));
+
+        Assertions.assertFalse(pm.checkPassword("password"));
     }
 }

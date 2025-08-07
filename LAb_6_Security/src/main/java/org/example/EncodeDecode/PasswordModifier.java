@@ -1,7 +1,6 @@
 package org.example.EncodeDecode;
 
 import com.github.javakeyring.PasswordAccessException;
-import org.example.AuthorizationInfo;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
