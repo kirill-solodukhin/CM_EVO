@@ -1,6 +1,6 @@
 package org.example;
 
-// Класс реализующий поиск максимальной общей последовательности
+/// Класс реализующий поиск максимальной общей последовательности
 
 public class StringMetrics
 {
@@ -53,6 +53,4 @@ public class StringMetrics
 
         return lcsLastRow[length_string_2];
     }
-
-
 }

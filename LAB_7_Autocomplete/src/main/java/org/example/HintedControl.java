@@ -20,7 +20,7 @@ public class HintedControl
     private StringBuilder text = new StringBuilder();
     private StringBuilder hint = new StringBuilder();
 
-    private String lastWord;
+    private String lastWord = "";
 
     public HintedControl()
     {
@@ -33,8 +33,11 @@ public class HintedControl
         {
             System.out.println(e.getMessage());
         }
+    }
 
-        processTyping();
+    public void setHintOutside(String value)
+    {
+        hint = new StringBuilder(value);
     }
 
     public String getLastWord()
@@ -42,33 +45,7 @@ public class HintedControl
         return lastWord;
     }
 
-    private String detectedLastWord()
-    {
-        Matcher matcher = pattern.matcher(text);
-
-        if(matcher.find())
-        {
-            return matcher.group();
-        }
-
-        return "";
-    }
-
-    private void customizationTerminal() throws IOException
-    {
-        terminal = TerminalBuilder
-                .builder()
-                .system(true)
-                .jna(true)
-                .build();
-
-        terminal.enterRawMode();
-
-        terminal.puts(InfoCmp.Capability.clear_screen);
-        terminal.flush();
-    }
-
-    public void processTyping()
+    public void run()
     {
         while (true)
         {
@@ -77,7 +54,6 @@ public class HintedControl
             if(character == '\b') // backspace
             {
                 backSpace();
-                hint = getHint();
 
                 display();
                 continue;
@@ -98,11 +74,36 @@ public class HintedControl
             }
 
             text.append(character); // Строка
-            hint = getHint();
 
             lastWord = detectedLastWord();
             display();
         }
+    }
+
+    private void customizationTerminal() throws IOException
+    {
+        terminal = TerminalBuilder
+                .builder()
+                .system(true)
+                .jna(true)
+                .build();
+
+        terminal.enterRawMode();
+
+        terminal.puts(InfoCmp.Capability.clear_screen);
+        terminal.flush();
+    }
+
+    private String detectedLastWord()
+    {
+        Matcher matcher = pattern.matcher(text);
+
+        if(matcher.find())
+        {
+            return matcher.group();
+        }
+
+        return "";
     }
 
     private void backSpace()
@@ -121,12 +122,6 @@ public class HintedControl
         hint = new StringBuilder();
 
         terminal.puts(InfoCmp.Capability.clear_screen);
-    }
-
-    private StringBuilder getHint()
-    {
-        return new StringBuilder(text)
-                .append("a");
     }
 
     private void chooseHint()

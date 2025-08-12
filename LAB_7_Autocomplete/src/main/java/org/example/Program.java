@@ -7,17 +7,38 @@ package org.example;
 /// mvn compile exec:java "-Dexec.mainClass=org.example.Main"
 ///
 
-import org.jline.terminal.Terminal;
-
 public class Program
 {
-    private static Terminal terminal;
+    private static LiveSearch liveSearch;
     private static HintedControl control;
+    private static Thread searching;
 
     public static void main(String[] args)
     {
         control = new HintedControl();
+        liveSearch = new LiveSearch(control);
+        searching = new Thread(hintedSearch);
+
+        searching.start();
+        control.run();
     }
+
+    private static final Runnable hintedSearch = () ->
+    {
+        while (true)
+        {
+            liveSearch.setHint();
+
+            try
+            {
+                Thread.sleep(10);
+            }
+            catch (InterruptedException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+    };
 }
 
 /*
