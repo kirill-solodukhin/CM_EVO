@@ -7,17 +7,20 @@ import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HintedControl
 {
+    private final Pattern pattern = Pattern.compile("\\S*$");
+
     private Terminal terminal;
     private BindingReader bindingReader;
 
     private StringBuilder text = new StringBuilder();
     private StringBuilder hint = new StringBuilder();
 
-    private int textLength;
-    private int hintLength;
+    private String lastWord;
 
     public HintedControl()
     {
@@ -34,6 +37,23 @@ public class HintedControl
         processTyping();
     }
 
+    public String getLastWord()
+    {
+        return lastWord;
+    }
+
+    private String detectedLastWord()
+    {
+        Matcher matcher = pattern.matcher(text);
+
+        if(matcher.find())
+        {
+            return matcher.group();
+        }
+
+        return "";
+    }
+
     private void customizationTerminal() throws IOException
     {
         terminal = TerminalBuilder
@@ -45,11 +65,10 @@ public class HintedControl
         terminal.enterRawMode();
 
         terminal.puts(InfoCmp.Capability.clear_screen);
-        terminal.writer().println("Input: ");
         terminal.flush();
     }
 
-    private void processTyping()
+    public void processTyping()
     {
         while (true)
         {
@@ -81,6 +100,7 @@ public class HintedControl
             text.append(character); // Строка
             hint = getHint();
 
+            lastWord = detectedLastWord();
             display();
         }
     }
@@ -100,35 +120,25 @@ public class HintedControl
         text = new StringBuilder();
         hint = new StringBuilder();
 
-        System.out.println("\n");
-        System.out.println("\n");
+        terminal.puts(InfoCmp.Capability.clear_screen);
     }
 
     private StringBuilder getHint()
     {
-        return new StringBuilder(text).append("a");
+        return new StringBuilder(text)
+                .append("a");
     }
 
     private void chooseHint()
     {
         text = new StringBuilder(hint.toString()); // set text
-        int hintSize = hint.length();
-
-        setText();
-
-        // set and reset hint
-        System.out.print('\n');
-        clearRow(hintSize);
-        System.out.print("\r" + hint);
-
-        terminal.puts(InfoCmp.Capability.cursor_up);
-        terminal.flush();
-
         hint = new StringBuilder(); // reset hint
     }
 
-    private void display()
+    private synchronized void display()
     {
+        terminal.puts(InfoCmp.Capability.clear_screen);
+
         setText(); // Установка текста
         setHint(); // Установка подсказки
 
@@ -136,29 +146,14 @@ public class HintedControl
         terminal.flush();
     }
 
-    private void clearRow(int count)
-    {
-        System.out.print('\r');
-
-        for (int i = 0; i < count; i++)
-        {
-            System.out.print(" ");
-        }
-
-        System.out.print('\r');
-    }
-
     private void setText()
     {
-        clearRow(text.length() + 1);
         System.out.print("\r" + text);
     }
 
     private void setHint()
     {
         System.out.print('\n');
-        clearRow(hint.length() + 1);
-
         System.out.print("\r" + hint);
     }
 }
