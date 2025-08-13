@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Random;
+
 public class LiveSearch
 {
     private final HintedControl hintedControl;
@@ -12,14 +14,13 @@ public class LiveSearch
     public void setHint()
     {
         String hint = findBestSimilarAsync(hintedControl.getLastWord());
-        hintedControl.setHintOutside(hint);
+        hintedControl.setHint(hint);
     }
 
     private String findBestSimilarAsync(String word)
     {
-
-
-        return "dhbliszdbcjsbdcsa";
+        Random random = new Random();
+        return (char) random.nextInt(32, 127) + " " + (char) random.nextInt();
     }
 
     // todo remake this methode

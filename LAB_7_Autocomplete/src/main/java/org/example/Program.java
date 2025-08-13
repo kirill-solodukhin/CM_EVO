@@ -1,5 +1,9 @@
 package org.example;
 
+import org.jline.terminal.Terminal;
+
+import java.util.concurrent.Semaphore;
+
 /// Для запуска проекта выполнить команду:
 ///
 ///  cd C:\Users\SoloduhinKYu\IdeaProjects\CM_EVO\LAB_7_Autocomplete
@@ -9,29 +13,33 @@ package org.example;
 
 public class Program
 {
-    private static LiveSearch liveSearch;
-    private static HintedControl control;
-    private static Thread searching;
+    private static LiveSearch liveSearch;       // Класс поиска подсказки
+    private static HintedControl control;       // Класс контроля ввода
+    private static Thread searching;            // Поток поиска
+    private static Semaphore semaphore = new Semaphore(1);
+
+    private static MyTerminal terminal;
 
     public static void main(String[] args)
     {
-        control = new HintedControl();
-        liveSearch = new LiveSearch(control);
-        searching = new Thread(hintedSearch);
+        terminal = new MyTerminal();            // Создание класса для работы с терминалом
+        control = new HintedControl(terminal, semaphore);  // Создание класса обработки ввода
+        liveSearch = new LiveSearch(control);   // Создание класса поиска подсказки
+        searching = new Thread(hintedSearch);   // Создание потока для поиска подсказки
 
-        searching.start();
-        control.run();
+        searching.start();                      // Запуск поиска подсказки в потоке
+        control.run();                          // Запуск обработк ввода
     }
 
     private static final Runnable hintedSearch = () ->
     {
         while (true)
         {
-            liveSearch.setHint();
-
             try
             {
-                Thread.sleep(10);
+                semaphore.acquire();        // Запрашиваем разрешения для поиска или ждем
+                liveSearch.setHint();       // Ищем
+                                            // Освобождаем ресурсы, после обновления ввода
             }
             catch (InterruptedException e)
             {
@@ -40,56 +48,3 @@ public class Program
         }
     };
 }
-
-/*
-
-  Runnable task = () ->
-        {
-            do
-            {
-                if(gListener.keyCode == 15)
-                {
-                    System.out.println("Key Pressed: Tab");
-                    break;
-                }
-
-                if(gListener.keyCode == 28)
-                {
-                    System.out.println("Key Pressed: Enter");
-                }
-
-                if(gListener.keyCode == 57424)
-                {
-                    System.out.println("Key Pressed: Arrow down");
-                }
-
-                try
-                {
-                    Thread.sleep(1);
-                }
-                catch (InterruptedException e)
-                {
-                    throw new RuntimeException(e);
-                }
-            }
-            while (true);
-        };
-
-        Thread thread = new Thread(task);
-
-        try
-        {
-            GlobalScreen.registerNativeHook();
-        }
-        catch (NativeHookException ex)
-        {
-            System.err.println("There was a problem registering the native hook.");
-            System.err.println(ex.getMessage());
-
-            System.exit(1);
-        }
-
-        GlobalScreen.addNativeKeyListener(gListener);
-
-        thread.start();
- */

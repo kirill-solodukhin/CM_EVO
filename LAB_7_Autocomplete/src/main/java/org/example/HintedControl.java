@@ -1,47 +1,35 @@
 package org.example;
 
 
-import org.jline.keymap.BindingReader;
-import org.jline.terminal.Terminal;
-import org.jline.terminal.TerminalBuilder;
-import org.jline.utils.InfoCmp;
-
-import java.io.IOException;
+import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HintedControl
 {
+    private final MyTerminal terminal;
+
     private final Pattern pattern = Pattern.compile("\\S*$");
-
-    private Terminal terminal;
-    private BindingReader bindingReader;
-
+    private final Semaphore semaphore;
     private StringBuilder text = new StringBuilder();
     private StringBuilder hint = new StringBuilder();
-
     private String lastWord = "";
 
-    public HintedControl()
+    public HintedControl(MyTerminal terminal, Semaphore semaphore)
     {
-        try
-        {
-            customizationTerminal();
-            bindingReader = new BindingReader(terminal.reader());
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
+        this.terminal = terminal;
+        this.semaphore = semaphore;
     }
 
-    public void setHintOutside(String value)
+    public void setHint(String value)
     {
+        //
         hint = new StringBuilder(value);
     }
 
     public String getLastWord()
     {
+        //
         return lastWord;
     }
 
@@ -49,13 +37,14 @@ public class HintedControl
     {
         while (true)
         {
-            char character = (char) bindingReader.readCharacter();
+            char character = terminal.readCharacter();
+            semaphore.release();
 
             if(character == '\b') // backspace
             {
                 backSpace();
 
-                display();
+                terminal.display(text.toString(), hint.toString());
                 continue;
             }
 
@@ -68,7 +57,7 @@ public class HintedControl
             if(character == '\t') // tab
             {
                 chooseHint();
-                display();
+                terminal.display(text.toString(), hint.toString());
 
                 continue;
             }
@@ -76,22 +65,8 @@ public class HintedControl
             text.append(character); // Строка
 
             lastWord = detectedLastWord();
-            display();
+            terminal.display(text.toString(), hint.toString());
         }
-    }
-
-    private void customizationTerminal() throws IOException
-    {
-        terminal = TerminalBuilder
-                .builder()
-                .system(true)
-                .jna(true)
-                .build();
-
-        terminal.enterRawMode();
-
-        terminal.puts(InfoCmp.Capability.clear_screen);
-        terminal.flush();
     }
 
     private String detectedLastWord()
@@ -121,34 +96,12 @@ public class HintedControl
         text = new StringBuilder();
         hint = new StringBuilder();
 
-        terminal.puts(InfoCmp.Capability.clear_screen);
+        terminal.clearTerminal();
     }
 
     private void chooseHint()
     {
         text = new StringBuilder(hint.toString()); // set text
         hint = new StringBuilder(); // reset hint
-    }
-
-    private synchronized void display()
-    {
-        terminal.puts(InfoCmp.Capability.clear_screen);
-
-        setText(); // Установка текста
-        setHint(); // Установка подсказки
-
-        terminal.puts(InfoCmp.Capability.cursor_up);
-        terminal.flush();
-    }
-
-    private void setText()
-    {
-        System.out.print("\r" + text);
-    }
-
-    private void setHint()
-    {
-        System.out.print('\n');
-        System.out.print("\r" + hint);
     }
 }

@@ -22,7 +22,7 @@ public class Main
 
             System.out.println(command);
 
-            ProcessBuilder pb=  new ProcessBuilder("cmd.exe", "/c", command)
+            ProcessBuilder pb =  new ProcessBuilder("cmd.exe", "/c", command)
                     .directory(new File(projectDir))
                     .inheritIO(); // Выыод ошибок в консоль
 
