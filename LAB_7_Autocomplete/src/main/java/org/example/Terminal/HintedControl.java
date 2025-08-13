@@ -1,5 +1,7 @@
-package org.example;
+package org.example.Terminal;
 
+
+import org.example.Program;
 
 import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
@@ -10,15 +12,13 @@ public class HintedControl
     private final MyTerminal terminal;
 
     private final Pattern pattern = Pattern.compile("\\S*$");
-    private final Semaphore semaphore;
     private StringBuilder text = new StringBuilder();
     private StringBuilder hint = new StringBuilder();
-    private String lastWord = "";
 
-    public HintedControl(MyTerminal terminal, Semaphore semaphore)
+    public HintedControl(MyTerminal terminal)
     {
+        //
         this.terminal = terminal;
-        this.semaphore = semaphore;
     }
 
     public void setHint(String value)
@@ -27,10 +27,9 @@ public class HintedControl
         hint = new StringBuilder(value);
     }
 
-    public String getLastWord()
+    public String getText()
     {
-        //
-        return lastWord;
+        return text.toString();
     }
 
     public void run()
@@ -38,12 +37,12 @@ public class HintedControl
         while (true)
         {
             char character = terminal.readCharacter();
-            semaphore.release();
 
             if(character == '\b') // backspace
             {
                 backSpace();
 
+                Program.startSearch();
                 terminal.display(text.toString(), hint.toString());
                 continue;
             }
@@ -62,23 +61,11 @@ public class HintedControl
                 continue;
             }
 
-            text.append(character); // Строка
+            text.append(character);         // Строка
 
-            lastWord = detectedLastWord();
+            Program.startSearch();
             terminal.display(text.toString(), hint.toString());
         }
-    }
-
-    private String detectedLastWord()
-    {
-        Matcher matcher = pattern.matcher(text);
-
-        if(matcher.find())
-        {
-            return matcher.group();
-        }
-
-        return "";
     }
 
     private void backSpace()

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Terminal;
 
 import org.jline.keymap.BindingReader;
 import org.jline.terminal.TerminalBuilder;

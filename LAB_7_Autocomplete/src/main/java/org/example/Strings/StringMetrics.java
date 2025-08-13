@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Strings;
 
 /// Класс реализующий поиск максимальной общей последовательности
 

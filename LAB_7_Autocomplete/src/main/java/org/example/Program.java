@@ -1,6 +1,8 @@
 package org.example;
 
-import org.jline.terminal.Terminal;
+import org.example.Strings.LiveSearch;
+import org.example.Terminal.HintedControl;
+import org.example.Terminal.MyTerminal;
 
 import java.util.concurrent.Semaphore;
 
@@ -13,38 +15,32 @@ import java.util.concurrent.Semaphore;
 
 public class Program
 {
-    private static LiveSearch liveSearch;       // Класс поиска подсказки
-    private static HintedControl control;       // Класс контроля ввода
-    private static Thread searching;            // Поток поиска
-    private static Semaphore semaphore = new Semaphore(1);
-
-    private static MyTerminal terminal;
+    private static LiveSearch liveSearchClass;   // Класс поиска подсказки
+    private static Thread searchingThread;       // Поток поиск
 
     public static void main(String[] args)
     {
-        terminal = new MyTerminal();            // Создание класса для работы с терминалом
-        control = new HintedControl(terminal, semaphore);  // Создание класса обработки ввода
-        liveSearch = new LiveSearch(control);   // Создание класса поиска подсказки
-        searching = new Thread(hintedSearch);   // Создание потока для поиска подсказки
+        MyTerminal terminal = new MyTerminal();                             // Создание класса для работы с терминалом
+        HintedControl control = new HintedControl(terminal);                // Создание класса обработки ввода
+        liveSearchClass = new LiveSearch(control);                          // Создание класса поиска подсказки
 
-        searching.start();                      // Запуск поиска подсказки в потоке
+        startSearch();                // Запуск поиска подсказки в потоке
         control.run();                          // Запуск обработк ввода
     }
 
-    private static final Runnable hintedSearch = () ->
+    public static void startSearch()
     {
-        while (true)
+        if(searchingThread != null)
         {
-            try
-            {
-                semaphore.acquire();        // Запрашиваем разрешения для поиска или ждем
-                liveSearch.setHint();       // Ищем
-                                            // Освобождаем ресурсы, после обновления ввода
-            }
-            catch (InterruptedException e)
-            {
-                throw new RuntimeException(e);
-            }
+            searchingThread.interrupt();                    // Прерываем предыдущий поиск
         }
+
+        searchingThread = new Thread(runnableSearching);    // Создание потока для поиска подсказки
+        searchingThread.start();
+    }
+
+    private static final Runnable runnableSearching = () ->
+    {
+        liveSearchClass.setHint();                          // Ищем
     };
 }
