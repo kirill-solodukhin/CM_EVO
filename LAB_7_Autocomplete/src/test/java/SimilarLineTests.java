@@ -12,4 +12,30 @@ public class SimilarLineTests
 
         Assertions.assertTrue(little.isBetter(big));
     }
+
+    @Test
+    public void isBetter_compressionSimilarLine_ShouldReturnFalse()
+    {
+        SimilarLine first = new SimilarLine("abcd", 3);
+
+        Assertions.assertFalse(first.isBetter(first));
+    }
+
+    @Test
+    public void isBetter_littleScoreCompressionBigScore_shouldReturnFalse()
+    {
+        SimilarLine first = new SimilarLine("abcd", 3);
+        SimilarLine second = new SimilarLine("zxacvd", 2);
+
+        Assertions.assertFalse(second.isBetter(first));
+    }
+
+    @Test
+    public void isBetter_littleLengthCompressionBigLength_shouldReturnFalse()
+    {
+        SimilarLine first = new SimilarLine("abcd", 3);
+        SimilarLine second = new SimilarLine("abcdzxcv", 3);
+
+        Assertions.assertFalse(second.isBetter(first));
+    }
 }

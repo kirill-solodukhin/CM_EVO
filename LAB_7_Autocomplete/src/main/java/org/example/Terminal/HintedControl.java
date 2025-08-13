@@ -1,17 +1,10 @@
 package org.example.Terminal;
 
-
 import org.example.Program;
-
-import java.util.concurrent.Semaphore;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class HintedControl
 {
     private final MyTerminal terminal;
-
-    private final Pattern pattern = Pattern.compile("\\S*$");
     private StringBuilder text = new StringBuilder();
     private StringBuilder hint = new StringBuilder();
 
@@ -29,6 +22,7 @@ public class HintedControl
 
     public String getText()
     {
+        //
         return text.toString();
     }
 
