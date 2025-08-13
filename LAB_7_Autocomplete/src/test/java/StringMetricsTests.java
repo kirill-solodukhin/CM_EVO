@@ -1,4 +1,4 @@
-import org.example.StringMetrics;
+import org.example.Strings.StringMetrics;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
