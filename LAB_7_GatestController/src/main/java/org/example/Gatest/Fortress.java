@@ -17,7 +17,7 @@ public class Fortress
         panel.setLayout(new GridLayout(5, 5, 0 , 0));
 
         // Получаем ворота
-        getGate();
+        getGates();
 
         short counter = 0;
         for (int i = 0; i < 25; i++)
@@ -45,37 +45,37 @@ public class Fortress
         return panel;
     }
 
-//    public void openGate(int gateNumber)
-//    {
-//        if(gateNumber > 4)
-//        {
-//            return;
-//        }
-//
-//        gates[gateNumber].setColor(Color.green);
-//    }
-//
-//    public void closeGate(int gateNumber)
-//    {
-//        if(gateNumber > 4)
-//        {
-//            return;
-//        }
-//
-//        gates[gateNumber].setColor(Color.gray);
-//    }
-//
-//    public void waitingGate(int gateNumber)
-//    {
-//        if(gateNumber > 4)
-//        {
-//            return;
-//        }
-//
-//        gates[gateNumber].setColor(Color.red);
-//    }
+    public void setGateStatus(int gateID, GateStaus staus)
+    {
+        if(gateID > 4 || gateID < 0)
+        {
+            return;
+        }
 
-    private static void getGate()
+        gates[gateID].setColor(getColorByStatus(staus));
+    }
+
+    private Color getColorByStatus(GateStaus staus)
+    {
+        if(staus == GateStaus.OPEN)
+        {
+            return Color.GREEN;
+        }
+
+        if(staus == GateStaus.CLOSED)
+        {
+            return Color.DARK_GRAY;
+        }
+
+        if(staus == GateStaus.WAITING)
+        {
+            return Color.RED;
+        }
+
+        return Color.BLACK;
+    }
+
+    private static void getGates()
     {
         for (int i = 0; i < 5; i++)
         {

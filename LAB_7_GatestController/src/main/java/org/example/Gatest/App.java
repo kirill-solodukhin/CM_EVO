@@ -2,13 +2,22 @@ package org.example.Gatest;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class App
 {
+    private Runnable windowListener;
+
     private final Fortress fortress = new Fortress();
     private final JTextArea jTextAreaVisitorsCount = new JTextArea("0");
     private final JTextArea[] jTextAreaVisitorsCountByGate = new JTextArea[5];
-    private final int[] visitorByGate = new int[5];
+
+    public void addListener(Runnable handler)
+    {
+        //
+        this.windowListener = handler;
+    }
 
     public void createApp()
     {
@@ -35,6 +44,21 @@ public class App
         // Устанавливаем размеры
         frame.setSize(400, 600);
 
+        // Добавляем слушатель обработчика окна
+        frame.addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                if(windowListener == null)
+                {
+                    return;
+                }
+
+                windowListener.run();
+            }
+        });
+
         // Центрируем на экране
         frame.setLocationRelativeTo(null);
 
@@ -54,6 +78,7 @@ public class App
 
     public void setTotal(int count)
     {
+        //
         jTextAreaVisitorsCount.setText(count + "");
     }
 
@@ -141,5 +166,10 @@ public class App
         {
             jTextAreaVisitorsCountByGate[i] = new JTextArea("0");
         }
+    }
+
+    public void setGateStatus(int gateID, GateStaus staus)
+    {
+        fortress.setGateStatus(gateID, staus);
     }
 }
