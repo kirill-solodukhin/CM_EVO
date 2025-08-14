@@ -6,7 +6,7 @@ import org.example.Gatest.GateStaus;
 public class GatestManager
 {
     private int visitorCounts = 0;
-    private int[] visitorByGates = new int[5];
+    private final int[] visitorByGates = new int [] { 0, 0, 0, 0, 0 };
     private final App app;
 
     public GatestManager(App app)
@@ -27,8 +27,16 @@ public class GatestManager
     }
 
     public void registerVisitorEnter(int gateID)
-    {}
+    {
+        visitorCounts++;
+        visitorByGates[gateID]++;
+        app.setCountVisitorByGate(gateID, visitorByGates[gateID], visitorCounts);
+    }
 
     public void registerVisitorLeave(int gateID)
-    {}
+    {
+        visitorCounts--;
+        visitorByGates[gateID]--;
+        app.setCountVisitorByGate(gateID, visitorByGates[gateID], visitorCounts);
+    }
 }

@@ -23,9 +23,20 @@ public class EmulateRequest extends Thread
         {
             try
             {
-                Thread.sleep(random.nextInt(100, 500));
+                Thread.sleep(random.nextInt(500, 3000));
                 manager.requestOpen(gate);
-                Thread.sleep(random.nextInt(100, 500));
+
+                int visitorsCount = random.nextInt(5, 10);
+
+                for (int i = 0; i < visitorsCount; i++)
+                {
+                    manager.registerVisitorEnter(gate);
+
+                    Thread.sleep(random.nextInt(200, 2000));
+
+                    manager.registerVisitorLeave(gate);
+                }
+
                 manager.requestClose(gate);
             }
             catch (InterruptedException e)

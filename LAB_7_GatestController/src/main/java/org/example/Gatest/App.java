@@ -66,20 +66,15 @@ public class App
         frame.setVisible(true);
     }
 
-    public void setCountVisitorByGate(int gate, int count)
+    public void setCountVisitorByGate(int gate, int count, int all)
     {
-        if(gate > 5 || gate < 1)
+        if(gate > 4 || gate < 0)
         {
             return;
         }
 
-        jTextAreaVisitorsCountByGate[gate - 1].setText(count + "");
-    }
-
-    public void setTotal(int count)
-    {
-        //
-        jTextAreaVisitorsCount.setText(count + "");
+        jTextAreaVisitorsCountByGate[gate].setText(count + "");
+        jTextAreaVisitorsCount.setText(all + "");
     }
 
     private JPanel getInfoPanel()

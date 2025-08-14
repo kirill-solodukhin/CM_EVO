@@ -32,6 +32,19 @@ public class VisitorEmulator
             {
                 Thread.sleep(random.nextInt(350, 1000));
                 manager.requestOpen(4);
+
+                int visitorsCount = random.nextInt(10, 20);
+
+                for (int i = 0; i < visitorsCount; i++)
+                {
+                    manager.registerVisitorEnter(4);
+
+                    Thread.sleep(random.nextInt(1000, 3000));
+
+                    manager.registerVisitorLeave(4);
+                }
+
+
                 Thread.sleep(random.nextInt(350, 1000));
                 manager.requestClose(4);
             }
