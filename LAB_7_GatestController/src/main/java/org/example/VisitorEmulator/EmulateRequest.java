@@ -62,7 +62,6 @@ public class EmulateRequest extends Thread
                     visitorsThread.join();
                 }
 
-                // Закрытие
                 Thread.sleep(random.nextInt(1500, 3000));
                 manager.requestClose(gate);
             }
