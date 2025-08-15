@@ -2,6 +2,7 @@ package org.example.VisitorEmulator;
 
 import org.example.GatestController.GatestManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -11,7 +12,6 @@ public class VisitorEmulator
     private final GatestManager manager;
     private volatile boolean stop = false;
     private final Thread[] threads = new Thread[4];
-    private List<Thread> visitorsThreads;
 
     public VisitorEmulator(GatestManager manager)
     {
@@ -38,23 +38,28 @@ public class VisitorEmulator
 
                 // Проход
                 int visitorsCount = random.nextInt(5, 10);
+                List<Thread> visitorsThreads = new ArrayList<>(visitorsCount);
 
                 for (int i = 0; i < visitorsCount; i++)
                 {
-                    new Thread(() ->
-                    {
-                        try
-                        {
-                            manager.registerVisitorEnter(4);
-                            Thread.sleep(random.nextInt(750, 2000));
-                            manager.registerVisitorLeave(4);
-                            Thread.sleep(random.nextInt(750, 2000));
-                        }
-                        catch (InterruptedException e)
-                        {
-                            throw new RuntimeException(e);
-                        }
-                    }).start();
+                   visitorsThreads.add(
+                           new Thread(() ->
+                           {
+                               try
+                               {
+                                   manager.registerVisitorEnter(4);
+                                   Thread.sleep(random.nextInt(750, 2000));
+                                   manager.registerVisitorLeave(4);
+                                   Thread.sleep(random.nextInt(750, 2000));
+                               }
+                               catch (InterruptedException e)
+                               {
+                                   throw new RuntimeException(e);
+                               }
+                           })
+                   );
+
+                   visitorsThreads.get(i).start();
                 }
 
                 for (Thread visitorsThread : visitorsThreads)

@@ -42,6 +42,8 @@ public class Fortress
             }
         }
 
+        sortGate();
+
         return panel;
     }
 
@@ -81,5 +83,24 @@ public class Fortress
         {
             gates[i] = new Gate();
         }
+    }
+
+    private static void sortGate()
+    {
+        /*
+            Сортировка нужная для того, чтобы правильно отражался
+            порядок - покругу. Из - за особенностей расстановки
+            ворот, порядок не соблюдается.
+        */
+
+        // replace 2 and 3
+        Gate gate = gates[2];
+        gates[2] = gates[3];
+        gates[3] = gate;
+
+        // replace 3 and 4
+        gates[3] = gates[4];
+        gates[4] = gate;
+
     }
 }

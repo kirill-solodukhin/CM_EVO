@@ -12,7 +12,7 @@ public class EmulateRequest extends Thread
     private final GatestManager manager;
     private final int gate;
 
-    private List<Thread> visitorsThreads;
+    private List<Thread> visitorsThreads = new ArrayList<>();
 
     public EmulateRequest(GatestManager manager, int gate)
     {
