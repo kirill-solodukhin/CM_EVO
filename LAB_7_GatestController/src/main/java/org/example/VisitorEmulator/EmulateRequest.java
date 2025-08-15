@@ -2,6 +2,8 @@ package org.example.VisitorEmulator;
 
 import org.example.GatestController.GatestManager;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class EmulateRequest extends Thread
@@ -9,6 +11,8 @@ public class EmulateRequest extends Thread
     private final Random random = new Random();
     private final GatestManager manager;
     private final int gate;
+
+    private List<Thread> visitorsThreads;
 
     public EmulateRequest(GatestManager manager, int gate)
     {
@@ -23,25 +27,53 @@ public class EmulateRequest extends Thread
         {
             try
             {
-                Thread.sleep(random.nextInt(500, 3000));
+                // Открытия
+                Thread.sleep(random.nextInt(1500, 3000));
                 manager.requestOpen(gate);
 
+                // Проход
                 int visitorsCount = random.nextInt(5, 10);
+                visitorsThreads = new ArrayList<>(visitorsCount);
 
                 for (int i = 0; i < visitorsCount; i++)
                 {
-                    manager.registerVisitorEnter(gate);
+                    visitorsThreads.add(
+                            new Thread(() ->
+                            {
+                                try
+                                {
+                                    manager.registerVisitorEnter(gate);
+                                    Thread.sleep(random.nextInt(750, 2000));
+                                    manager.registerVisitorLeave(gate);
+                                    Thread.sleep(random.nextInt(750, 2000));
+                                }
+                                catch (InterruptedException e)
+                                {
+                                    // System.out.println("Прерван поток посетителя через gate " + gate);
+                                }
+                            })
+                    );
 
-                    Thread.sleep(random.nextInt(200, 2000));
-
-                    manager.registerVisitorLeave(gate);
+                    visitorsThreads.get(i).start();
                 }
 
+                for (Thread visitorsThread : visitorsThreads)
+                {
+                    visitorsThread.join();
+                }
+
+                // Закрытие
+                Thread.sleep(random.nextInt(1500, 3000));
                 manager.requestClose(gate);
             }
             catch (InterruptedException e)
             {
-                break;
+                for (Thread t : visitorsThreads)
+                {
+                    t.interrupt();
+                }
+
+                break; // Завершение потока
             }
         }
     }
