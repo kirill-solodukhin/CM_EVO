@@ -38,7 +38,6 @@ public class GatestManager
         int rWall = nWall[1];
 
         app.setGateStatus(gateID, GateStaus.WAITING);
-        semaphoreRequest.acquire(1);
 
         controlWall[lWall].acquire();
         controlWall[rWall].acquire();
@@ -54,7 +53,6 @@ public class GatestManager
 
         controlWall[lWall].release();
         controlWall[rWall].release();
-        semaphoreRequest.release(1);
 
         app.setGateStatus(gateID, GateStaus.CLOSED);
     }
