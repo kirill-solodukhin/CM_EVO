@@ -3,6 +3,7 @@ package org.example.GatestController;
 import org.example.Gatest.App;
 import org.example.Gatest.GateStaus;
 
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 public class GatestManager
@@ -13,26 +14,48 @@ public class GatestManager
 
     private final Semaphore[] controlWall = new Semaphore[]
             {
-                    new Semaphore(1), // 1 - 2
-                    new Semaphore(1), // 2 - 3
-                    new Semaphore(1), // 3 - 4
-                    new Semaphore(1), // 4 - 5
-                    new Semaphore(1)  // 5 - 1
+                    new Semaphore(1), // left - 0 Right - 1 | ID - 0
+                    new Semaphore(1), // left - 1 Right - 2 | ID - 1
+                    new Semaphore(1), // left - 2 Right - 3 | ID - 2
+                    new Semaphore(1), // left - 3 Right - 4 | ID - 3
+                    new Semaphore(1)  // left - 4 Right - 0 | ID - 4
             };
+
+    private final Semaphore semaphoreRequest = new Semaphore(2);
 
     public GatestManager(App app)
     {
+        //
         this.app = app;
     }
 
-    public void requestOpen(int gateID)
+    public void requestOpen(int gateID) throws InterruptedException
     {
+        // Эти переменные разные от вызова к вызову,
+        // за счет собственных стеков в каждом потоке
+        int[] nWall = getNeighborsWall(gateID);
+        int lWall = nWall[0];
+        int rWall = nWall[1];
+
+        app.setGateStatus(gateID, GateStaus.WAITING);
+        semaphoreRequest.acquire(1);
+
+        controlWall[lWall].acquire();
+        controlWall[rWall].acquire();
+
         app.setGateStatus(gateID, GateStaus.OPEN);
     }
 
-    public void requestClose(int gateID)
+    public void requestClose(int gateID) throws InterruptedException
     {
-        //
+        int[] nWall = getNeighborsWall(gateID);
+        int lWall = nWall[0];
+        int rWall = nWall[1];
+
+        controlWall[lWall].release();
+        controlWall[rWall].release();
+        semaphoreRequest.release(1);
+
         app.setGateStatus(gateID, GateStaus.CLOSED);
     }
 
@@ -50,13 +73,19 @@ public class GatestManager
         app.setCountVisitorByGate(gateID, visitorByGates[gateID], visitorCounts);
     }
 
-    private int[] getNeighbors(int gateID)
+    private int[] getNeighborsWall(int gateID)
     {
-        if(gateID == 5)
+        // left - right
+        if(gateID == 4)
         {
-            return new int[] { 1, 4 };
+            return new int[] { 3, gateID }; // l - 3 r - 4
         }
 
-        return new int[] {};
+        if(gateID == 0) // l - 4 r - 0
+        {
+            return new int[] { 4, gateID };
+        }
+
+        return new int[] {gateID - 1, gateID};
     }
 }

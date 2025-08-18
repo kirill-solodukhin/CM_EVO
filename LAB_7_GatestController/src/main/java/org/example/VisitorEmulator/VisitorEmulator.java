@@ -5,6 +5,8 @@ import org.example.GatestController.GatestManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 
 public class VisitorEmulator
@@ -33,7 +35,7 @@ public class VisitorEmulator
             try
             {
                 // Открытия
-                Thread.sleep(random.nextInt(1500, 3000));
+                Thread.sleep(random.nextInt(500, 3000));
                 manager.requestOpen(4);
 
                 // Проход
@@ -48,9 +50,9 @@ public class VisitorEmulator
                                try
                                {
                                    manager.registerVisitorEnter(4);
-                                   Thread.sleep(random.nextInt(750, 2000));
+                                   Thread.sleep(random.nextInt(50, 500));
                                    manager.registerVisitorLeave(4);
-                                   Thread.sleep(random.nextInt(750, 2000));
+                                   Thread.sleep(random.nextInt(50, 500));
                                }
                                catch (InterruptedException e)
                                {
@@ -62,12 +64,11 @@ public class VisitorEmulator
                    visitorsThreads.get(i).start();
                 }
 
-                for (Thread visitorsThread : visitorsThreads)
+                for (Thread t : visitorsThreads)
                 {
-                    visitorsThread.join();
+                    t.join();
                 }
 
-                Thread.sleep(random.nextInt(1500, 3000));
                 manager.requestClose(4);
             }
             catch (InterruptedException e)

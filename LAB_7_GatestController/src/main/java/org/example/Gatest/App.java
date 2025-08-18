@@ -165,6 +165,7 @@ public class App
 
     public void setGateStatus(int gateID, GateStaus staus)
     {
+        //
         fortress.setGateStatus(gateID, staus);
     }
 }

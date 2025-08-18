@@ -28,7 +28,7 @@ public class EmulateRequest extends Thread
             try
             {
                 // Открытия
-                Thread.sleep(random.nextInt(1500, 3000));
+                Thread.sleep(random.nextInt(500, 3000));
                 manager.requestOpen(gate);
 
                 // Проход
@@ -43,9 +43,9 @@ public class EmulateRequest extends Thread
                                 try
                                 {
                                     manager.registerVisitorEnter(gate);
-                                    Thread.sleep(random.nextInt(750, 2000));
+                                    Thread.sleep(random.nextInt(50, 500));
                                     manager.registerVisitorLeave(gate);
-                                    Thread.sleep(random.nextInt(750, 2000));
+                                    Thread.sleep(random.nextInt(50, 500));
                                 }
                                 catch (InterruptedException e)
                                 {
@@ -57,12 +57,11 @@ public class EmulateRequest extends Thread
                     visitorsThreads.get(i).start();
                 }
 
-                for (Thread visitorsThread : visitorsThreads)
+                for (Thread t : visitorsThreads)
                 {
-                    visitorsThread.join();
+                    t.join();
                 }
 
-                Thread.sleep(random.nextInt(1500, 3000));
                 manager.requestClose(gate);
             }
             catch (InterruptedException e)
