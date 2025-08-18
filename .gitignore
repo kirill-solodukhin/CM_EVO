@@ -93,4 +93,4 @@ nb-configuration.xml
 .png
 /Lab_6_Social/OutputData/
 /LAb_6_Security/Data/
-/keystore.p12
+/LAB_6_Security/src/main/resources/keystore.p12

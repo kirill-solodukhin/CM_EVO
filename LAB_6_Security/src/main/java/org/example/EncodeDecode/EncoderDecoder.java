@@ -73,7 +73,7 @@ public class EncoderDecoder
             return;
         }
 
-        try (FileInputStream fis = new FileInputStream("keystore.p12"))
+        try (FileInputStream fis = new FileInputStream("LAB_6_Security/keystore.p12"))
         {
             keyStore.load(fis, KEY_OF_KEY_STORE);
             KEY = keyStore.getKey(KEY_ALIAS, KEY_PASSWORD);

@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>org.example</groupId>
-    <artifactId>LAb_6_Security</artifactId>
+    <artifactId>LAB_6_Security</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
