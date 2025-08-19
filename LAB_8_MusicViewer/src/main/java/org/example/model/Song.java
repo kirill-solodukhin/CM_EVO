@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
+
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class Song
 {
@@ -19,7 +20,7 @@ public class Song
     private String title;
 
     @Column(name = "duration")
-    private int duration;
+    private LocalTime duration;
 
     @Column(name = "album_id")
     private int albumId;
