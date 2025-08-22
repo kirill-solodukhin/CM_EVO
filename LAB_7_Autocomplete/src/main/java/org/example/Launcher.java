@@ -9,7 +9,6 @@ public class Launcher
     {
         try
         {
-
             String projectDir = Paths.get(System.getProperty("user.dir")).toString() + "\\LAB_7_Autocomplete";
             File workDir = new File(projectDir);
 
@@ -18,12 +17,10 @@ public class Launcher
                     workDir.getAbsolutePath().replace("/", "\\")
             );
 
-
             ProcessBuilder pb =  new ProcessBuilder("cmd.exe", "/c", command)
                     .directory(new File(projectDir))
-                    .inheritIO(); // Выыод ошибок в консоль
+                    .inheritIO(); // Вывод ошибок в консоль
 
-            System.out.println(pb.command());
             pb.start();
         }
         catch (Exception e)
