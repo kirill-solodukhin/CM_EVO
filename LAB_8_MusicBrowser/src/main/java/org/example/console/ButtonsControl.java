@@ -22,15 +22,22 @@ public class ButtonsControl
 
         while (true)
         {
-            ch = console.readCharacter();
-
-            if(isSpecialFlag)
+            try
             {
-                specialCharacterControl();
-                continue;
-            }
+                ch = console.readCharacter();
 
-            console.writeln(" " + ch + " ");
+                if(isSpecialFlag)
+                {
+                    specialCharacterControl();
+                    continue;
+                }
+
+                console.writeln(" " + ch + " ");
+            }
+            catch (RuntimeException _)
+            {
+                break;
+            }
         }
     }
 
@@ -86,6 +93,11 @@ public class ButtonsControl
         if(ch == 's')
         {
             menu.addSong();
+        }
+
+        if(ch == 'b')
+        {
+            throw new RuntimeException("back");
         }
     }
 }
