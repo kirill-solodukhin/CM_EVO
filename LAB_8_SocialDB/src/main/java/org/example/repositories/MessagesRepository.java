@@ -11,8 +11,9 @@ import java.util.List;
 public interface MessagesRepository extends CrudRepository<Message, Integer>
 {
     @Query("""
-            FROM Message
-            WHERE author.ID IN (:friends)
+            SELECT m FROM Message m
+            LEFT JOIN FETCH m.likes
+            WHERE m.author.ID IN (:friends)
             """)
     List<Message> getAllMessage(@Param("friends") List<Integer> friendsID);
 }

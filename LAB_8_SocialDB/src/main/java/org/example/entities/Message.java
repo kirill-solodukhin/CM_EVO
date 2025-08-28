@@ -24,7 +24,7 @@ public class Message
     private User author;
 
     @Column(name = "likes")
-    @OneToMany(mappedBy = "message",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "message")
     private List<Like> likes = new ArrayList<>();
 
     @Column(name = "send_date")
