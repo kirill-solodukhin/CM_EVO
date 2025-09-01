@@ -3,6 +3,7 @@ package org.example.supportive;
 import org.example.entities.FriendsRequest;
 import org.example.entities.Message;
 import org.example.entities.User;
+import org.example.exceptions.UserNotFindException;
 import org.example.models.News;
 import org.example.models.UserContext;
 import org.example.models.UserInformation;
@@ -28,6 +29,7 @@ public class SocialDataSource
     public UserContext getUserContext(String userName, String lastName, String patronymic)
     {
         User user = usersRepository.findByFullName(userName, lastName, patronymic);
+        checkUser(user);
 
         UserContext userContext = new UserContext();
 
@@ -128,5 +130,13 @@ public class SocialDataSource
                 el.getOnline(),
                 el.getID()
         )).toList();
+    }
+
+    private void checkUser(User user)
+    {
+        if(user == null)
+        {
+            throw new UserNotFindException("User is not find");
+        }
     }
 }

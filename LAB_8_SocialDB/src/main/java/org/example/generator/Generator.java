@@ -6,6 +6,7 @@ import org.example.entities.FriendsRequest;
 import org.example.entities.Like;
 import org.example.entities.Message;
 import org.example.entities.User;
+import org.example.exceptions.UsersCountException;
 
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class Generator
 
     public Generator(int usersCount, int messagesCount, int friendsRequestsCount)
     {
+        checkCorrectedInput(usersCount, messagesCount, friendsRequestsCount);
+
         faker = new Faker();
 
         generateUser = new GenerateUser(faker, usersCount);
@@ -43,5 +46,13 @@ public class Generator
         generateFriendsRequests = new GenerateFriendsRequests(faker, friendsRequestsCount, users);
         generateFriendsRequests.generate();
         friendsRequests = generateFriendsRequests.get();
+    }
+
+    private void checkCorrectedInput(int usersCount, int messagesCount, int friendsRequestsCount)
+    {
+        if(usersCount < 2)
+        {
+            throw new UsersCountException("Users should more 1");
+        }
     }
 }
