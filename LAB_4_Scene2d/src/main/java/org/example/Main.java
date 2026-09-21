@@ -131,6 +131,5 @@ public class Main
         ImageIO.write(image, "PNG", output);
 
         System.out.println("Изображение сохранено: " + output.getAbsolutePath());
-
     }
 }
