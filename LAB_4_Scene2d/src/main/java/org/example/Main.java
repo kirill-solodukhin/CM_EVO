@@ -90,7 +90,7 @@ public class Main
         return commands;
     }
 
-    private static  void DrawScene(Scene scene) throws IOException
+    private static void drawScene(Scene scene) throws IOException
     {
         final String fileName = "LAB_4_Scene2d/output/shapes.png";
 
